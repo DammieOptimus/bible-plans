@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dammie Optimus OT Reading Plan</title>
+    <style>
+        /*-------------------*/
+        /*  1. Global Styles & Fonts */
+        /*-------------------*/
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap');
+
+        :root {
+            --primary-color: #121212;
+            --secondary-color: #1e1e1e;
+            --accent-color: #d4af37;
+            /* Gold accent for the Old Testament theme */
+            --text-color: #e0e0e0;
+            --text-muted-color: #888888;
+            --completed-color: #38a169;
+            --card-border-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        /*-------------------*/
+        /*  2. Header & Plan Selector */
+        /*-------------------*/
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-muted-color);
+        }
+
+        .plan-selector {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+            padding: 0.5rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .plan-button {
+            background: none;
+            border: none;
+            color: var(--text-muted-color);
+            padding: 0.85rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+            flex: 1;
+        }
+
+        .plan-button.active {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
+            transform: scale(1.05);
+        }
+
+        .plan-button:not(.active):hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+        }
+
+        /*-------------------*/
+        /*  3. Reading Plan Grid & Cards */
+        /*-------------------*/
+        .reading-plan {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.75rem;
+        }
+
+        .day-card {
+            background-color: var(--secondary-color);
+            border: 1px solid var(--card-border-color);
+            border-bottom: 4px solid var(--card-border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .day-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent-color);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-header h3 {
+            font-size: 1.75rem;
+            color: var(--accent-color);
+        }
+
+        .completion-checkbox {
+            opacity: 0;
+            position: absolute;
+            width: 0;
+            height: 0;
+        }
+
+        .completion-label {
+            position: relative;
+            cursor: pointer;
+            width: 28px;
+            height: 28px;
+            background-color: var(--primary-color);
+            border: 2px solid var(--text-muted-color);
+            border-radius: 8px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .completion-label::after {
+            content: '\2713';
+            /* Checkmark character */
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.3s ease;
+        }
+
+        .completion-checkbox:checked+.completion-label {
+            background-color: var(--completed-color);
+            border-color: var(--completed-color);
+        }
+
+        .completion-checkbox:checked+.completion-label::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .card-content .scripture {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .card-content .notes {
+            margin-top: 0.75rem;
+            font-style: italic;
+            font-size: 0.95rem;
+            color: var(--text-muted-color);
+            border-left: 3px solid var(--accent-color);
+            padding-left: 1rem;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* Completed State Styling */
+        .day-card.completed {
+            border-bottom-color: var(--completed-color);
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #2a2a2a 100%);
+        }
+
+        .day-card.completed .card-content {
+            opacity: 0.5;
+        }
+
+        .day-card.completed h3 {
+            color: var(--completed-color);
+        }
+
+        /*-------------------*/
+        /*  4. Hide/Show Plans */
+        /*-------------------*/
+        #chronological-plan {
+            display: none;
+        }
+
+        /*-------------------*/
+        /*  5. Footer */
+        /*-------------------*/
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--card-border-color);
+            color: var(--text-muted-color);
+            font-size: 1rem;
+        }
+
+        /* 6. App Switcher */
+        .app-switcher {
+            text-align: center;
+            margin: -1rem auto 3rem;
+            /* Positions it neatly between header and plan selector */
+        }
+
+        .switcher-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 1.25rem;
+            border-radius: 50px;
+            /* Pill shape */
+            background-color: var(--secondary-color);
+            color: var(--text-muted-color);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid var(--card-border-color);
+        }
+
+        .switcher-link:hover {
+            color: var(--accent-color);
+            background-color: rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .switcher-link svg {
+            transition: transform 0.3s ease;
+        }
+
+        .switcher-link:hover svg {
+            transform: translateX(4px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header class="header">
+            <h1>Dammie Optimus</h1>
+            <p>Old Testament in 2 Months Reading Plan</p>
+        </header>
+
+        <!-- App Switcher -->
+        <div class="app-switcher">
+            <a href="./new_testament_in_one_month.html" class="switcher-link">
+                <span>Explore the New Testament</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14"></path>
+                    <path d="m12 5 7 7-7 7"></path>
+                </svg>
+            </a>
+        </div>
+
+        <div class="plan-selector">
+            <button class="plan-button active" data-plan="canonical">Canonical Order</button>
+            <button class="plan-button" data-plan="chronological">Chronological Order</button>
+        </div>
+
+        <!-- Canonical Plan -->
+        <section id="canonical-plan" class="reading-plan"></section>
+
+        <!-- Chronological Plan -->
+        <section id="chronological-plan" class="reading-plan"></section>
+
+        <footer class="footer">
+            <p>"All Scripture is God-breathed and is useful for teaching, rebuking, correcting and training in
+                righteousness." - 2 Timothy 3:16</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const canonicalReadings = [
+                { day: 1, readings: "Genesis 1-16" }, { day: 2, readings: "Genesis 17-32" }, { day: 3, readings: "Genesis 33-48" },
+                { day: 4, readings: "Genesis 49-50 & Exodus 1-14" }, { day: 5, readings: "Exodus 15-30" }, { day: 6, readings: "Exodus 31-40 & Leviticus 1-6" },
+                { day: 7, readings: "Leviticus 7-21" }, { day: 8, readings: "Leviticus 22-27 & Numbers 1-10" }, { day: 9, readings: "Numbers 11-25" },
+                { day: 10, readings: "Numbers 26-36 & Deuteronomy 1-4" }, { day: 11, readings: "Deuteronomy 5-20" }, { day: 12, readings: "Deuteronomy 21-34 & Joshua 1" },
+                { day: 13, readings: "Joshua 2-16" }, { day: 14, readings: "Joshua 17-24 & Judges 1-7" }, { day: 15, readings: "Judges 8-21" },
+                { day: 16, readings: "Ruth 1-4 & 1 Samuel 1-12" }, { day: 17, readings: "1 Samuel 13-28" }, { day: 18, readings: "1 Samuel 29-31 & 2 Samuel 1-13" },
+                { day: 19, readings: "2 Samuel 14-24 & 1 Kings 1-3" }, { day: 20, readings: "1 Kings 4-18" }, { day: 21, readings: "1 Kings 19-22 & 2 Kings 1-11" },
+                { day: 22, readings: "2 Kings 12-25" }, { day: 23, readings: "1 Chronicles 1-15" }, { day: 24, readings: "1 Chronicles 16-29 & 2 Chronicles 1" },
+                { day: 25, readings: "2 Chronicles 2-17" }, { day: 26, readings: "2 Chronicles 18-33" }, { day: 27, readings: "2 Chronicles 34-36 & Ezra 1-10 & Nehemiah 1" },
+                { day: 28, readings: "Nehemiah 2-13 & Esther 1-2" }, { day: 29, readings: "Esther 3-10 & Job 1-9" }, { day: 30, readings: "Job 10-25" },
+                { day: 31, readings: "Job 26-42" }, { day: 32, readings: "Psalms 1-16" }, { day: 33, readings: "Psalms 17-32" },
+                { day: 34, readings: "Psalms 33-48" }, { day: 35, readings: "Psalms 49-64" }, { day: 36, readings: "Psalms 65-80" },
+                { day: 37, readings: "Psalms 81-96" }, { day: 38, readings: "Psalms 97-112" }, { day: 39, readings: "Psalms 113-128" },
+                { day: 40, readings: "Psalms 129-144" }, { day: 41, readings: "Psalms 145-150 & Proverbs 1-10" }, { day: 42, readings: "Proverbs 11-26" },
+                { day: 43, readings: "Proverbs 27-31 & Ecclesiastes 1-11" }, { day: 44, readings: "Ecclesiastes 12 & Song of Solomon 1-8 & Isaiah 1-6" }, { day: 45, readings: "Isaiah 7-22" },
+                { day: 46, readings: "Isaiah 23-38" }, { day: 47, readings: "Isaiah 39-54" }, { day: 48, readings: "Isaiah 55-66 & Jeremiah 1-3" },
+                { day: 49, readings: "Jeremiah 4-19" }, { day: 50, readings: "Jeremiah 20-35" }, { day: 51, readings: "Jeremiah 36-51" },
+                { day: 52, readings: "Jeremiah 52 & Lamentations 1-5 & Ezekiel 1-10" }, { day: 53, readings: "Ezekiel 11-26" }, { day: 54, readings: "Ezekiel 27-42" },
+                { day: 55, readings: "Ezekiel 43-48 & Daniel 1-10" }, { day: 56, readings: "Daniel 11-12 & Hosea 1-14" }, { day: 57, readings: "Joel 1-3 & Amos 1-9 & Obadiah 1" },
+                { day: 58, readings: "Jonah 1-4 & Micah 1-7 & Nahum 1-3" }, { day: 59, readings: "Habakkuk 1-3 & Zephaniah 1-3 & Haggai 1-2" }, { day: 60, readings: "Zechariah 1-14 & Malachi 1-4" }
+            ];
+
+            const chronologicalReadings = [
+                { day: 1, readings: "Genesis 1-15", notes: "Creation & Patriarchs" }, { day: 2, readings: "Genesis 16-30" }, { day: 3, readings: "Genesis 31-45" },
+                { day: 4, readings: "Genesis 46-50 & Job 1-11" }, { day: 5, readings: "Job 12-28" }, { day: 6, readings: "Job 29-42" },
+                { day: 7, readings: "Exodus 1-15" }, { day: 8, readings: "Exodus 16-30" }, { day: 9, readings: "Exodus 31-40 & Leviticus 1-5" },
+                { day: 10, readings: "Leviticus 6-20" }, { day: 11, readings: "Leviticus 21-27 & Numbers 1-8" }, { day: 12, readings: "Numbers 9-23" },
+                { day: 13, readings: "Numbers 24-36 & Deuteronomy 1" }, { day: 14, readings: "Deuteronomy 2-16" }, { day: 15, readings: "Deuteronomy 17-31" },
+                { day: 16, readings: "Deuteronomy 32-34 & Joshua 1-12" }, { day: 17, readings: "Joshua 13-24 & Judges 1" }, { day: 18, readings: "Judges 2-16" },
+                { day: 19, readings: "Judges 17-21 & Ruth 1-4 & 1 Samuel 1-6" }, { day: 20, readings: "1 Samuel 7-20" }, { day: 21, readings: "1 Samuel 21-31 & Psalm 11, 34, 52, 56" },
+                { day: 22, readings: "2 Samuel 1-15 & Psalm 6, 25, 51, 63" }, { day: 23, readings: "2 Samuel 16-24 & Psalms 3, 18, 30" }, { day: 24, readings: "Psalms 1-10, 12-17, 19-24, 26-29" },
+                { day: 25, readings: "1 Chronicles 1-15" }, { day: 26, readings: "1 Chronicles 16-29" }, { day: 27, readings: "Psalms 105, 132 & 1 Kings 1-4" },
+                { day: 28, readings: "Song of Solomon 1-8 & Proverbs 1-8" }, { day: 29, readings: "Proverbs 9-23" }, { day: 30, readings: "Proverbs 24-31 & Ecclesiastes 1-12" },
+                { day: 31, readings: "1 Kings 5-16" }, { day: 32, readings: "1 Kings 17-22 & 2 Kings 1-10" }, { day: 33, readings: "2 Kings 11-14 & Joel 1-3 & Jonah 1-4" },
+                { day: 34, readings: "Amos 1-9 & Hosea 1-7" }, { day: 35, readings: "Hosea 8-14 & Isaiah 1-8" }, { day: 36, readings: "Isaiah 9-23 & Micah 1-7" },
+                { day: 37, readings: "2 Chronicles 1-16" }, { day: 38, readings: "2 Chronicles 17-28 & Isaiah 24-27" }, { day: 39, readings: "2 Kings 15-20 & 2 Chronicles 29-32" },
+                { day: 40, readings: "Isaiah 28-39 & Psalm 20, 46, 48" }, { day: 41, readings: "Isaiah 40-55" }, { day: 42, readings: "Isaiah 56-66 & Nahum 1-3" },
+                { day: 43, readings: "Zephaniah 1-3 & Habakkuk 1-3" }, { day: 44, readings: "Jeremiah 1-16" }, { day: 45, readings: "Jeremiah 17-32" },
+                { day: 46, readings: "Jeremiah 33-48" }, { day: 47, readings: "Jeremiah 49-52 & Lamentations 1-5" }, { day: 48, readings: "2 Kings 21-25 & 2 Chronicles 33-36" },
+                { day: 49, readings: "Ezekiel 1-15" }, { day: 50, readings: "Ezekiel 16-30" }, { day: 51, readings: "Ezekiel 31-45" },
+                { day: 52, readings: "Ezekiel 46-48 & Daniel 1-9" }, { day: 53, readings: "Daniel 10-12 & Ezra 1-6" }, { day: 54, readings: "Haggai 1-2 & Zechariah 1-14" },
+                { day: 55, readings: "Esther 1-10 & Ezra 7-10" }, { day: 56, readings: "Nehemiah 1-13" },
+                { day: 57, readings: "Catch-Up / Review Day", notes: "A day for reflection or catching up." }, { day: 58, readings: "Catch-Up / Review Day", notes: "A day for reflection or catching up." }, { day: 59, readings: "Catch-Up / Review Day", notes: "A day for reflection or catching up." }, { day: 60, readings: "Catch-Up / Review Day", notes: "A day for reflection or catching up." }
+            ];
+
+            const canonicalContainer = document.getElementById('canonical-plan');
+            const chronologicalContainer = document.getElementById('chronological-plan');
+            const planButtons = document.querySelectorAll('.plan-button');
+
+            function createDayCardHTML(dayData, planName) {
+                const notesHTML = dayData.notes ? `<p class="notes">${dayData.notes}</p>` : '';
+                return `
+                <div class="day-card" id="${planName}-day-${dayData.day}">
+                    <div class="card-header">
+                        <h3>Day ${dayData.day}</h3>
+                        <input type="checkbox" id="check-${planName}-${dayData.day}" class="completion-checkbox" data-plan="${planName}" data-day="${dayData.day}">
+                        <label for="check-${planName}-${dayData.day}" class="completion-label"></label>
+                    </div>
+                    <div class="card-content">
+                        <p class="scripture">${dayData.readings}</p>
+                        ${notesHTML}
+                    </div>
+                </div>
+            `;
+            }
+
+            function populatePlan(container, planData, planName) {
+                container.innerHTML = planData.map(day => createDayCardHTML(day, planName)).join('');
+            }
+
+            function switchPlan(e) {
+                const selectedPlan = e.target.dataset.plan;
+
+                planButtons.forEach(button => button.classList.remove('active'));
+                e.target.classList.add('active');
+
+                if (selectedPlan === 'canonical') {
+                    canonicalContainer.style.display = 'grid';
+                    chronologicalContainer.style.display = 'none';
+                } else {
+                    canonicalContainer.style.display = 'none';
+                    chronologicalContainer.style.display = 'grid';
+                }
+            }
+
+            function saveProgress(plan, day, isCompleted) {
+                const key = `dammieOptimusOT_${plan}_day_${day}`;
+                localStorage.setItem(key, isCompleted);
+            }
+
+            function loadProgress() {
+                document.querySelectorAll('.completion-checkbox').forEach(checkbox => {
+                    const { plan, day } = checkbox.dataset;
+                    const key = `dammieOptimusOT_${plan}_day_${day}`;
+                    const isCompleted = localStorage.getItem(key) === 'true';
+
+                    if (isCompleted) {
+                        checkbox.checked = true;
+                        document.getElementById(`${plan}-day-${day}`).classList.add('completed');
+                    }
+                });
+            }
+
+            function handleCheckboxChange(e) {
+                const checkbox = e.target;
+                if (!checkbox.classList.contains('completion-checkbox')) return;
+
+                const { plan, day } = checkbox.dataset;
+                const card = document.getElementById(`${plan}-day-${day}`);
+
+                if (checkbox.checked) {
+                    card.classList.add('completed');
+                    saveProgress(plan, day, true);
+                } else {
+                    card.classList.remove('completed');
+                    saveProgress(plan, day, false);
+                }
+            }
+
+            populatePlan(canonicalContainer, canonicalReadings, 'canonical');
+            populatePlan(chronologicalContainer, chronologicalReadings, 'chronological');
+            loadProgress();
+
+            planButtons.forEach(button => button.addEventListener('click', switchPlan));
+            document.body.addEventListener('change', handleCheckboxChange);
+        });
+    </script>
+
+</body>
+
+</html>

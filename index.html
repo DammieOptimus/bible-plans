@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dammie Optimus NT Reading Plan</title>
+    <style>
+        /*-------------------*/
+        /*  1. Global Styles & Fonts */
+        /*-------------------*/
+        @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Source+Sans+Pro:wght@400;600&display=swap');
+
+        :root {
+            --primary-color: #1a202c;
+            --secondary-color: #2d3748;
+            --accent-color: #f6ad55;
+            --text-color: #edf2f7;
+            --text-muted-color: #a0aec0;
+            --completed-color: #48bb78;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Lora', serif;
+            font-weight: 700;
+        }
+
+        /*-------------------*/
+        /*  2. Header & Plan Selector */
+        /*-------------------*/
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--text-muted-color);
+        }
+
+        .plan-selector {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+            padding: 0.5rem;
+        }
+
+        .plan-button {
+            background: none;
+            border: none;
+            color: var(--text-muted-color);
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            flex: 1;
+            max-width: 200px;
+        }
+
+        .plan-button.active {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            box-shadow: 0 4px 14px rgba(246, 173, 85, 0.2);
+        }
+
+        .plan-button:not(.active):hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /*-------------------*/
+        /*  3. Reading Plan Grid & Cards */
+        /*-------------------*/
+        .reading-plan {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .day-card {
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+            border-left: 5px solid transparent;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .day-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-header h3 {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .completion-checkbox {
+            /* Hiding the default checkbox */
+            opacity: 0;
+            position: absolute;
+            width: 0;
+            height: 0;
+        }
+
+        .completion-label {
+            position: relative;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .completion-label::after {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 4px;
+            width: 5px;
+            height: 10px;
+            border: solid var(--text-color);
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .completion-checkbox:checked+.completion-label {
+            background-color: var(--completed-color);
+        }
+
+        .completion-checkbox:checked+.completion-label::after {
+            opacity: 1;
+        }
+
+        .card-content .scripture {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-content .chapters,
+        .card-content .notes {
+            color: var(--text-muted-color);
+        }
+
+        .card-content .notes {
+            margin-top: 0.75rem;
+            font-style: italic;
+            font-size: 0.9rem;
+            border-left: 2px solid var(--accent-color);
+            padding-left: 0.75rem;
+        }
+
+        /* Completed State Styling */
+        .day-card.completed {
+            border-left-color: var(--completed-color);
+            background-color: #354763;
+        }
+
+        .day-card.completed .card-content {
+            opacity: 0.6;
+        }
+
+        /*-------------------*/
+        /*  4. Hide/Show Plans */
+        /*-------------------*/
+        #chronological-plan {
+            display: none;
+        }
+
+        /*-------------------*/
+        /*  5. Footer */
+        /*-------------------*/
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--secondary-color);
+            color: var(--text-muted-color);
+            font-size: 0.9rem;
+        }
+
+        /* 6. App Switcher */
+        .app-switcher {
+            text-align: center;
+            margin: -1rem auto 2.5rem;
+            /* Positions it neatly between header and plan selector */
+        }
+
+        .switcher-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 1.25rem;
+            border-radius: 50px;
+            /* Pill shape */
+            background-color: var(--secondary-color);
+            color: var(--text-muted-color);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .switcher-link:hover {
+            color: var(--accent-color);
+            background-color: rgba(246, 173, 85, 0.1);
+            border-color: rgba(246, 173, 85, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .switcher-link svg {
+            transition: transform 0.3s ease;
+        }
+
+        .switcher-link:hover svg {
+            transform: translateX(4px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header class="header">
+            <h1>Dammie Optimus</h1>
+            <p>New Testament in a Month Reading Plan</p>
+        </header>
+
+        <!-- App Switcher -->
+        <div class="app-switcher">
+            <a href="./old_testament_in_two_months.html" class="switcher-link">
+                <span>Journey Through the Old Testament</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14"></path>
+                    <path d="m12 5 7 7-7 7"></path>
+                </svg>
+            </a>
+        </div>
+
+        <div class="plan-selector">
+            <button class="plan-button active" data-plan="canonical">Canonical Order</button>
+            <button class="plan-button" data-plan="chronological">Chronological Order</button>
+        </div>
+
+        <!-- Canonical Plan -->
+        <section id="canonical-plan" class="reading-plan"></section>
+
+        <!-- Chronological Plan -->
+        <section id="chronological-plan" class="reading-plan"></section>
+
+        <footer class="footer">
+            <p>Your word is a lamp for my feet, a light on my path. - Psalm 119:105</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            //-------------------*/
+            //  1. Data for Reading Plans
+            //-------------------*/
+            const canonicalReadings = [
+                { day: 1, readings: "Matthew 1-9", chapters: 9 },
+                { day: 2, readings: "Matthew 10-18", chapters: 9 },
+                { day: 3, readings: "Matthew 19-27", chapters: 9 },
+                { day: 4, readings: "Matthew 28 & Mark 1-8", chapters: 9 },
+                { day: 5, readings: "Mark 9-16", chapters: 8 },
+                { day: 6, readings: "Luke 1-9", chapters: 9 },
+                { day: 7, readings: "Luke 10-18", chapters: 9 },
+                { day: 8, readings: "Luke 19-24 & John 1-2", chapters: 8 },
+                { day: 9, readings: "John 3-11", chapters: 9 },
+                { day: 10, readings: "John 12-21", chapters: 10 },
+                { day: 11, readings: "Acts 1-9", chapters: 9 },
+                { day: 12, readings: "Acts 10-18", chapters: 9 },
+                { day: 13, readings: "Acts 19-28", chapters: 10 },
+                { day: 14, readings: "Romans 1-9", chapters: 9 },
+                { day: 15, readings: "Romans 10-16 & 1 Corinthians 1", chapters: 8 },
+                { day: 16, readings: "1 Corinthians 2-10", chapters: 9 },
+                { day: 17, readings: "1 Corinthians 11-16 & 2 Corinthians 1-2", chapters: 8 },
+                { day: 18, readings: "2 Corinthians 3-13", chapters: 11 },
+                { day: 19, readings: "Galatians 1-6 & Ephesians 1-3", chapters: 9 },
+                { day: 20, readings: "Ephesians 4-6 & Philippians 1-4 & Colossians 1-2", chapters: 9 },
+                { day: 21, readings: "Colossians 3-4 & 1 Thessalonians 1-5 & 2 Thessalonians 1-3", chapters: 10 },
+                { day: 22, readings: "1 Timothy 1-6 & 2 Timothy 1-4", chapters: 10 },
+                { day: 23, readings: "Titus 1-3 & Philemon 1 & Hebrews 1-5", chapters: 9 },
+                { day: 24, readings: "Hebrews 6-13", chapters: 8 },
+                { day: 25, readings: "James 1-5 & 1 Peter 1-4", chapters: 9 },
+                { day: 26, readings: "1 Peter 5 & 2 Peter 1-3 & 1 John 1-4", chapters: 9 },
+                { day: 27, readings: "1 John 5 & 2 John 1 & 3 John 1 & Jude 1 & Revelation 1-4", chapters: 8 },
+                { day: 28, readings: "Revelation 5-13", chapters: 9 },
+                { day: 29, readings: "Revelation 14-22", chapters: 9 },
+                { day: 30, readings: "Catch-Up / Reflection Day", chapters: '-' }
+            ];
+
+            const chronologicalReadings = [
+                { day: 1, readings: "Luke 1-9", chapters: 9, notes: "Start with Luke's detailed account (the author also wrote Acts)." },
+                { day: 2, readings: "Luke 10-18", chapters: 9, notes: "" },
+                { day: 3, readings: "Luke 19-24 & John 1-2", chapters: 8, notes: "Finish Luke, then begin John's unique theological Gospel." },
+                { day: 4, readings: "John 3-11", chapters: 9, notes: "" },
+                { day: 5, readings: "John 12-21", chapters: 10, notes: "" },
+                { day: 6, readings: "Mark 1-9", chapters: 9, notes: "Read Mark's fast-paced, early account of Jesus' life." },
+                { day: 7, readings: "Mark 10-16 & Matthew 1-2", chapters: 9, notes: "" },
+                { day: 8, readings: "Matthew 3-11", chapters: 9, notes: "Read Matthew's account, written with a Jewish audience in mind." },
+                { day: 9, readings: "Matthew 12-20", chapters: 9, notes: "" },
+                { day: 10, readings: "Matthew 21-28", chapters: 8, notes: "" },
+                { day: 11, readings: "Acts 1-9", chapters: 9, notes: "The story of the early church begins." },
+                { day: 12, readings: "Acts 10-14 & James 1-5", chapters: 10, notes: "The letter from James, a leader in the Jerusalem church." },
+                { day: 13, readings: "Galatians 1-6 & Acts 15-16", chapters: 8, notes: "Paul's letter to Galatia, followed by the Jerusalem Council." },
+                { day: 14, readings: "1 Thessalonians 1-5 & 2 Thessalonians 1-3", chapters: 8, notes: "Paul's earliest letters, written from Corinth during his 2nd journey." },
+                { day: 15, readings: "Acts 17-19 & 1 Corinthians 1-4", chapters: 10, notes: "Paul arrives in Ephesus, where he writes to the Corinthian church." },
+                { day: 16, readings: "1 Corinthians 5-13", chapters: 9, notes: "" },
+                { day: 17, readings: "1 Corinthians 14-16 & 2 Corinthians 1-5", chapters: 8, notes: "" },
+                { day: 18, readings: "2 Corinthians 6-13", chapters: 8, notes: "" },
+                { day: 19, readings: "Romans 1-9", chapters: 9, notes: "From Corinth, Paul writes his theological masterpiece to the church in Rome." },
+                { day: 20, readings: "Romans 10-16 & Acts 20-23", chapters: 10, notes: "Paul finishes his 3rd journey and is arrested in Jerusalem." },
+                { day: 21, readings: "Acts 24-28", chapters: 5, notes: "Paul's imprisonment and journey to Rome. A lighter day." },
+                { day: 22, readings: "Colossians 1-4 & Philemon 1 & Ephesians 1-3", chapters: 8, notes: "Letters written during Paul's first Roman imprisonment." },
+                { day: 23, readings: "Ephesians 4-6 & Philippians 1-4", chapters: 7, notes: "More \"Prison Epistles.\" Another slightly lighter day." },
+                { day: 24, readings: "1 Timothy 1-6 & Titus 1-3", chapters: 9, notes: "Paul's \"Pastoral Epistles\" written after his release from prison." },
+                { day: 25, readings: "1 Peter 1-5 & Hebrews 1-4", chapters: 9, notes: "Peter's letter to suffering Christians & the intro to Hebrews." },
+                { day: 26, readings: "Hebrews 5-13", chapters: 9, notes: "" },
+                { day: 27, readings: "2 Timothy 1-4 & 2 Peter 1-3", chapters: 7, notes: "Paul's final letter before his death, and Peter's second letter." },
+                { day: 28, readings: "Jude 1 & 1 John 1-5 & 2 John 1 & 3 John 1", chapters: 9, notes: "The remaining general letters from Jude and the Apostle John." },
+                { day: 29, readings: "Revelation 1-11", chapters: 11, notes: "John's apocalyptic vision, written from exile on Patmos." },
+                { day: 30, readings: "Revelation 12-22", chapters: 11, notes: "The conclusion of the New Testament story." }
+            ];
+
+            //-------------------*/
+            //  2. Element References
+            //-------------------*/
+            const canonicalContainer = document.getElementById('canonical-plan');
+            const chronologicalContainer = document.getElementById('chronological-plan');
+            const planButtons = document.querySelectorAll('.plan-button');
+
+            //-------------------*/
+            //  3. Functions
+            //-------------------*/
+
+            /**
+             * Generates the HTML for a single day card.
+             * @param {object} dayData - The data for the day.
+             * @param {string} planName - The name of the plan ('canonical' or 'chronological').
+             * @returns {string} - The HTML string for the day card.
+             */
+            function createDayCardHTML(dayData, planName) {
+                const notesHTML = dayData.notes ? `<p class="notes">${dayData.notes}</p>` : '';
+                return `
+                <div class="day-card" id="${planName}-day-${dayData.day}">
+                    <div class="card-header">
+                        <h3>Day ${dayData.day}</h3>
+                        <input type="checkbox" id="check-${planName}-${dayData.day}" class="completion-checkbox" data-plan="${planName}" data-day="${dayData.day}">
+                        <label for="check-${planName}-${dayData.day}" class="completion-label"></label>
+                    </div>
+                    <div class="card-content">
+                        <p class="scripture">${dayData.readings}</p>
+                        <p class="chapters">Chapters: ${dayData.chapters}</p>
+                        ${notesHTML}
+                    </div>
+                </div>
+            `;
+            }
+
+            /**
+             * Populates a container with day cards for a given plan.
+             * @param {HTMLElement} container - The container element.
+             * @param {Array<object>} planData - The array of reading data.
+             * @param {string} planName - The name of the plan.
+             */
+            function populatePlan(container, planData, planName) {
+                container.innerHTML = planData.map(day => createDayCardHTML(day, planName)).join('');
+            }
+
+            /**
+             * Handles switching between plans.
+             * @param {Event} e - The click event.
+             */
+            function switchPlan(e) {
+                const selectedPlan = e.target.dataset.plan;
+
+                planButtons.forEach(button => button.classList.remove('active'));
+                e.target.classList.add('active');
+
+                if (selectedPlan === 'canonical') {
+                    canonicalContainer.style.display = 'grid';
+                    chronologicalContainer.style.display = 'none';
+                } else {
+                    canonicalContainer.style.display = 'none';
+                    chronologicalContainer.style.display = 'grid';
+                }
+            }
+
+            /**
+             * Saves the completion state of a day to localStorage. [11]
+             * @param {string} plan - The name of the plan.
+             * @param {number} day - The day number.
+             * @param {boolean} isCompleted - The completion status.
+             */
+            function saveProgress(plan, day, isCompleted) {
+                const key = `dammieOptimusPlan_${plan}_day_${day}`;
+                localStorage.setItem(key, isCompleted);[1, 13]
+            }
+
+            /**
+             * Loads progress from localStorage and updates the UI. [10]
+             */
+            function loadProgress() {
+                const checkboxes = document.querySelectorAll('.completion-checkbox');
+                checkboxes.forEach(checkbox => {
+                    const { plan, day } = checkbox.dataset;
+                    const key = `dammieOptimusPlan_${plan}_day_${day}`;
+                    const isCompleted = localStorage.getItem(key) === 'true';
+
+                    if (isCompleted) {
+                        checkbox.checked = true;
+                        document.getElementById(`${plan}-day-${day}`).classList.add('completed');
+                    }
+                });
+            }
+
+            /**
+             * Handles checkbox changes to update UI and save progress.
+             * @param {Event} e - The change event.
+             */
+            function handleCheckboxChange(e) {
+                const checkbox = e.target;
+                if (!checkbox.classList.contains('completion-checkbox')) return;
+
+                const { plan, day } = checkbox.dataset;
+                const card = document.getElementById(`${plan}-day-${day}`);
+
+                if (checkbox.checked) {
+                    card.classList.add('completed');
+                    saveProgress(plan, day, true);
+                } else {
+                    card.classList.remove('completed');
+                    saveProgress(plan, day, false);
+                }
+            }
+
+
+            //-------------------*/
+            //  4. Initial Setup & Event Listeners
+            //-------------------*/
+
+            // Populate both plan containers
+            populatePlan(canonicalContainer, canonicalReadings, 'canonical');
+            populatePlan(chronologicalContainer, chronologicalReadings, 'chronological');
+
+            // Load any saved progress from previous sessions
+            loadProgress();
+
+            // Add event listeners
+            planButtons.forEach(button => button.addEventListener('click', switchPlan));
+            document.body.addEventListener('change', handleCheckboxChange);
+
+        });
+    </script>
+
+</body>
+
+</html>
