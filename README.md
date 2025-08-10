@@ -4,7 +4,7 @@
 
 A pair of beautiful, responsive, and self-contained web apps for tracking Bible reading plans for the Old and New Testaments. No frameworks, no dependencies—just pure HTML, CSS, and JavaScript.
 
-[**Live Demo (View Here)**](https://dammieoptimus.github.io/optimus-bible-plans/new-testament-plan.html) <!-- Replace with your GitHub Pages link! -->
+[**Live Demo (View Here)**](https://dammieoptimus.github.io/bible-plans/index.html)
 
 ---
 
@@ -48,7 +48,7 @@ There are two easy ways to use these apps.
 ### Method 1: Use the Live Demo
 
 The easiest way is to use the live version hosted on GitHub Pages:
-[**optimus-bible-plans Live Demo**](https://your-github-username.github.io/optimus-bible-plans/new-testament-plan.html) <!-- Replace with your link! -->
+[**optimus-bible-plans Live Demo**](https://dammieoptimus.github.io/bible-plans/index.html)
 
 ### Method 2: Run Locally
 
@@ -56,14 +56,14 @@ Because these apps are self-contained, you can use them offline directly on your
 
 1.  **Clone the repository (or download the ZIP):**
     ```sh
-    git clone https://github.com/your-github-username/optimus-bible-plans.git
+    git clone https://github.com/dammieoptimus/bible-plans.git
     ```
 2.  **Navigate to the project directory:**
     ```sh
-    cd optimus-bible-plans
+    cd bible-plans
     ```
 3.  **Open the files in your browser:**
-    *   Simply double-click `new-testament-plan.html` or `old-testament-plan.html`.
+    *   Simply double-click `index.html` or `old_testament_in_two_months.html`.
     *   Or, right-click the file and choose "Open with" your favorite browser.
 
 ---
