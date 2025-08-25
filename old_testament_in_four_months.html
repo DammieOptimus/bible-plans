@@ -320,6 +320,40 @@
         .copy-button.copied .check-icon {
             display: block;
         }
+
+        /* 8. Copyright Footer */
+        .footer .copyright {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted-color);
+        }
+        
+        @keyframes color-cycle-ot {
+            0%   { color: var(--accent-color); text-shadow: 0 0 7px rgba(212, 175, 55, 0.6); }
+            25%  { color: #b0b0b0; text-shadow: 0 0 7px rgba(176, 176, 176, 0.6); }
+            50%  { color: var(--completed-color); text-shadow: 0 0 7px rgba(56, 161, 105, 0.6); }
+            75%  { color: #c084fc; text-shadow: 0 0 7px rgba(192, 132, 252, 0.6); }
+            100% { color: var(--accent-color); text-shadow: 0 0 7px rgba(212, 175, 55, 0.6); }
+        }
+        
+        @keyframes pulse {
+            0%   { transform: scale(1); }
+            50%  { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulsating-link {
+            font-weight: 500;
+            text-decoration: none;
+            animation: color-cycle-ot 8s infinite linear, pulse 3s infinite ease-in-out;
+            transition: transform 0.2s ease;
+            display: inline-block; /* Needed for transform */
+        }
+        
+        .pulsating-link:hover {
+            animation-play-state: paused;
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -355,13 +389,15 @@
         <section id="chronological-plan" class="reading-plan"></section>
 
         <footer class="footer">
-            <p>"All Scripture is God-breathed and is useful for teaching, rebuking, correcting and training in
-                righteousness." - 2 Timothy 3:16</p>
+            <p>"All Scripture is God-breathed and is useful for teaching, rebuking, correcting and training in righteousness." - 2 Timothy 3:16</p>
+            <p class="copyright">&copy; <span id="copyright-year"></span> <a href="https://dammieoptimus.github.io/tgrstartnow/?d=eyJyZWYiOiJEYW1taWVPcHRpbXVzMiIsIm5hbWUiOiJEYW1taWUgKE9wdGltdXMpIEF5b2RlbGUiLCJwaG9uZSI6IjA4MDI4OTc1ODE2IiwicGljIjoiaHR0cHM6Ly9pLmltZ3VyLmNvbS9xcVVFNGFyLmpwZyJ9" class="pulsating-link" target="_blank" rel="noopener noreferrer">Dammie Optimus Solutions</a>. All rights reserved.</p>
         </footer>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            
+             document.getElementById('copyright-year').textContent = new Date().getFullYear();
 
             const canonicalReadings = [
                 { day: 1, readings: "Gen 1-8", chapters: 8, notes: "Begin with the majestic accounts of Creation, the fall of humanity, and the global flood that reshapes the world." },
