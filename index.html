@@ -302,6 +302,40 @@
         .copy-button.copied .check-icon {
             display: block;
         }
+
+        /* 8. Copyright Footer */
+        .footer .copyright {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted-color);
+        }
+        
+        @keyframes color-cycle-nt {
+            0%   { color: var(--accent-color); text-shadow: 0 0 5px rgba(246, 173, 85, 0.5); }
+            25%  { color: #63b3ed; text-shadow: 0 0 5px rgba(99, 179, 237, 0.5); }
+            50%  { color: var(--completed-color); text-shadow: 0 0 5px rgba(72, 187, 120, 0.5); }
+            75%  { color: #a0aec0; text-shadow: 0 0 5px rgba(160, 174, 192, 0.5); }
+            100% { color: var(--accent-color); text-shadow: 0 0 5px rgba(246, 173, 85, 0.5); }
+        }
+        
+        @keyframes pulse {
+            0%   { transform: scale(1); }
+            50%  { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulsating-link {
+            font-weight: 600;
+            text-decoration: none;
+            animation: color-cycle-nt 8s infinite linear, pulse 3s infinite ease-in-out;
+            transition: transform 0.2s ease;
+            display: inline-block; /* Needed for transform */
+        }
+        
+        .pulsating-link:hover {
+            animation-play-state: paused; /* Pause animation on hover for better UX */
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -337,12 +371,15 @@
         <section id="chronological-plan" class="reading-plan"></section>
 
         <footer class="footer">
-            <p>Your word is a lamp for my feet, a light on my path. - Psalm 119:105</p>
+            <p>"Your word is a lamp for my feet, a light on my path." - Psalm 119:105</p>
+            <p class="copyright">&copy; <span id="copyright-year"></span> <a href="https://dammieoptimus.github.io/tgrstartnow/?d=eyJyZWYiOiJEYW1taWVPcHRpbXVzMiIsIm5hbWUiOiJEYW1taWUgKE9wdGltdXMpIEF5b2RlbGUiLCJwaG9uZSI6IjA4MDI4OTc1ODE2IiwicGljIjoiaHR0cHM6Ly9pLmltZ3VyLmNvbS9xcVVFNGFyLmpwZyJ9" class="pulsating-link" target="_blank" rel="noopener noreferrer">Dammie Optimus Solutions</a>. All rights reserved.</p>
         </footer>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
+            document.getElementById('copyright-year').textContent = new Date().getFullYear();
 
             //-------------------*/
             //  1. Data for Reading Plans
