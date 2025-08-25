@@ -609,17 +609,16 @@
 
             function createDayCardHTML(dayData, planName) {
                 const notesHTML = dayData.notes ? `<p class="notes">${dayData.notes}</p>` : '';
-                // This line below is the only change
                 const fullPlanName = `${planName === 'canonical' ? 'Canonical' : 'Chronological'} OT 4-Month Reading`;
-            
+                // The change is adding the data-notes attribute to the button below
                 return `
                     <div class="day-card" id="${planName}-day-${dayData.day}">
                         <div class="card-header">
                             <h3>Day ${dayData.day}</h3>
                             <div class="card-actions">
-                                <button class="copy-button" title="Copy Reading" data-day="${dayData.day}" data-readings="${dayData.readings}" data-plan-name="${fullPlanName}">
-                                    <svg class="copy-icon" xmlns="http://www.w.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                                    <svg class="check-icon" xmlns="http://www.w.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <button class="copy-button" title="Copy Reading" data-day="${dayData.day}" data-readings="${dayData.readings}" data-plan-name="${fullPlanName}" data-notes="${dayData.notes || ''}">
+                                    <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                    <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                 </button>
                                 <input type="checkbox" id="check-${planName}-${dayData.day}" class="completion-checkbox" data-plan="${planName}" data-day="${dayData.day}">
                                 <label for="check-${planName}-${dayData.day}" class="completion-label"></label>
@@ -691,15 +690,23 @@
             loadProgress();
 
             /**
-             * Handles the copy button click to copy the reading to the clipboard.
+             * Handles the copy button click to copy the reading and note to the clipboard.
              * @param {Event} e - The click event.
              */
             function handleCopyClick(e) {
                 const copyButton = e.target.closest('.copy-button');
                 if (!copyButton) return;
             
-                const { day, readings, planName } = copyButton.dataset;
-                const copyText = `Day ${day} (${planName}) - ${readings}`;
+                // Destructure the data, now including 'notes'
+                const { day, readings, planName, notes } = copyButton.dataset;
+                
+                // Start with the base text
+                let copyText = `Day ${day} (${planName}) - ${readings}`;
+            
+                // If a note exists and isn't empty, add it on a new line
+                if (notes && notes.trim() !== '') {
+                    copyText += `\n\nNote: ${notes}`;
+                }
             
                 navigator.clipboard.writeText(copyText).then(() => {
                     copyButton.classList.add('copied');
