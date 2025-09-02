@@ -362,6 +362,32 @@
             animation-play-state: paused;
             transform: scale(1.1);
         }
+
+        /* 9. Reset Button */
+        .reset-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .reset-button {
+            background-color: transparent;
+            border: 2px solid var(--text-muted-color);
+            color: var(--text-muted-color);
+            padding: 0.6rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .reset-button:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
+        }
     </style>
 </head>
 
@@ -402,6 +428,11 @@
 
         <footer class="footer">
             <p>"All Scripture is God-breathed and is useful for teaching, rebuking, correcting and training in righteousness." - 2 Timothy 3:16</p>
+
+            <div class="reset-container">
+                <button id="reset-progress-button" class="reset-button">Reset All Progress</button>
+            </div>
+            
             <p class="copyright">&copy; <span id="copyright-year"></span> <a href="https://dammieoptimus.github.io/tgrstartnow/?d=eyJyZWYiOiJEYW1taWVPcHRpbXVzMiIsIm5hbWUiOiJEYW1taWUgKE9wdGltdXMpIEF5b2RlbGUiLCJwaG9uZSI6IjA4MDI4OTc1ODE2IiwicGljIjoiaHR0cHM6Ly9pLmltZ3VyLmNvbS9xcVVFNGFyLmpwZyJ9" class="pulsating-link" target="_blank" rel="noopener noreferrer">Dammie Optimus Solutions</a>. All rights reserved.</p>
         </footer>
     </div>
@@ -409,7 +440,37 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
-             document.getElementById('copyright-year').textContent = new Date().getFullYear();
+            document.getElementById('copyright-year').textContent = new Date().getFullYear();
+
+            //-------------------*/
+            //  Reset Progress Logic
+            //-------------------*/
+            const resetProgressButton = document.getElementById('reset-progress-button');
+        
+            function handleResetProgress() {
+                // Confirmation dialog to prevent accidental deletion
+                const isConfirmed = window.confirm("Are you sure you want to reset all your reading progress? This action cannot be undone.");
+        
+                if (isConfirmed) {
+                    const keysToRemove = [];
+                    // Find all keys related to this app
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const key = localStorage.key(i);
+                        if (key.startsWith('dammieOptimusOT_')) { // The prefix for the OT app
+                            keysToRemove.push(key);
+                        }
+                    }
+        
+                    // Remove all found keys
+                    keysToRemove.forEach(key => {
+                        localStorage.removeItem(key);
+                    });
+        
+                    // Reload the page to reflect the changes
+                    location.reload();
+                }
+            }
+            resetProgressButton.addEventListener('click', handleResetProgress);
 
             const canonicalReadings = [
                 { day: 1, readings: "Gen 1-8", chapters: 8, notes: "Begin with the majestic accounts of Creation, the fall of humanity, and the global flood that reshapes the world." },
