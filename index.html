@@ -186,7 +186,7 @@
         .card-content .scripture {
             font-size: 1.25rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem; /* Adjusted for better spacing with buttons */
         }
 
         .card-content .chapters,
@@ -736,6 +736,7 @@
                             </div>
                         </div>
                         <div class="card-content">
+                            <p class="scripture">${dayData.readings}</p>
                             <div class="scripture-buttons">
                                 ${parseReadingsAndCreateButtons(dayData.readings)}
                             </div>
