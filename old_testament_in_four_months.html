@@ -388,6 +388,64 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
         }
+
+        /* 10. Version Selector & Chapter Buttons */
+        .version-selector-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2.5rem;
+            padding: 0.5rem;
+            background-color: var(--secondary-color);
+            border: 1px solid var(--card-border-color);
+            border-radius: 8px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        #version-selector {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: 1px solid var(--text-muted-color);
+            border-radius: 6px;
+            padding: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        
+        .card-content .scripture-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .chapter-button {
+            background-color: var(--primary-color);
+            color: var(--text-muted-color);
+            border: 1px solid var(--card-border-color);
+            border-radius: 6px;
+            padding: 0.3rem 0.7rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        
+        .chapter-button:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        .scripture-placeholder {
+            font-style: italic;
+            color: var(--text-muted-color);
+        }
     </style>
 </head>
 
@@ -413,6 +471,11 @@
                     <path d="m12 5 7 7-7 7"></path>
                 </svg>
             </a>
+        </div>
+
+        <div class="version-selector-container">
+            <label for="version-selector">Bible Version:</label>
+            <select id="version-selector" name="version-selector"></select>
         </div>
 
         <div class="plan-selector">
@@ -441,6 +504,122 @@
         document.addEventListener('DOMContentLoaded', () => {
             
             document.getElementById('copyright-year').textContent = new Date().getFullYear();
+
+            //================================================
+            // BIBLE LINKING & VERSION MANAGEMENT LIBRARY
+            //================================================
+            
+            // --- 1. Bible Version Data (Easily extendable) ---
+            const bibleVersions = [
+                { name: "EasyEnglish Bible 2024", number: 2079, abbr: "EASY" },
+                { name: "Amplified Bible (AMP)", number: 1588, abbr: "AMP" },
+                { name: "New King James Version (NKJV)", number: 114, abbr: "NKJV" },
+                { name: "New International Version (NIV)", number: 111, abbr: "NIV" },
+                { name: "English Standard Version (ESV)", number: 59, abbr: "ESV" },
+                { name: "King James Version (KJV)", number: 1, abbr: "KJV" },
+                { name: "New Living Translation (NLT)", number: 116, abbr: "NLT" },
+                { name: "Christian Standard Bible (CSB)", number: 1713, abbr: "CSB" },
+                { name: "The Message (MSG)", number: 97, abbr: "MSG" }
+            ];
+            
+            // --- 2. Book Abbreviation Map ---
+            const bookAbbreviations = {
+                // Old Testament
+                'Gen': 'GEN', 'Genesis': 'GEN', 'Ex': 'EXO', 'Exodus': 'EXO', 'Lev': 'LEV', 'Leviticus': 'LEV',
+                'Num': 'NUM', 'Numbers': 'NUM', 'Deut': 'DEU', 'Deuteronomy': 'DEU', 'Josh': 'JOS', 'Joshua': 'JOS',
+                'Judges': 'JDG', 'Ruth': 'RUT', '1 Sam': '1SA', '1 Samuel': '1SA', '2 Sam': '2SA', '2 Samuel': '2SA',
+                '1 Kings': '1KI', '2 Kings': '2KI', '1 Chron': '1CH', '1 Chronicles': '1CH', '2 Chron': '2CH', '2 Chronicles': '2CH',
+                'Ezra': 'EZR', 'Neh': 'NEH', 'Nehemiah': 'NEH', 'Esther': 'EST', 'Job': 'JOB', 'Ps': 'PSA', 'Psalm': 'PSA', 'Psalms': 'PSA',
+                'Prov': 'PRO', 'Proverbs': 'PRO', 'Ecc': 'ECC', 'Ecclesiastes': 'ECC', 'Song of Solomon': 'SNG',
+                'Isaiah': 'ISA', 'Isa': 'ISA', 'Jer': 'JER', 'Jeremiah': 'JER', 'Lam': 'LAM', 'Lamentations': 'LAM', 'Ezek': 'EZK', 'Ezekiel': 'EZK',
+                'Dan': 'DAN', 'Daniel': 'DAN', 'Hosea': 'HOS', 'Joel': 'JOL', 'Amos': 'AMO', 'Obadiah': 'OBA', 'Jonah': 'JON',
+                'Micah': 'MIC', 'Nahum': 'NAM', 'Habakkuk': 'HAB', 'Zeph': 'ZEP', 'Haggai': 'HAG', 'Zech': 'ZEC', 'Zechariah': 'ZEC', 'Malachi': 'MAL',
+                // New Testament
+                'Matthew': 'MAT', 'Matt': 'MAT', 'Mark': 'MRK', 'Luke': 'LUK', 'John': 'JHN', 'Acts': 'ACT', 'Romans': 'ROM',
+                '1 Corinthians': '1CO', '2 Corinthians': '2CO', 'Galatians': 'GAL', 'Ephesians': 'EPH', 'Philippians': 'PHP',
+                'Colossians': 'COL', '1 Thessalonians': '1TH', '2 Thessalonians': '2TH', '1 Timothy': '1TI', '2 Timothy': '2TI',
+                'Titus': 'TIT', 'Philemon': 'PHM', 'Hebrews': 'HEB', 'James': 'JAS', '1 Peter': '1PE', '2 Peter': '2PE',
+                '1 John': '1JN', '2 John': '2JN', '3 John': '3JN', 'Jude': 'JUD', 'Revelation': 'REV'
+            };
+            
+            /**
+             * Parses a reading string (e.g., "Mark 1-8 & Matthew 28") and generates clickable buttons.
+             * @param {string} readingsString - The string to parse.
+             * @returns {string} HTML string of buttons.
+             */
+            function parseReadingsAndCreateButtons(readingsString) {
+                if (!readingsString || readingsString.toLowerCase().includes('catch-up')) {
+                    return `<p class="scripture-placeholder">A day for rest and reflection.</p>`;
+                }
+            
+                const versionNumber = localStorage.getItem('dammieOptimus_bibleVersionNumber') || bibleVersions[0].number;
+                const selectedVersion = bibleVersions.find(v => v.number == versionNumber) || bibleVersions[0];
+                
+                let buttonsHtml = '';
+                const parts = readingsString.split(/&|;/); // Split by '&' or ';'
+            
+                parts.forEach(part => {
+                    const trimmedPart = part.trim();
+                    // Regex to capture: (Book Name) (Start Chapter)-(End Chapter) or (Book Name) (Chapter)
+                    const match = trimmedPart.match(/^(.+?)\s+(\d+)(?:-(\d+))?$/);
+            
+                    if (match) {
+                        const bookName = match[1].trim();
+                        const startChapter = parseInt(match[2], 10);
+                        const endChapter = match[3] ? parseInt(match[3], 10) : startChapter;
+                        
+                        const bookAbbr = Object.keys(bookAbbreviations).find(key => bookName.startsWith(key));
+                        const urlAbbr = bookAbbreviations[bookAbbr];
+            
+                        if (urlAbbr) {
+                            for (let i = startChapter; i <= endChapter; i++) {
+                                const url = `https://www.bible.com/bible/${selectedVersion.number}/${urlAbbr}.${i}.${selectedVersion.abbr}`;
+                                buttonsHtml += `<a href="${url}" class="chapter-button" target="_blank" rel="noopener noreferrer">${bookName} ${i}</a>`;
+                            }
+                        }
+                    }
+                });
+            
+                return buttonsHtml || `<p class="scripture-placeholder">No readings for this day.</p>`;
+            }
+            
+            /**
+             * Populates the version selector dropdown.
+             */
+            function populateVersionSelector() {
+                const selector = document.getElementById('version-selector');
+                bibleVersions.forEach(version => {
+                    const option = document.createElement('option');
+                    option.value = version.number;
+                    option.textContent = version.name;
+                    selector.appendChild(option);
+                });
+            }
+            
+            /**
+             * Saves the user's version choice to localStorage and reloads.
+             */
+            function handleVersionChange(e) {
+                localStorage.setItem('dammieOptimus_bibleVersionNumber', e.target.value);
+                // Reload the page to apply the new version to all generated links
+                location.reload();
+            }
+            
+            /**
+             * Loads the saved version from localStorage or sets a default.
+             */
+            function loadVersionPreference() {
+                const savedVersion = localStorage.getItem('dammieOptimus_bibleVersionNumber');
+                const selector = document.getElementById('version-selector');
+                if (savedVersion) {
+                    selector.value = savedVersion;
+                } else {
+                    selector.value = bibleVersions[0].number; // Default to the first version
+                }
+            }
+            //================================================
+            // END OF LIBRARY
+            //================================================
 
             //-------------------*/
             //  Reset Progress Logic
@@ -726,7 +905,6 @@
                 const notesHTML = dayData.notes ? `<p class="notes">${dayData.notes}</p>` : '';
                 const fullPlanName = `${planName === 'canonical' ? 'Canonical' : 'Chronological'} OT 4-Month Reading`;
                 
-                // The new line for chapters is added below
                 return `
                     <div class="day-card" id="${planName}-day-${dayData.day}">
                         <div class="card-header">
@@ -741,8 +919,10 @@
                             </div>
                         </div>
                         <div class="card-content">
-                            <p class="scripture">${dayData.readings}</p>
-                            <p class="chapters">Chapters: ${dayData.chapters}</p> 
+                            <div class="scripture-buttons">
+                                ${parseReadingsAndCreateButtons(dayData.readings)}
+                            </div>
+                            <p class="chapters">Chapters: ${dayData.chapters}</p>
                             ${notesHTML}
                         </div>
                     </div>
@@ -801,6 +981,11 @@
                     saveProgress(plan, day, false);
                 }
             }
+
+            // Initialize Version Selector
+            populateVersionSelector();
+            loadVersionPreference();
+            document.getElementById('version-selector').addEventListener('change', handleVersionChange);
 
             populatePlan(canonicalContainer, canonicalReadings, 'canonical');
             populatePlan(chronologicalContainer, chronologicalReadings, 'chronological');
