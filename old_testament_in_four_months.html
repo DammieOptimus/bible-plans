@@ -194,7 +194,7 @@
         .card-content .scripture {
             font-size: 1.25rem;
             font-weight: 500;
-            margin-bottom: 0.5rem;
+            mmargin-bottom: 0.75rem;
             color: var(--text-color);
         }
 
@@ -919,10 +919,11 @@
                             </div>
                         </div>
                         <div class="card-content">
+                            <p class="scripture">${dayData.readings}</p>
                             <div class="scripture-buttons">
                                 ${parseReadingsAndCreateButtons(dayData.readings)}
                             </div>
-                            <p class="chapters">Chapters: ${dayData.chapters}</p>
+                            <p class="chapters">Chapters: ${dayData.chapters}</p> 
                             ${notesHTML}
                         </div>
                     </div>
