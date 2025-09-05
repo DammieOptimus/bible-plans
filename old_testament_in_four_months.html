@@ -252,7 +252,10 @@
         .app-switcher {
             text-align: center;
             margin: -1rem auto 3rem;
-            /* Positions it neatly between header and plan selector */
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .switcher-link {
@@ -463,14 +466,8 @@
 
         <!-- App Switcher -->
         <div class="app-switcher">
-            <a href="./index.html" class="switcher-link">
-                <span>Explore the New Testament</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M5 12h14"></path>
-                    <path d="m12 5 7 7-7 7"></path>
-                </svg>
-            </a>
+            <a href="./new_testament_in_a_month.html" class="switcher-link">NT in a Month Plan</a>
+            <a href="./complete_bible_in_a_year.html" class="switcher-link">Complete Bible Plan</a>
         </div>
 
         <div class="version-selector-container">
