@@ -502,6 +502,74 @@
             
             document.getElementById('copyright-year').textContent = new Date().getFullYear();
 
+            //-------------------*/
+            //  Scroll Position Memory
+            //-------------------*/
+            const SCROLL_MEMORY_KEY_OT = 'dammieOptimus_lastViewedId_OT';
+            
+            // Throttling function to limit how often a function can run.
+            function throttle(func, limit) {
+                let inThrottle;
+                return function() {
+                    const args = arguments;
+                    const context = this;
+                    if (!inThrottle) {
+                        func.apply(context, args);
+                        inThrottle = true;
+                        setTimeout(() => inThrottle = false, limit);
+                    }
+                };
+            }
+            
+            // Function to find the topmost visible day-card and save its ID.
+            function saveLastViewedPosition() {
+                let lastVisibleCardId = null;
+                const activePlanElement = document.querySelector('.reading-plan:not([style*="display: none"])');
+                if (!activePlanElement) return;
+            
+                const visibleCards = activePlanElement.querySelectorAll('.day-card');
+                
+                // Find the first card that is in the top half of the viewport
+                for (const card of visibleCards) {
+                    const rect = card.getBoundingClientRect();
+                    if (rect.top >= 0 && rect.top <= window.innerHeight / 2) {
+                        lastVisibleCardId = card.id;
+                        break; 
+                    }
+                }
+            
+                if (lastVisibleCardId) {
+                    localStorage.setItem(SCROLL_MEMORY_KEY_OT, lastVisibleCardId);
+                }
+            }
+            
+            // Function to scroll to the saved position on page load.
+            function scrollToLastViewedPosition() {
+                const lastViewedId = localStorage.getItem(SCROLL_MEMORY_KEY_OT);
+                if (lastViewedId) {
+                    const element = document.getElementById(lastViewedId);
+            
+                    // This is a key step: ensure the correct tab is active before scrolling
+                    if (element) {
+                        const planName = lastViewedId.startsWith('canonical') ? 'canonical' : 'chronological';
+                        const planButton = document.querySelector(`.plan-button[data-plan="${planName}"]`);
+                        if (planButton && !planButton.classList.contains('active')) {
+                            planButton.click();
+                        }
+            
+                        // Use a small timeout to ensure the layout is stable after the tab switch
+                        setTimeout(() => {
+                            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }, 100);
+                    }
+                }
+            }
+            
+            // Attach the scroll listener
+            window.addEventListener('scroll', throttle(saveLastViewedPosition, 500));
+            // Call the scroll restoration function
+            scrollToLastViewedPosition();
+
             //================================================
             // BIBLE LINKING & VERSION MANAGEMENT LIBRARY
             //================================================
