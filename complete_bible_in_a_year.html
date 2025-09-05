@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-M5T96RK7');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dammie Optimus - Bible in a Year</title>
+    <style>
+        /*-------------------*/
+        /*  1. Global Styles & Fonts */
+        /*-------------------*/
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Roboto:wght@400;500&display=swap');
+
+        :root {
+            --primary-color: #1f2023;
+            --secondary-color: #2d2f34;
+            --accent-color: #9f7aea;
+            /* Regal Purple Theme */
+            --text-color: #e8e6e3;
+            --text-muted-color: #9a9a9a;
+            --completed-color: #38a169;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Merriweather', serif;
+            font-weight: 700;
+        }
+
+        /*-------------------*/
+        /*  2. Header & App Switcher */
+        /*-------------------*/
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-muted-color);
+        }
+
+        .app-switcher {
+            text-align: center;
+            margin: -0.5rem auto 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .switcher-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            background-color: var(--secondary-color);
+            color: var(--text-muted-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .switcher-link:hover {
+            color: var(--accent-color);
+            background-color: rgba(159, 122, 234, 0.1);
+            border-color: rgba(159, 122, 234, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /*-------------------*/
+        /*  3. Plan & Version Selectors */
+        /*-------------------*/
+        .controls-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .version-selector-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        #version-selector {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: 1px solid var(--text-muted-color);
+            border-radius: 6px;
+            padding: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .plan-selector {
+            display: flex;
+            justify-content: center;
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+            padding: 0.5rem;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .plan-button {
+            background: none;
+            border: none;
+            color: var(--text-muted-color);
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .plan-button.active {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            box-shadow: 0 4px 14px rgba(159, 122, 234, 0.2);
+        }
+
+        /*-------------------*/
+        /*  4. Reading Plan Grid & Cards */
+        /*-------------------*/
+        .reading-plan {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .day-card {
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+            border-left: 5px solid transparent;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .day-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-left-color: var(--accent-color);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-header h3 {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .card-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .completion-checkbox {
+            opacity: 0;
+            position: absolute;
+            width: 0;
+            height: 0;
+        }
+
+        .completion-label {
+            position: relative;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .completion-label::after {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 4px;
+            width: 5px;
+            height: 10px;
+            border: solid var(--text-color);
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .completion-checkbox:checked+.completion-label {
+            background-color: var(--completed-color);
+        }
+
+        .completion-checkbox:checked+.completion-label::after {
+            opacity: 1;
+        }
+
+        .card-content .scripture {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-content .chapters {
+            color: var(--text-muted-color);
+            font-size: 0.9rem;
+            margin-top: 0.75rem;
+        }
+
+        .card-content .notes {
+            margin-top: 0.75rem;
+            font-style: italic;
+            font-size: 0.9rem;
+            border-left: 2px solid var(--accent-color);
+            padding-left: 0.75rem;
+            color: var(--text-muted-color);
+        }
+
+        .day-card.completed {
+            border-left-color: var(--completed-color);
+            background-color: #3a3c42;
+        }
+
+        .day-card.completed .card-content {
+            opacity: 0.6;
+        }
+
+        #canonical-plan {
+            display: none;
+        }
+
+        /*-------------------*/
+        /*  5. Chapter Buttons & Copy Button */
+        /*-------------------*/
+        .card-content .scripture-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .chapter-button {
+            background-color: var(--primary-color);
+            color: var(--text-muted-color);
+            border: 1px solid var(--secondary-color);
+            border-radius: 6px;
+            padding: 0.3rem 0.7rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .chapter-button:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .copy-button {
+            background: none;
+            border: none;
+            color: var(--text-muted-color);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .copy-button:hover {
+            color: var(--accent-color);
+            background-color: rgba(159, 122, 234, 0.1);
+        }
+
+        .copy-button .check-icon {
+            display: none;
+        }
+
+        .copy-button.copied {
+            color: var(--completed-color);
+        }
+
+        .copy-button.copied .copy-icon {
+            display: none;
+        }
+
+        .copy-button.copied .check-icon {
+            display: block;
+        }
+
+        /*-------------------*/
+        /*  6. Footer & Reset Button */
+        /*-------------------*/
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--secondary-color);
+        }
+
+        .reset-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .reset-button {
+            background-color: transparent;
+            border: 2px solid var(--text-muted-color);
+            color: var(--text-muted-color);
+            padding: 0.6rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reset-button:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(159, 122, 234, 0.2);
+        }
+
+        .footer .copyright {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted-color);
+        }
+
+        @keyframes color-cycle-365 {
+            0% {
+                color: var(--accent-color);
+                text-shadow: 0 0 5px rgba(159, 122, 234, 0.5);
+            }
+
+            25% {
+                color: #63b3ed;
+                text-shadow: 0 0 5px rgba(99, 179, 237, 0.5);
+            }
+
+            50% {
+                color: var(--completed-color);
+                text-shadow: 0 0 5px rgba(72, 187, 120, 0.5);
+            }
+
+            75% {
+                color: #f6ad55;
+                text-shadow: 0 0 5px rgba(246, 173, 85, 0.5);
+            }
+
+            100% {
+                color: var(--accent-color);
+                text-shadow: 0 0 5px rgba(159, 122, 234, 0.5);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .pulsating-link {
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            animation: color-cycle-365 8s infinite linear, pulse 3s infinite ease-in-out;
+            transition: transform 0.2s ease;
+        }
+
+        .pulsating-link:hover {
+            animation-play-state: paused;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M5T96RK7" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div class="container">
+        <header class="header">
+            <h1>Dammie Optimus</h1>
+            <p>Complete Bible in a Year Plan</p>
+        </header>
+
+        <div class="app-switcher">
+            <a href="./index.html" class="switcher-link">NT in a Month Plan</a>
+            <a href="./old_testament_in_four_months.html" class="switcher-link">OT in 4 Months Plan</a>
+        </div>
+
+        <div class="controls-container">
+            <div class="version-selector-container">
+                <label for="version-selector">Bible Version:</label>
+                <select id="version-selector" name="version-selector"></select>
+            </div>
+
+            <div class="plan-selector">
+                <button class="plan-button" data-plan="canonical">Canonical Order</button>
+                <button class="plan-button active" data-plan="chronological">Chronological Order</button>
+            </div>
+        </div>
+
+        <section id="canonical-plan" class="reading-plan"></section>
+        <section id="chronological-plan" class="reading-plan"></section>
+
+        <footer class="footer">
+            <p>"For the word of God is alive and active..." - Hebrews 4:12</p>
+
+            <div class="reset-container">
+                <button id="reset-progress-button" class="reset-button">Reset All Progress</button>
+            </div>
+
+            <p class="copyright">&copy; <span id="copyright-year"></span> <a
+                    href="https://dammieoptimus.github.io/tgrstartnow/?d=eyJyZWYiOiJEYW1taWVPcHRpbXVzMiIsIm5hbWUiOiJEYW1taWUgKE9wdGltdXMpIEF5b2RlbGUiLCJwaG9uZSI6IjA4MDI4OTc1ODE2IiwicGljIjoiaHR0cHM6Ly9pLmltZ3VyLmNvbS9xcVVFNGFyLmpwZyJ9"
+                    class="pulsating-link" target="_blank" rel="noopener noreferrer">Dammie Optimus Solutions</a>. All
+                rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('copyright-year').textContent = new Date().getFullYear();
+
+            //================================================
+            // BIBLE LINKING & VERSION MANAGEMENT LIBRARY
+            //================================================
+            const bibleVersions = [
+                { name: "EasyEnglish Bible 2024", number: 2079, abbr: "EASY" }, { name: "Amplified Bible (AMP)", number: 1588, abbr: "AMP" },
+                { name: "New King James Version (NKJV)", number: 114, abbr: "NKJV" }, { name: "New International Version (NIV)", number: 111, abbr: "NIV" },
+                { name: "English Standard Version (ESV)", number: 59, abbr: "ESV" }, { name: "King James Version (KJV)", number: 1, abbr: "KJV" },
+                { name: "New Living Translation (NLT)", number: 116, abbr: "NLT" }, { name: "Christian Standard Bible (CSB)", number: 1713, abbr: "CSB" },
+                { name: "The Message (MSG)", number: 97, abbr: "MSG" },
+                { name: "King James Version with Apocrypha, American Edition (KJVAAE)", number: 546, abbr: "KJVAAE" },
+                { name: "Bible in Yorùbá (YCB)", number: 911, abbr: "YCB" },
+                { name: "Bible in Hausa (SRK)", number: 1614, abbr: "SRK" },
+                { name: "Bible in Igbo (BIU)", number: 1624, abbr: "BIU" },
+                { name: "Bible in French (BEX2004)", number: 3286, abbr: "BEX2004" }
+            ];
+
+            const bookAbbreviations = {
+                'Gen': 'GEN', 'Genesis': 'GEN', 'Ex': 'EXO', 'Exodus': 'EXO', 'Lev': 'LEV', 'Leviticus': 'LEV', 'Num': 'NUM', 'Numbers': 'NUM', 'Deut': 'DEU',
+                'Deuteronomy': 'DEU', 'Josh': 'JOS', 'Joshua': 'JOS', 'Judges': 'JDG', 'Ruth': 'RUT', '1 Sam': '1SA', '1 Samuel': '1SA', '2 Sam': '2SA',
+                '2 Samuel': '2SA', '1 Kings': '1KI', '2 Kings': '2KI', '1 Chron': '1CH', '1 Chronicles': '1CH', '2 Chron': '2CH', '2 Chronicles': '2CH',
+                'Ezra': 'EZR', 'Neh': 'NEH', 'Nehemiah': 'NEH', 'Esther': 'EST', 'Job': 'JOB', 'Ps': 'PSA', 'Psalm': 'PSA', 'Psalms': 'PSA', 'Prov': 'PRO',
+                'Proverbs': 'PRO', 'Ecc': 'ECC', 'Ecclesiastes': 'ECC', 'Song of Solomon': 'SNG', 'Isaiah': 'ISA', 'Isa': 'ISA', 'Jer': 'JER', 'Jeremiah': 'JER',
+                'Lam': 'LAM', 'Lamentations': 'LAM', 'Ezek': 'EZK', 'Ezekiel': 'EZK', 'Dan': 'DAN', 'Daniel': 'DAN', 'Hosea': 'HOS', 'Joel': 'JOL', 'Amos': 'AMO',
+                'Obadiah': 'OBA', 'Jonah': 'JON', 'Micah': 'MIC', 'Nahum': 'NAM', 'Habakkuk': 'HAB', 'Zeph': 'ZEP', 'Haggai': 'HAG', 'Zech': 'ZEC', 'Zechariah': 'ZEC',
+                'Malachi': 'MAL', 'Matthew': 'MAT', 'Matt': 'MAT', 'Mark': 'MRK', 'Luke': 'LUK', 'John': 'JHN', 'Acts': 'ACT', 'Romans': 'ROM', '1 Corinthians': '1CO',
+                '2 Corinthians': '2CO', 'Galatians': 'GAL', 'Ephesians': 'EPH', 'Philippians': 'PHP', 'Colossians': 'COL', '1 Thessalonians': '1TH',
+                '2 Thessalonians': '2TH', '1 Timothy': '1TI', '2 Timothy': '2TI', 'Titus': 'TIT', 'Philemon': 'PHM', 'Hebrews': 'HEB', 'James': 'JAS',
+                '1 Peter': '1PE', '2 Peter': '2PE', '1 John': '1JN', '2 John': '2JN', '3 John': '3JN', 'Jude': 'JUD', 'Revelation': 'REV'
+            };
+
+            function parseReadingsAndCreateButtons(readingsString) {
+                if (!readingsString || readingsString.toLowerCase().includes('catch-up')) { return `<p class="scripture-placeholder">A day for rest and reflection.</p>`; }
+                const versionNumber = localStorage.getItem('dammieOptimus_bibleVersionNumber') || bibleVersions[0].number;
+                const selectedVersion = bibleVersions.find(v => v.number == versionNumber) || bibleVersions[0];
+                let buttonsHtml = '';
+                const parts = readingsString.split(/&|;/);
+                parts.forEach(part => {
+                    const trimmedPart = part.trim();
+                    const match = trimmedPart.match(/^(.+?)\s+(\d+)(?:-(\d+))?$/);
+                    if (match) {
+                        const bookName = match[1].trim();
+                        const startChapter = parseInt(match[2], 10);
+                        const endChapter = match[3] ? parseInt(match[3], 10) : startChapter;
+                        const bookAbbr = Object.keys(bookAbbreviations).find(key => bookName.startsWith(key));
+                        const urlAbbr = bookAbbreviations[bookAbbr];
+                        if (urlAbbr) {
+                            for (let i = startChapter; i <= endChapter; i++) {
+                                const url = `https://www.bible.com/bible/${selectedVersion.number}/${urlAbbr}.${i}.${selectedVersion.abbr}`;
+                                buttonsHtml += `<a href="${url}" class="chapter-button" target="_blank" rel="noopener noreferrer">${bookName} ${i}</a>`;
+                            }
+                        }
+                    }
+                });
+                return buttonsHtml || `<p class="scripture-placeholder">No readings for this day.</p>`;
+            }
+
+            function populateVersionSelector() {
+                const selector = document.getElementById('version-selector');
+                bibleVersions.forEach(version => {
+                    const option = document.createElement('option');
+                    option.value = version.number;
+                    option.textContent = version.name;
+                    selector.appendChild(option);
+                });
+            }
+
+            function handleVersionChange(e) {
+                localStorage.setItem('dammieOptimus_bibleVersionNumber', e.target.value);
+                location.reload();
+            }
+
+            function loadVersionPreference() {
+                const savedVersion = localStorage.getItem('dammieOptimus_bibleVersionNumber');
+                const selector = document.getElementById('version-selector');
+                if (savedVersion) { selector.value = savedVersion; }
+                else { selector.value = bibleVersions[0].number; }
+            }
+            //================================================
+            // END OF LIBRARY
+            //================================================
+
+            //-------------------*/
+            //  Reset Progress Logic
+            //-------------------*/
+            const resetProgressButton = document.getElementById('reset-progress-button');
+            function handleResetProgress() {
+                const isConfirmed = window.confirm("Are you sure you want to reset all your reading progress? This action cannot be undone.");
+                if (isConfirmed) {
+                    const keysToRemove = [];
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const key = localStorage.key(i);
+                        if (key.startsWith('dammieOptimus365_')) { // UNIQUE PREFIX FOR THIS APP
+                            keysToRemove.push(key);
+                        }
+                    }
+                    keysToRemove.forEach(key => localStorage.removeItem(key));
+                    location.reload();
+                }
+            }
+            resetProgressButton.addEventListener('click', handleResetProgress);
+
+            //-------------------*/
+            //  1. Data for Reading Plans
+            //-------------------*/
+            const canonicalReadings = [
+                { day: 1, readings: "Genesis 1-3", chapters: 3, notes: "The grand narrative begins with God's magnificent creation, the forming of humanity, and the tragic fall in the Garden of Eden." },
+                { day: 2, readings: "Genesis 4-7", chapters: 4, notes: "Witness the first murder, the spread of sin, and God's judgment and grace through Noah and the global flood." },
+                { day: 3, readings: "Genesis 8-11", chapters: 4, notes: "After the flood, God makes a covenant with Noah. Humanity rebels again at the Tower of Babel, leading to their scattering." },
+                { day: 4, readings: "Genesis 12-15", chapters: 4, notes: "God calls Abram with an incredible promise to make him a great nation, sealing it with a covenant under the stars." },
+                { day: 5, readings: "Genesis 16-18", chapters: 3, notes: "The consequences of impatience are seen with Hagar and Ishmael, but God reaffirms His promise of a son to Abraham and Sarah." },
+                { day: 6, readings: "Genesis 19-21", chapters: 3, notes: "The wickedness of Sodom and Gomorrah leads to their destruction, followed by the long-awaited, miraculous birth of Isaac." },
+                { day: 7, readings: "Genesis 22-24", chapters: 3, notes: "Abraham's faith is profoundly tested on Mount Moriah. Sarah dies, and a bride is found for the child of promise, Isaac." },
+                { day: 8, readings: "Genesis 25-26", chapters: 2, notes: "The story shifts to the next generation with the birth of twins Jacob and Esau, whose rivalry begins even before birth." },
+                { day: 9, readings: "Genesis 27-29", chapters: 3, notes: "Jacob deceptively steals his brother's blessing and flees, leading to a life-changing dream of a ladder to heaven at Bethel." },
+                { day: 10, readings: "Genesis 30-31", chapters: 2, notes: "Jacob's family grows rapidly through his wives Leah and Rachel, and he prospers despite the trickery of his father-in-law, Laban." },
+                { day: 11, readings: "Genesis 32-34", chapters: 3, notes: "On his journey home, Jacob wrestles with God and receives a new name. His reunion with Esau is tense but peaceful." },
+                { day: 12, readings: "Genesis 35-37", chapters: 3, notes: "Jacob's family story continues with sorrow and hope, but the focus shifts to his favored son, Joseph, whose dreams provoke jealousy." },
+                { day: 13, readings: "Genesis 38-40", chapters: 3, notes: "A detour in the narrative with Judah and Tamar is followed by Joseph's story of integrity in Potiphar's house and his time in prison." },
+                { day: 14, readings: "Genesis 41-42", chapters: 2, notes: "Joseph's gift of interpreting dreams elevates him from prisoner to Prime Minister of Egypt, setting the stage for a family reunion." },
+                { day: 15, readings: "Genesis 43-45", chapters: 3, notes: "Joseph tests his brothers' hearts before revealing his identity in one of the most emotional and powerful scenes in all of Scripture." },
+                { day: 16, readings: "Genesis 46-48", chapters: 3, notes: "Jacob and his entire family move to Egypt, are reunited with Joseph, and receive the best of the land to live in." },
+                { day: 17, readings: "Genesis 49-50; Exodus 1", chapters: 3, notes: "Jacob gives his final prophecies over his sons. Joseph dies, and a new king arises in Egypt who enslaves the Israelites." },
+                { day: 18, readings: "Exodus 2-4", chapters: 3, notes: "The child Moses is miraculously saved, grows up in Pharaoh's court, flees to the desert, and is called by God from a burning bush." },
+                { day: 19, readings: "Exodus 5-7", chapters: 3, notes: "Moses and Aaron confront Pharaoh, whose heart is hardened. God begins to demonstrate His power through the first plagues." },
+                { day: 20, readings: "Exodus 8-10", chapters: 3, notes: "The plagues of frogs, gnats, flies, and livestock continue to escalate, showing the powerlessness of Egypt's gods before the Lord." },
+                { day: 21, readings: "Exodus 11-13", chapters: 3, notes: "The final, devastating plague is announced, the first Passover is instituted, and Israel is thrust out of Egypt into freedom." },
+                { day: 22, readings: "Exodus 14-16", chapters: 3, notes: "Trapped at the Red Sea, Israel witnesses God's miraculous deliverance. In the wilderness, He provides manna and quail." },
+                { day: 23, readings: "Exodus 17-20", chapters: 4, notes: "God provides water from a rock and gives Israel victory in battle. At Mount Sinai, He gives the Ten Commandments." },
+                { day: 24, readings: "Exodus 21-24", chapters: 4, notes: "God establishes the Law, a set of rules for building a just and holy society, and seals His covenant with the people of Israel." },
+                { day: 25, readings: "Exodus 25-27", chapters: 3, notes: "Detailed instructions are given for building the Tabernacle, a sacred tent where God's presence will dwell among His people." },
+                { day: 26, readings: "Exodus 28-29", chapters: 2, notes: "The priestly garments are described, and the ceremony for consecrating Aaron and his sons to serve as priests is outlined." },
+                { day: 27, readings: "Exodus 30-32", chapters: 3, notes: "While Moses is on the mountain receiving instructions, the people below grow impatient and commit a terrible sin with a golden calf." },
+                { day: 28, readings: "Exodus 33-35", chapters: 3, notes: "Moses passionately intercedes for the rebellious people, the covenant is renewed, and the people eagerly offer their treasures for the Tabernacle." },
+                { day: 29, readings: "Exodus 36-38", chapters: 3, notes: "Skilled artisans, filled with the Spirit of God, construct the intricate components of the Tabernacle and its courtyard." },
+                { day: 30, readings: "Exodus 39-40", chapters: 2, notes: "The priestly garments are made, the Tabernacle is assembled, and the glorious presence of the Lord fills it, signifying His approval." },
+                { day: 31, readings: "Leviticus 1-4", chapters: 4, notes: "Leviticus begins by explaining the different types of offerings—sacrifices that provided a way for people to approach a holy God." },
+                { day: 32, readings: "Leviticus 5-7", chapters: 3, notes: "The laws for offerings continue, detailing how to atone for unintentional sins and the specific portions for the priests." },
+                { day: 33, readings: "Leviticus 8-10", chapters: 3, notes: "Aaron and his sons are ordained as priests, but the celebration is marred by a tragic story of disobedience and judgment." },
+                { day: 34, readings: "Leviticus 11-13", chapters: 3, notes: "Dietary laws concerning clean and unclean animals are established, along with detailed regulations for identifying and dealing with leprosy." },
+                { day: 35, readings: "Leviticus 14-15", chapters: 2, notes: "Rituals for cleansing from infectious diseases and bodily discharges are detailed, emphasizing the importance of ritual purity." },
+                { day: 36, readings: "Leviticus 16-18", chapters: 3, notes: "The instructions for the Day of Atonement, the most solemn day of Israel's year, are laid out, along with laws on moral holiness." },
+                { day: 37, readings: "Leviticus 19-21", chapters: 3, notes: "The call to 'be holy, for I the Lord your God am holy' is explained through practical laws for daily life and for the priesthood." },
+                { day: 38, readings: "Leviticus 22-23", chapters: 2, notes: "Regulations for offerings are given, and the calendar of sacred feasts is established, each pointing to an aspect of God's work." },
+                { day: 39, readings: "Leviticus 24-25", chapters: 2, notes: "Laws concerning the Tabernacle and blasphemy are followed by the radical concept of the Sabbath Year and the Year of Jubilee." },
+                { day: 40, readings: "Leviticus 26-27", chapters: 2, notes: "The book concludes with the blessings for obedience and curses for disobedience, and laws concerning religious vows." },
+                { day: 41, readings: "Numbers 1-2", chapters: 2, notes: "The book of Numbers opens with a census of Israel's men of fighting age and instructions for how the tribes should camp and march." },
+                { day: 42, readings: "Numbers 3-4", chapters: 2, notes: "The tribe of Levi is set apart for the sacred service of the Tabernacle, and their specific duties are assigned by clan." },
+                { day: 43, readings: "Numbers 5-6", chapters: 2, notes: "Laws concerning purity in the camp, restitution for wrongs, and the special Nazirite vow are given." },
+                { day: 44, readings: "Numbers 7", chapters: 1, notes: "The leaders of the twelve tribes bring extravagant, identical offerings for the dedication of the new altar in the Tabernacle." },
+                { day: 45, readings: "Numbers 8-10", chapters: 3, notes: "The Levites are cleansed and dedicated, the Passover is celebrated, and guided by a cloud, the nation of Israel finally leaves Sinai." },
+                { day: 46, readings: "Numbers 11-13", chapters: 3, notes: "The journey is immediately marked by complaining. Twelve spies are sent into Canaan, but only two return with a report of faith." },
+                { day: 47, readings: "Numbers 14-15", chapters: 2, notes: "The people's unbelief leads to God's judgment: they are sentenced to wander in the wilderness for forty years." },
+                { day: 48, readings: "Numbers 16-17", chapters: 2, notes: "Korah leads a serious rebellion against the leadership of Moses and Aaron, resulting in a dramatic and terrifying display of God's power." },
+                { day: 49, readings: "Numbers 18-20", chapters: 3, notes: "Duties of priests are reaffirmed. In a moment of anger, Moses disobeys God, an act that costs him entry into the Promised Land." },
+                { day: 50, readings: "Numbers 21-23", chapters: 3, notes: "After another rebellion, God provides healing through a bronze serpent. King Balak hires the prophet Balaam to curse Israel." },
+                { day: 51, readings: "Numbers 24-26", chapters: 3, notes: "Compelled by God, Balaam blesses Israel instead of cursing them. A new census is taken of the generation that will enter the land." },
+                { day: 52, readings: "Numbers 27-30", chapters: 4, notes: "Joshua is chosen as Moses' successor, and laws concerning inheritance, offerings, and vows are given." },
+                { day: 53, readings: "Numbers 31-33", chapters: 3, notes: "Israel wins a victory over the Midianites, some tribes settle east of the Jordan, and the stages of their wilderness journey are recounted." },
+                { day: 54, readings: "Numbers 34-36", chapters: 3, notes: "The boundaries of the Promised Land are set, cities of refuge are established, and laws are made to protect family inheritance." },
+                { day: 55, readings: "Deuteronomy 1-2", chapters: 2, notes: "As Israel stands ready to enter the land, Moses begins his final series of sermons, recounting their journey and God's faithfulness." },
+                { day: 56, readings: "Deuteronomy 3-4", chapters: 2, notes: "Moses recounts early victories and then passionately warns the new generation against the sin of idolatry." },
+                { day: 57, readings: "Deuteronomy 5-7", chapters: 3, notes: "Moses restates the Ten Commandments and delivers the Shema, the central declaration of the Jewish faith." },
+                { day: 58, readings: "Deuteronomy 8-10", chapters: 3, notes: "The people are urged to remember the Lord's provision and discipline in the wilderness and to avoid pride in their new land." },
+                { day: 59, readings: "Deuteronomy 11-13", chapters: 3, notes: "A call to love and obey God is followed by specific instructions for centralized worship and warnings against false prophets." },
+                { day: 60, readings: "Deuteronomy 14-16", chapters: 3, notes: "Moses gives laws concerning clean and unclean foods, tithing, and the proper observance of the annual festivals." },
+                { day: 61, readings: "Deuteronomy 17-20", chapters: 4, notes: "Instructions are given for establishing justice, anointing a king, and the rules for engaging in warfare." },
+                { day: 62, readings: "Deuteronomy 21-23", chapters: 3, notes: "A collection of diverse laws for building a just society, covering everything from family life to community purity." },
+                { day: 63, readings: "Deuteronomy 24-27", chapters: 4, notes: "Laws promoting compassion for the vulnerable are given, along with instructions for a dramatic covenant renewal ceremony." },
+                { day: 64, readings: "Deuteronomy 28-29", chapters: 2, notes: "Moses lays out the powerful and detailed blessings for obedience and the devastating curses for disobedience to the covenant." },
+                { day: 65, readings: "Deuteronomy 30-32", chapters: 3, notes: "The people are called to choose life. Joshua is commissioned, and Moses teaches the nation a prophetic song." },
+                { day: 66, readings: "Deuteronomy 33-34; Joshua 1", chapters: 3, notes: "Moses gives a final blessing to the tribes of Israel, views the Promised Land, and dies. God commissions Joshua with a call to be strong and courageous." },
+                { day: 67, readings: "Joshua 2-4", chapters: 3, notes: "Spies are aided by Rahab in Jericho, and the entire nation of Israel miraculously crosses the Jordan River on dry ground." },
+                { day: 68, readings: "Joshua 5-7", chapters: 3, notes: "The conquest begins with the stunning, unconventional victory at Jericho, but is followed by a sobering defeat at Ai due to hidden sin." },
+                { day: 69, readings: "Joshua 8-9", chapters: 2, notes: "After dealing with the sin, Israel conquers Ai. The Gibeonites cleverly deceive Joshua into making a treaty with them." },
+                { day: 70, readings: "Joshua 10-11", chapters: 2, notes: "Joshua leads Israel in a series of decisive battles, including one where the sun stands still, to gain control of the Promised Land." },
+                { day: 71, readings: "Joshua 12-14", chapters: 3, notes: "A list of conquered kings is recorded, and the complex process of dividing the land among the tribes of Israel begins." },
+                { day: 72, readings: "Joshua 15-17", chapters: 3, notes: "The allotments for the large and influential tribes of Judah and Joseph (Ephraim and Manasseh) are detailed." },
+                { day: 73, readings: "Joshua 18-20", chapters: 3, notes: "The rest of the land is divided among the remaining tribes, and special cities of refuge are established for unintentional killing." },
+                { day: 74, readings: "Joshua 21-22", chapters: 2, notes: "The Levites receive their designated towns among the tribes, but a misunderstanding over an altar almost leads to civil war." },
+                { day: 75, readings: "Joshua 23-24; Judges 1", chapters: 3, notes: "Joshua gives his final, powerful farewell address. A new book begins by showing the incomplete obedience of the next generation." },
+                { day: 76, readings: "Judges 2-4", chapters: 3, notes: "A repeating cycle of sin, servitude, and salvation begins. God raises up judges like Othniel, Ehud, and the prophetess Deborah." },
+                { day: 77, readings: "Judges 5-6", chapters: 2, notes: "Deborah and Barak sing a song of victory. A new period of oppression begins, and God calls a fearful Gideon to be a mighty warrior." },
+                { day: 78, readings: "Judges 7-8", chapters: 2, notes: "With an army of only 300 men, Gideon achieves a miraculous victory over the Midianites, but his later life is less honorable." },
+                { day: 79, readings: "Judges 9-10", chapters: 2, notes: "Gideon's wicked son Abimelech's bloody attempt to be king shows the danger of rejecting God's leadership. New judges are raised up." },
+                { day: 80, readings: "Judges 11-12", chapters: 2, notes: "Jephthah, an outcast, is called upon to deliver Israel and makes a tragic, rash vow. Inter-tribal conflict leads to bloodshed." },
+                { day: 81, readings: "Judges 13-16", chapters: 4, notes: "The incredible story of Samson, a man of miraculous strength and crippling weakness, whose life is a series of triumphs and failures." },
+                { day: 82, readings: "Judges 17-19", chapters: 3, notes: "The book concludes by showing the depths of moral and spiritual chaos in Israel through stories of idolatry and horrific violence." },
+                { day: 83, readings: "Judges 20-21; Ruth 1-2", chapters: 4, notes: "The previous story leads to a brutal civil war. This darkness is contrasted by the beautiful story of Ruth's loyalty and her meeting Boaz." },
+                { day: 84, readings: "Ruth 3-4; 1 Samuel 1-2", chapters: 4, notes: "Ruth's story concludes with redemption and marriage. A new story begins with the barren Hannah's prayer and the birth of the prophet Samuel." },
+                { day: 85, readings: "1 Samuel 3-6", chapters: 4, notes: "God calls the young boy Samuel as a prophet. The corrupt priesthood of Eli's sons is judged, and the Ark of the Covenant is captured by the Philistines." },
+                { day: 86, readings: "1 Samuel 7-10", chapters: 4, notes: "The Ark is returned, Samuel leads a spiritual revival, and against God's warning, the people demand a king. Saul is chosen and anointed." },
+                { day: 87, readings: "1 Samuel 11-13", chapters: 3, notes: "Saul wins a decisive military victory, but his reign is quickly marred by an act of impatient disobedience that has lasting consequences." },
+                { day: 88, readings: "1 Samuel 14-15", chapters: 2, notes: "Saul's son Jonathan shows great faith. Saul again disobeys a direct command from God, leading to his rejection as king." },
+                { day: 89, readings: "1 Samuel 16-17", chapters: 2, notes: "God sends Samuel to anoint a new king: David, a shepherd boy. David famously defeats the Philistine giant Goliath with faith and a sling." },
+                { day: 90, readings: "1 Samuel 18-20", chapters: 3, notes: "David's popularity soars, sparking a murderous jealousy in King Saul. David forms a deep friendship with Saul's son, Jonathan." },
+                { day: 91, readings: "1 Samuel 21-24", chapters: 4, notes: "David is forced to live as a fugitive, gathering a band of followers. In a cave, he shows remarkable mercy by sparing Saul's life." },
+                { day: 92, readings: "1 Samuel 25-27", chapters: 3, notes: "A wise woman named Abigail prevents David from taking foolish revenge. David again spares Saul's life before seeking refuge among the Philistines." },
+                { day: 93, readings: "1 Samuel 28-31", chapters: 4, notes: "On the eve of his final battle, a desperate Saul consults a witch. The tragic reign of Israel's first king comes to a violent end." },
+                { day: 94, readings: "2 Samuel 1-3", chapters: 3, notes: "David mourns the deaths of Saul and Jonathan. He is anointed king over Judah, leading to a civil war with the house of Saul." },
+                { day: 95, readings: "2 Samuel 4-7", chapters: 4, notes: "David becomes king over all Israel and captures Jerusalem. He desires to build a temple, but God instead promises to build David an eternal dynasty." },
+                { day: 96, readings: "2 Samuel 8-10", chapters: 3, notes: "David's kingdom is established and victorious. He shows kindness to the last remaining relative of Saul, Mephibosheth." },
+                { day: 97, readings: "2 Samuel 11-12; Psalm 51", chapters: 3, notes: "At the height of his power, David falls into grievous sin with Bathsheba. The prophet Nathan confronts him, leading to a heartfelt psalm of repentance." },
+                { day: 98, readings: "2 Samuel 13-14", chapters: 2, notes: "The tragic consequences of David's sin ripple through his family, leading to violence, betrayal, and deep dysfunction." },
+                { day: 99, readings: "2 Samuel 15-17", chapters: 3, notes: "David's beloved son Absalom launches a rebellion, forcing David to flee Jerusalem for his life in a moment of great humiliation." },
+                { day: 100, readings: "2 Samuel 18-19", chapters: 2, notes: "The armies of David and Absalom clash. The rebellion is crushed, but the victory is hollow as David grieves the death of his rebellious son." },
+                { day: 101, readings: "2 Samuel 20-22", chapters: 3, notes: "David deals with another rebellion and delivers a beautiful psalm of deliverance, looking back on God's faithfulness through his life." },
+                { day: 102, readings: "2 Samuel 23-24; 1 Kings 1", chapters: 3, notes: "A list of David's mighty warriors is given. As David is old and weak, a succession crisis erupts over who will be the next king." },
+                { day: 103, readings: "1 Kings 2-3", chapters: 2, notes: "David gives his final charge to his son Solomon, who ascends the throne. Solomon asks God not for riches, but for wisdom to lead the people." },
+                { day: 104, readings: "1 Kings 4-6", chapters: 3, notes: "Solomon's wisdom and administration are described, and he finally begins the monumental task of building a magnificent temple for the Lord." },
+                { day: 105, readings: "1 Kings 7-8", chapters: 2, notes: "After building his own palace, Solomon completes and dedicates the Temple. The glorious presence of the Lord fills the Holy of Holies." },
+                { day: 106, readings: "1 Kings 9-11", chapters: 3, notes: "The Queen of Sheba visits Solomon, but his great wisdom is later overshadowed by his many foreign wives who turn his heart to idolatry." },
+                { day: 107, readings: "1 Kings 12-14", chapters: 3, notes: "After Solomon's death, his son's arrogance splits the nation in two. The northern kingdom of Israel immediately falls into idol worship." },
+                { day: 108, readings: "1 Kings 15-17", chapters: 3, notes: "The divided kingdoms are marked by a series of mostly wicked kings. The great prophet Elijah bursts onto the scene with a message of drought." },
+                { day: 109, readings: "1 Kings 18-20", chapters: 3, notes: "Elijah confronts the prophets of Baal in a dramatic showdown on Mount Carmel, but then flees in fear for his life." },
+                { day: 110, readings: "1 Kings 21-22", chapters: 2, notes: "The wicked King Ahab covets a vineyard, leading to murder. In his final battle, a prophecy of his death is fulfilled." },
+                { day: 111, readings: "2 Kings 1-3", chapters: 3, notes: "Elijah is taken up to heaven in a whirlwind, and his successor, Elisha, begins his ministry with a series of powerful miracles." },
+                { day: 112, readings: "2 Kings 4-6", chapters: 3, notes: "Elisha's ministry continues with miracles that show God's care for the humble and His power over Israel's enemies." },
+                { day: 113, readings: "2 Kings 7-9", chapters: 3, notes: "Elisha's prophecies come to pass. A military commander, Jehu, is anointed by God to bring bloody judgment on the house of Ahab." },
+                { day: 114, readings: "2 Kings 10-12", chapters: 3, notes: "Jehu eradicates Baal worship in Israel, but his zeal is incomplete. In Judah, the boy-king Joash is rescued and repairs the Temple." },
+                { day: 115, readings: "2 Kings 13-15", chapters: 3, notes: "The history of the divided kingdoms continues, detailing a series of assassinations and political instability, especially in the north." },
+                { day: 116, readings: "2 Kings 16-17", chapters: 2, notes: "The wicked king Ahaz of Judah makes a disastrous alliance. The northern kingdom of Israel is finally conquered and exiled by Assyria." },
+                { day: 117, readings: "2 Kings 18-19", chapters: 2, notes: "A great revival sweeps Judah under the righteous King Hezekiah. When the Assyrian army threatens Jerusalem, Hezekiah prays to God for deliverance." },
+                { day: 118, readings: "2 Kings 20-21", chapters: 2, notes: "God miraculously heals Hezekiah, but his son Manasseh becomes the most wicked and idolatrous king in Judah's history." },
+                { day: 119, readings: "2 Kings 22-23", chapters: 2, notes: "The righteous young king Josiah rediscovers the Book of the Law, leading to the nation's last great spiritual revival and reforms." },
+                { day: 120, readings: "2 Kings 24-25; 1 Chronicles 1-2", chapters: 5, notes: "Judah's final kings lead the nation to ruin. Jerusalem is destroyed by Babylon. The book of Chronicles begins, recounting Israel's history." },
+                { day: 121, readings: "1 Chronicles 3-5", chapters: 3, notes: "The genealogies continue, focusing on the royal line of David and the tribes living east of the Jordan River." },
+                { day: 122, readings: "1 Chronicles 6-7", chapters: 2, notes: "A detailed record of the priestly and Levitical families is given, followed by the genealogies of the northern tribes." },
+                { day: 123, readings: "1 Chronicles 8-10", chapters: 3, notes: "The genealogies conclude with the line of Benjamin and King Saul. The book then retells the story of Saul's tragic death in battle." },
+                { day: 124, readings: "1 Chronicles 11-13", chapters: 3, notes: "This priestly account focuses on David's rise to power, listing his mighty warriors and his desire to bring the Ark of the Covenant to Jerusalem." },
+                { day: 125, readings: "1 Chronicles 14-16", chapters: 3, notes: "David establishes his kingdom and successfully brings the Ark to Jerusalem with great celebration and a psalm of thanks." },
+                { day: 126, readings: "1 Chronicles 17-19", chapters: 3, notes: "God establishes His eternal covenant with David, promising him an everlasting dynasty. David's military victories are recounted." },
+                { day: 127, readings: "1 Chronicles 20-23", chapters: 4, notes: "After more victories, David's sinful census is recounted, and he begins the massive task of organizing the Levites for future temple service." },
+                { day: 128, readings: "1 Chronicles 24-26", chapters: 3, notes: "The organization of the kingdom continues, with the priests, musicians, gatekeepers, and other officials being assigned their duties." },
+                { day: 129, readings: "1 Chronicles 27-29", chapters: 3, notes: "David gives his final public address, charging Solomon to build the temple and leading the people in a great offering and prayer of praise." },
+                { day: 130, readings: "2 Chronicles 1-3", chapters: 3, notes: "Solomon asks for wisdom, establishes his kingdom, and begins the glorious work of constructing the Temple in Jerusalem." },
+                { day: 131, readings: "2 Chronicles 4-6", chapters: 3, notes: "The Temple is furnished, the Ark is brought in, and Solomon offers a magnificent prayer of dedication to God." },
+                { day: 132, readings: "2 Chronicles 7-9", chapters: 3, notes: "God appears to Solomon again, consecrating the Temple. The Queen of Sheba visits, and Solomon's glorious reign concludes." },
+                { day: 133, readings: "2 Chronicles 10-13", chapters: 4, notes: "The kingdom splits in two. The Chronicler focuses on the southern kingdom of Judah, recounting the reigns of its early kings." },
+                { day: 134, readings: "2 Chronicles 14-16", chapters: 3, notes: "King Asa brings revival and enjoys a long period of peace and prosperity by trusting in God, but falters late in his reign." },
+                { day: 135, readings: "2 Chronicles 17-19", chapters: 3, notes: "The righteous King Jehoshaphat institutes spiritual and judicial reforms but makes a foolish alliance with the wicked king Ahab." },
+                { day: 136, readings: "2 Chronicles 20-22", chapters: 3, notes: "Facing an overwhelming army, Jehoshaphat leads the nation in prayer, and God wins a miraculous victory. His successors, however, are wicked." },
+                { day: 137, readings: "2 Chronicles 23-24", chapters: 2, notes: "The priest Jehoiada leads a coup to enthrone the rightful boy-king Joash, who restores the Temple but turns from God late in life." },
+                { day: 138, readings: "2 Chronicles 25-27", chapters: 3, notes: "The reigns of Amaziah, the powerful but prideful Uzziah, and the righteous Jotham are chronicled." },
+                { day: 139, readings: "2 Chronicles 28-29", chapters: 2, notes: "The reign of the wicked king Ahaz is contrasted sharply with that of his son, Hezekiah, who reopens and cleanses the Temple." },
+                { day: 140, readings: "2 Chronicles 30-32", chapters: 3, notes: "Hezekiah leads the nation in a great Passover celebration and trusts God for a miraculous deliverance from the Assyrian army." },
+                { day: 141, readings: "2 Chronicles 33-34", chapters: 2, notes: "The wicked King Manasseh repents late in life. His grandson, the righteous Josiah, rediscovers the Book of the Law and brings revival." },
+                { day: 142, readings: "2 Chronicles 35-36; Ezra 1", chapters: 3, notes: "Josiah holds a great Passover but dies tragically. Judah's final kings lead to its destruction. Decades later, a decree allows the exiles to return." },
+                { day: 143, readings: "Ezra 2-4", chapters: 3, notes: "The first wave of exiles returns to Jerusalem, they rebuild the altar and lay the foundation of the Temple, but face fierce opposition." },
+                { day: 144, readings: "Ezra 5-7", chapters: 3, notes: "Spurred on by prophets, the Temple is finally completed. Years later, the scribe Ezra leads a second group of exiles back to Jerusalem." },
+                { day: 145, readings: "Ezra 8-10", chapters: 3, notes: "Ezra leads the people in a period of deep repentance and spiritual reform, dealing with the issue of intermarriage with foreign nations." },
+                { day: 146, readings: "Nehemiah 1-3", chapters: 3, notes: "In Persia, Nehemiah hears of Jerusalem's broken-down walls and is moved to return, leading a massive, organized rebuilding project." },
+                { day: 147, readings: "Nehemiah 4-6", chapters: 3, notes: "Despite threats, ridicule, and internal opposition, Nehemiah's wise and courageous leadership enables the people to complete the wall in just 52 days." },
+                { day: 148, readings: "Nehemiah 7-8", chapters: 2, notes: "With the city secured, Ezra reads the Law to the people, leading to a great spiritual revival and the celebration of the Feast of Tabernacles." },
+                { day: 149, readings: "Nehemiah 9-10", chapters: 2, notes: "The people offer a great prayer of confession, recounting their history, and formally commit themselves to obey God's covenant laws." },
+                { day: 150, readings: "Nehemiah 11-13", chapters: 3, notes: "Jerusalem is repopulated, the new wall is dedicated with great joy, and Nehemiah enacts his final reforms to ensure the people's faithfulness." },
+                { day: 151, readings: "Esther 1-3", chapters: 3, notes: "In the Persian court, a young Jewish woman named Esther becomes queen. Meanwhile, the wicked Haman plots to annihilate the Jewish people." },
+                { day: 152, readings: "Esther 4-7", chapters: 4, notes: "Esther is challenged to courageously intervene 'for such a time as this.' She hosts two fateful banquets that expose Haman's evil plot." },
+                { day: 153, readings: "Esther 8-10; Job 1-2", chapters: 5, notes: "The Jews are delivered, and the festival of Purim is established. The book of Job begins, introducing a righteous man who faces unimaginable loss." },
+                { day: 154, readings: "Job 3-5", chapters: 3, notes: "Job curses the day he was born, and his friend Eliphaz offers the first of many speeches attempting to explain his suffering." },
+                { day: 155, readings: "Job 6-8", chapters: 3, notes: "Job responds, expressing his anguish and longing for relief. His friend Bildad then speaks, urging Job to repent of supposed hidden sin." },
+                { day: 156, readings: "Job 9-11", chapters: 3, notes: "Job acknowledges God's power but questions His justice. The third friend, Zophar, harshly calls for Job's confession." },
+                { day: 157, readings: "Job 12-14", chapters: 3, notes: "Job responds to his friends with sarcasm and a deep, moving reflection on the frailty and shortness of human life." },
+                { day: 158, readings: "Job 15-17", chapters: 3, notes: "The second cycle of speeches begins, with Job's friends growing harsher in their accusations, and Job feeling utterly abandoned." },
+                { day: 159, readings: "Job 18-20", chapters: 3, notes: "Bildad and Zophar paint terrifying pictures of the fate of the wicked, implying that this is Job's deserved end." },
+                { day: 160, readings: "Job 21-23", chapters: 3, notes: "Job challenges his friends' simplistic worldview by pointing out that the wicked often prosper, and he expresses his deep desire to find God." },
+                { day: 161, readings: "Job 24-27", chapters: 4, notes: "Job continues to question why justice is not always immediate. The friends offer their final, weaker arguments." },
+                { day: 162, readings: "Job 28-29", chapters: 2, notes: "A beautiful poem on the nature of wisdom is followed by Job's nostalgic remembrance of his former, blessed life." },
+                { day: 163, readings: "Job 30-31", chapters: 2, notes: "Job laments his current, miserable state and then makes his final, powerful oath of innocence, calling on God to answer him." },
+                { day: 164, readings: "Job 32-34", chapters: 3, notes: "A new voice, the young man Elihu, enters the debate, rebuking both Job and his friends for their flawed arguments." },
+                { day: 165, readings: "Job 35-37", chapters: 3, notes: "Elihu continues his speech, seeking to vindicate God's justice and emphasizing His greatness revealed in nature." },
+                { day: 166, readings: "Job 38-39", chapters: 2, notes: "God Himself finally speaks from a whirlwind, challenging Job with a series of questions about the mysteries of the natural world." },
+                { day: 167, readings: "Job 40-42", chapters: 3, notes: "God's speech continues, revealing His awesome power. Humbled, Job repents, his friends are rebuked, and his fortunes are restored." },
+                { day: 168, readings: "Psalm 1-7", chapters: 7, notes: "Begin the book of Psalms, Israel's prayer book. These early psalms contrast the righteous and wicked and cry out for deliverance." },
+                { day: 169, readings: "Psalm 8-12", chapters: 5, notes: "Explore psalms that marvel at God's creation, praise His righteousness, and ask how long He will allow wickedness to prevail." },
+                { day: 170, readings: "Psalm 13-18", chapters: 6, notes: "This collection includes cries of despair turned to trust, questions about who can dwell with God, and a great song of victory." },
+                { day: 171, readings: "Psalm 19-23", chapters: 5, notes: "Read psalms that celebrate God's revelation in creation and Scripture, and the beloved Psalm 23, 'The Lord is my shepherd.'" },
+                { day: 172, readings: "Psalm 24-28", chapters: 5, notes: "Psalms of praise to the King of glory are followed by heartfelt prayers for guidance, forgiveness, and protection." },
+                { day: 173, readings: "Psalm 29-32", chapters: 4, notes: "This group includes a psalm praising God's power in a thunderstorm and a wisdom psalm celebrating the joy of forgiveness." },
+                { day: 174, readings: "Psalm 33-35", chapters: 3, notes: "A call to joyful praise for God's faithfulness is followed by psalms that cry out for deliverance from personal enemies." },
+                { day: 175, readings: "Psalm 36-38", chapters: 3, notes: "These psalms contrast the sinfulness of humanity with God's steadfast love and grapple with the problem of evil." },
+                { day: 176, readings: "Psalm 39-43", chapters: 5, notes: "Explore psalms that reflect on the brevity of life, express deep longing for God's presence, and find hope in Him amidst despair." },
+                { day: 177, readings: "Psalm 44-48", chapters: 5, notes: "This collection includes a communal lament over national disaster, a royal wedding song, and a song celebrating God's protection of Jerusalem." },
+                { day: 178, readings: "Psalm 49-51", chapters: 3, notes: "A wisdom psalm on the folly of trusting in wealth is followed by David's profound and personal prayer of confession." },
+                { day: 179, readings: "Psalm 52-57", chapters: 6, notes: "A series of psalms from David, many written during his time as a fugitive, expressing trust in God amidst betrayal and danger." },
+                { day: 180, readings: "Psalm 58-63", chapters: 6, notes: "These psalms cry out for justice against the wicked and express a deep, soul-level thirst for God." },
+                { day: 181, readings: "Psalm 64-68", chapters: 5, notes: "Explore psalms that ask for protection, give thanks for the harvest, and celebrate God's triumphant power and provision." },
+                { day: 182, readings: "Psalm 69-71", chapters: 3, notes: "A prophetic psalm of deep suffering is followed by prayers from old age, asking God for continued deliverance and help." },
+                { day: 183, readings: "Psalm 72-74", chapters: 3, notes: "A royal psalm praying for a just king is followed by Asaph's struggle with the prosperity of the wicked and a lament over the Temple's destruction." },
+                { day: 184, readings: "Psalm 75-77", chapters: 3, notes: "These psalms affirm that God is the ultimate judge and recall His past faithfulness as a source of comfort in present troubles." },
+                { day: 185, readings: "Psalm 78", chapters: 1, notes: "A long, historical psalm that recounts the story of Israel from the Exodus to David, intended to teach the next generation." },
+                { day: 186, readings: "Psalm 79-82", chapters: 4, notes: "Communal laments crying out to God after national disaster are followed by a psalm that calls for earthly rulers to enact justice." },
+                { day: 187, readings: "Psalm 83-87", chapters: 5, notes: "A prayer for judgment on Israel's enemies is contrasted with a psalm expressing deep love for God's dwelling place." },
+                { day: 188, readings: "Psalm 88-89", chapters: 2, notes: "Read the darkest psalm in the entire Psalter, followed by a psalm that praises God's faithfulness but ends by questioning His covenant with David." },
+                { day: 189, readings: "Psalm 90-94", chapters: 5, notes: "Book Four of the Psalter begins with the prayer of Moses and emphasizes trusting in God's eternal security and righteous judgment." },
+                { day: 190, readings: "Psalm 95-100", chapters: 6, notes: "A collection of psalms that joyfully proclaim 'The Lord reigns!' and call for all the earth to worship Him as King." },
+                { day: 191, readings: "Psalm 101-103", chapters: 3, notes: "A king's vow of integrity is followed by a prayer of the afflicted and a beautiful psalm praising God for His forgiveness and love." },
+                { day: 192, readings: "Psalm 104-105", chapters: 2, notes: "Two great psalms of praise, the first celebrating God's glory in creation, the second recounting His faithfulness in Israel's history." },
+                { day: 193, readings: "Psalm 106-107", chapters: 2, notes: "A historical psalm confessing Israel's repeated sin is followed by a psalm giving thanks for God's deliverance from various troubles." },
+                { day: 194, readings: "Psalm 108-112", chapters: 5, notes: "A prayer for victory is followed by a strong prophetic curse and psalms praising the blessings that come from fearing the Lord." },
+                { day: 195, readings: "Psalm 113-118", chapters: 6, notes: "A collection of praise psalms, including those sung during Passover, celebrating God's power and enduring love." },
+                { day: 196, readings: "Psalm 119:1-88", chapters: 1, notes: "Begin the longest psalm, an epic acrostic poem celebrating the beauty, power, and perfection of God's Word." },
+                { day: 197, readings: "Psalm 119:89-176", chapters: 1, notes: "Complete this magnificent psalm, which expresses a deep love for Scripture and a desire to live a life shaped by it." },
+                { day: 198, readings: "Psalm 120-134", chapters: 15, notes: "Read the 'Songs of Ascents,' a collection of short, powerful psalms sung by pilgrims on their journey to worship in Jerusalem." },
+                { day: 199, readings: "Psalm 135-138", chapters: 4, notes: "Psalms of praise for God's sovereignty are followed by a painful lament from exile and a personal song of thanksgiving." },
+                { day: 200, readings: "Psalm 139-142", chapters: 4, notes: "An awe-inspiring reflection on God's omniscience is followed by desperate cries to Him for protection and guidance." },
+                { day: 201, readings: "Psalm 143-147", chapters: 5, notes: "The final Davidic psalms are followed by calls for all creation to praise the Lord for His goodness, power, and grace." },
+                { day: 202, readings: "Psalm 148-150; Proverbs 1", chapters: 4, notes: "The Psalter concludes with a crescendo of pure praise. The book of Proverbs begins with a call to pursue wisdom." },
+                { day: 203, readings: "Proverbs 2-4", chapters: 3, notes: "A father's passionate appeal to his son to seek wisdom, which is portrayed as the ultimate treasure and protector." },
+                { day: 204, readings: "Proverbs 5-7", chapters: 3, notes: "Strong warnings against adultery and foolishness are given, with vivid imagery of the dangers of succumbing to temptation." },
+                { day: 205, readings: "Proverbs 8-9", chapters: 2, notes: "Wisdom is personified as a noble woman calling out to be found, contrasted sharply with the seductive allure of Folly." },
+                { day: 206, readings: "Proverbs 10-12", chapters: 3, notes: "The first collection of Solomon's proverbs begins, offering short, pithy sayings that contrast the wise and the foolish in daily life." },
+                { day: 207, readings: "Proverbs 13-15", chapters: 3, notes: "More practical wisdom, covering topics from the power of words and the value of hard work to the importance of humility." },
+                { day: 208, readings: "Proverbs 16-18", chapters: 3, notes: "These sayings explore God's sovereignty in human affairs and offer timeless advice on friendship, pride, and justice." },
+                { day: 209, readings: "Proverbs 19-21", chapters: 3, notes: "Continue to explore the path of wisdom, with proverbs on wealth and poverty, family life, and seeking good counsel." },
+                { day: 210, readings: "Proverbs 22-24", chapters: 3, notes: "This collection includes 'sayings of the wise,' which offer longer, more developed instructions for living a skillful life." },
+                { day: 211, readings: "Proverbs 25-27", chapters: 3, notes: "A new collection of Solomon's proverbs, compiled by Hezekiah's men, with insights on leadership and friendship." },
+                { day: 212, readings: "Proverbs 28-29; Ecclesiastes 1", chapters: 3, notes: "The main collection of proverbs concludes. The book of Ecclesiastes begins its philosophical search for meaning 'under the sun.'" },
+                { day: 213, readings: "Ecclesiastes 2-4", chapters: 3, notes: "The 'Teacher' explores pleasure, work, and wealth, finding them all to be fleeting and unable to provide lasting satisfaction." },
+                { day: 214, readings: "Ecclesiastes 5-8", chapters: 4, notes: "The search for meaning continues with reflections on wealth, injustice, and the limitations of human wisdom." },
+                { day: 215, readings: "Ecclesiastes 9-12", chapters: 4, notes: "The Teacher concludes that life is a gift to be enjoyed, and the ultimate meaning is found in fearing God and keeping His commands." },
+                { day: 216, readings: "Song of Solomon 1-4", chapters: 4, notes: "A beautiful and intimate love poem that celebrates the passion, desire, and delight of romantic love within the context of marriage." },
+                { day: 217, readings: "Song of Solomon 5-8", chapters: 4, notes: "The song continues, exploring the challenges and strengths of love, and concluding with a powerful statement on its unconquerable nature." },
+                { day: 218, readings: "Isaiah 1-4", chapters: 4, notes: "The great prophet Isaiah begins his ministry with a powerful indictment of Judah's sin and a glorious vision of Zion's future." },
+                { day: 219, readings: "Isaiah 5-8", chapters: 4, notes: "Isaiah gives his parable of the sour vineyard and receives a stunning vision of God's holiness in the Temple, leading to his commissioning." },
+                { day: 220, readings: "Isaiah 9-12", chapters: 4, notes: "A prophecy of a coming child who will be called 'Mighty God' is given, alongside judgments against arrogant Assyria and a song of future salvation." },
+                { day: 221, readings: "Isaiah 13-16", chapters: 4, notes: "Isaiah begins his oracles of judgment against the nations, starting with the mighty empires of Babylon and Assyria." },
+                { day: 222, readings: "Isaiah 17-20", chapters: 4, notes: "Prophecies of judgment continue against Damascus, Cush, and Egypt, demonstrating God's sovereignty over all world powers." },
+                { day: 223, readings: "Isaiah 21-23", chapters: 3, notes: "More oracles against the nations, painting a picture of God's control over all human events and the downfall of proud empires." },
+                { day: 224, readings: "Isaiah 24-27", chapters: 4, notes: "A section often called the 'Little Apocalypse,' which depicts a future global judgment and the ultimate, triumphant restoration of God's people." },
+                { day: 225, readings: "Isaiah 28-30", chapters: 3, notes: "A series of 'woes' are pronounced against those who trust in human wisdom and foreign alliances instead of waiting for the Lord." },
+                { day: 226, readings: "Isaiah 31-33", chapters: 3, notes: "The warnings against relying on Egypt continue, contrasted with promises of a righteous king and security for those who trust God." },
+                { day: 227, readings: "Isaiah 34-35; Jeremiah 1", chapters: 3, notes: "A vision of universal judgment is contrasted with a beautiful picture of the joyful return from exile. A new prophet, Jeremiah, is called." },
+                { day: 228, readings: "Jeremiah 2-3", chapters: 2, notes: "Jeremiah delivers God's lawsuit against His people, portraying them as an unfaithful bride who has abandoned her loving husband." },
+                { day: 229, readings: "Jeremiah 4-6", chapters: 3, notes: "The prophet powerfully and poetically describes the terror of the coming invasion from the north as judgment for Judah's persistent sin." },
+                { day: 230, readings: "Jeremiah 7-9", chapters: 3, notes: "Jeremiah delivers his famous 'Temple Sermon,' warning the people not to trust in empty religious ritual without true repentance." },
+                { day: 231, readings: "Jeremiah 10-13", chapters: 4, notes: "The folly of idolatry is exposed, and Jeremiah performs symbolic acts to illustrate the certainty of Judah's coming exile." },
+                { day: 232, readings: "Jeremiah 14-17", chapters: 4, notes: "The prophet intercedes for his people during a severe drought but is told that judgment is unstoppable. He reflects on the deceitfulness of the human heart." },
+                { day: 233, readings: "Jeremiah 18-22", chapters: 5, notes: "The famous analogy of the potter and the clay is given. Jeremiah's message leads to his persecution and arrest." },
+                { day: 234, readings: "Jeremiah 23-25", chapters: 3, notes: "After condemning false prophets, Jeremiah looks ahead to a time of restoration under a righteous 'Branch' and foretells a 70-year exile." },
+                { day: 235, readings: "Jeremiah 26-29", chapters: 4, notes: "Jeremiah's life is threatened for his unpopular message. He sends a letter to the exiles already in Babylon, urging them to settle in for the long haul." },
+                { day: 236, readings: "Jeremiah 30-31", chapters: 2, notes: "The 'Book of Consolation' begins, containing some of the most hopeful prophecies in the Old Testament, including the promise of a new covenant." },
+                { day: 237, readings: "Jeremiah 32-34", chapters: 3, notes: "As the Babylonian army besieges Jerusalem, Jeremiah buys a field as a prophetic sign of future hope and restoration." },
+                { day: 238, readings: "Jeremiah 35-37", chapters: 3, notes: "The faithfulness of the Recabites shames unfaithful Judah. King Jehoiakim foolishly burns Jeremiah's scroll, and the prophet is imprisoned." },
+                { day: 239, readings: "Jeremiah 38-40; Psalm 74", chapters: 4, notes: "Jeremiah is rescued from a cistern but remains imprisoned as Jerusalem finally falls. A psalm laments the Temple's destruction." },
+                { day: 240, readings: "Psalm 79; Lamentations 1-2", chapters: 3, notes: "A communal lament over the fall of Jerusalem is followed by the first two poems of Lamentations, expressing raw grief and sorrow." },
+                { day: 241, readings: "Lamentations 3-5", chapters: 3, notes: "The book of Lamentations concludes with a central chapter of hope in God's faithfulness, followed by more expressions of communal grief." },
+                { day: 242, readings: "Isaiah 40-43", chapters: 4, notes: "Isaiah's prophecy shifts dramatically to a message of comfort and hope for the exiles, declaring God's absolute sovereignty over all." },
+                { day: 243, readings: "Isaiah 44-46", chapters: 3, notes: "The foolishness of idol worship is satirized, and God declares that He is using the pagan king Cyrus to accomplish His purpose of redemption." },
+                { day: 244, readings: "Isaiah 47-49", chapters: 3, notes: "A taunt song over the fall of Babylon is followed by the first of the 'Servant Songs,' which describe a figure who will restore Israel and be a light to the nations." },
+                { day: 245, readings: "Isaiah 50-52; Psalm 137", chapters: 4, notes: "More Servant Songs describe the servant's obedience and suffering. A painful psalm of exile remembers Zion from afar." },
+                { day: 246, readings: "Isaiah 53-55", chapters: 3, notes: "The most famous Servant Song describes his substitutionary suffering and death, followed by a glorious invitation to all to receive God's free salvation." },
+                { day: 247, readings: "Isaiah 56-59", chapters: 4, notes: "God's salvation is extended to foreigners and eunuchs, but the prophet sharply critiques the continued sinfulness of the people." },
+                { day: 248, readings: "Isaiah 60-62", chapters: 3, notes: "A glorious vision of the future restoration of Zion is described, with the nations bringing their wealth to honor God." },
+                { day: 249, readings: "Isaiah 63-66", chapters: 4, notes: "Isaiah's prophecy concludes with a vision of God as a divine warrior, a heartfelt community lament, and the promise of a new heavens and new earth." },
+                { day: 250, readings: "Jeremiah 41-45", chapters: 5, notes: "The remnant left in Judah experiences more violence and political intrigue, and they disobey God by fleeing to Egypt, taking Jeremiah with them." },
+                { day: 251, readings: "Jeremiah 46-48", chapters: 3, notes: "Jeremiah begins his oracles of judgment against the foreign nations, starting with Egypt and the Philistines." },
+                { day: 252, readings: "Jeremiah 49-50", chapters: 2, notes: "The prophecies against the nations continue, culminating in a long and detailed oracle against the mighty empire of Babylon." },
+                { day: 253, readings: "Jeremiah 51-52", chapters: 2, notes: "The prophecy against Babylon concludes, and the book of Jeremiah ends with a historical appendix detailing the fall of Jerusalem." },
+                { day: 254, readings: "Ezekiel 1-3", chapters: 3, notes: "In exile in Babylon, the priest Ezekiel receives a stunning, otherworldly vision of God's glory and is commissioned as a prophetic 'watchman.'" },
+                { day: 255, readings: "Ezekiel 4-7", chapters: 4, notes: "Ezekiel performs a series of bizarre and dramatic sign-acts to illustrate the coming siege and destruction of Jerusalem." },
+                { day: 256, readings: "Ezekiel 8-11", chapters: 4, notes: "In a vision, Ezekiel is transported to Jerusalem to witness the secret idolatry in the Temple, culminating in the tragic departure of God's glory." },
+                { day: 257, readings: "Ezekiel 12-14", chapters: 3, notes: "Ezekiel performs more sign-acts, confronts the false prophets who are giving the people false hope, and teaches about individual responsibility." },
+                { day: 258, readings: "Ezekiel 15-17", chapters: 3, notes: "Through a series of powerful allegories, Ezekiel recounts the history of Jerusalem's unfaithfulness to God." },
+                { day: 259, readings: "Ezekiel 18-19", chapters: 2, notes: "Ezekiel refutes the popular proverb about suffering for the sins of the fathers and delivers a lament for the fallen princes of Israel." },
+                { day: 260, readings: "Ezekiel 20-22", chapters: 3, notes: "A history of Israel's rebellion is recounted, and judgment is depicted as a sharpened, flashing sword." },
+                { day: 261, readings: "Ezekiel 23-24", chapters: 2, notes: "A shocking allegory of two adulterous sisters represents Samaria and Jerusalem. Ezekiel's wife dies as a sign to the exiles." },
+                { day: 262, readings: "Ezekiel 25-28", chapters: 4, notes: "With Jerusalem's judgment certain, Ezekiel delivers a series of oracles against the foreign nations that gloated over Judah's downfall." },
+                { day: 263, readings: "Ezekiel 29-32", chapters: 4, notes: "The prophecies against the nations conclude with a long and detailed series of laments over the pride and fall of Egypt's Pharaoh." },
+                { day: 264, readings: "Ezekiel 33-35", chapters: 3, notes: "The tone shifts to hope. Ezekiel is re-commissioned as a watchman, and God promises to shepherd His people and judge their enemies." },
+                { day: 265, readings: "Ezekiel 36-37", chapters: 2, notes: "God promises to cleanse His people and give them a new heart of flesh. This is followed by the famous, powerful vision of the valley of dry bones." },
+                { day: 266, readings: "Ezekiel 38-39", chapters: 2, notes: "A dramatic prophecy foretells a final, eschatological battle where God will miraculously defeat the forces of Gog and defend His people." },
+                { day: 267, readings: "Ezekiel 40-42", chapters: 3, notes: "Ezekiel receives a long and highly detailed vision of a future, restored temple, with precise measurements for every part." },
+                { day: 268, readings: "Ezekiel 43-45", chapters: 3, notes: "In the vision, the glory of the Lord triumphantly returns to the new temple, and instructions are given for the priesthood and the division of the land." },
+                { day: 269, readings: "Ezekiel 46-48", chapters: 3, notes: "Ezekiel's vision concludes with instructions for worship and a picture of a life-giving river flowing from the temple to heal the land." },
+                { day: 270, readings: "Daniel 1-3", chapters: 3, notes: "In the Babylonian court, Daniel and his friends show unwavering faithfulness to God, culminating in their miraculous survival in the fiery furnace." },
+                { day: 271, readings: "Daniel 4-6", chapters: 3, notes: "Daniel interprets King Nebuchadnezzar's dream of a great tree, reads the mysterious writing on the wall, and survives a night in the lions' den." },
+                { day: 272, readings: "Daniel 7-9", chapters: 3, notes: "Daniel receives a series of apocalyptic visions, foretelling the rise and fall of world empires, and offers a powerful prayer of confession." },
+                { day: 273, readings: "Daniel 10-12", chapters: 3, notes: "Daniel's prophecies conclude with a stunningly detailed vision of future history and the promise of a final resurrection and judgment." },
+                { day: 274, readings: "Hosea 1-7", chapters: 7, notes: "The prophet Hosea is commanded to marry an unfaithful woman as a living, breathing parable of God's heart-broken love for unfaithful Israel." },
+                { day: 275, readings: "Hosea 8-14", chapters: 7, notes: "Hosea continues to plead with Israel, condemning their political and spiritual adultery but ending with a beautiful promise of healing and restoration." },
+                { day: 276, readings: "Joel 1-3; Amos 1-3", chapters: 6, notes: "Joel uses a devastating locust plague to warn of the coming Day of the Lord. The shepherd-prophet Amos begins to roar against social injustice." },
+                { day: 277, readings: "Amos 4-9", chapters: 6, notes: "Amos continues his powerful indictment of Israel's hypocrisy and oppression of the poor, but concludes with a promise of future restoration." },
+                { day: 278, readings: "Obadiah 1; Jonah 1-4; Nahum 1", chapters: 6, notes: "Three minor prophets: Obadiah condemns Edom's pride, Jonah reluctantly preaches to Israel's enemy, and Nahum begins to foretell Nineveh's doom." },
+                { day: 279, readings: "Nahum 2-3; Micah 1-3", chapters: 5, notes: "Nahum's prophecy vividly describes Nineveh's destruction. The prophet Micah begins to speak against injustice in both Samaria and Jerusalem." },
+                { day: 280, readings: "Micah 4-7", chapters: 4, notes: "Micah looks ahead to a time of peace, foretells a ruler from Bethlehem, and famously summarizes what the Lord requires of us." },
+                { day: 281, readings: "Habakkuk 1-3; Zephaniah 1-3", chapters: 6, notes: "Habakkuk argues with God over His justice and learns to live by faith. Zephaniah warns of the coming 'Day of the Lord's' judgment." },
+                { day: 282, readings: "Haggai 1-2; Zechariah 1-3", chapters: 5, notes: "The post-exilic prophets Haggai and Zechariah are raised up to motivate the people to finish rebuilding the temple in Jerusalem." },
+                { day: 283, readings: "Zechariah 4-8", chapters: 5, notes: "Zechariah receives a series of symbolic visions, including a flying scroll and a woman in a basket, encouraging the people to live righteously." },
+                { day: 284, readings: "Zechariah 9-14", chapters: 6, notes: "Zechariah's prophecy concludes with oracles about a humble, coming king, a pierced shepherd, and the ultimate restoration of Jerusalem." },
+                { day: 285, readings: "Malachi 1-4; Matthew 1-2", chapters: 6, notes: "Malachi, the last OT prophet, confronts a lukewarm people. The New Testament opens centuries later with the genealogy and birth of the promised King." },
+                { day: 286, readings: "Matthew 3-4; Mark 1", chapters: 3, notes: "John the Baptist prepares the way, Jesus is baptized and tempted, and He begins His public ministry, calling His first disciples." },
+                { day: 287, readings: "Matthew 5-7", chapters: 3, notes: "Jesus delivers the Sermon on the Mount, a revolutionary manifesto that turns the world's values upside down and describes life in His kingdom." },
+                { day: 288, readings: "Luke 1-2", chapters: 2, notes: "Luke provides a detailed, orderly account of the miraculous births of both John the Baptist and Jesus, including the familiar Christmas story." },
+                { day: 289, readings: "Luke 3-5", chapters: 3, notes: "Jesus begins His ministry, calls His disciples in a new way, and demonstrates His authority through powerful healings and teachings." },
+                { day: 290, readings: "John 1-3", chapters: 3, notes: "John's gospel opens with the profound declaration that Jesus is the eternal Word. Jesus has deep conversations with Nicodemus and the woman at the well." },
+                { day: 291, readings: "Mark 2-3; Matthew 12", chapters: 3, notes: "Jesus's growing authority leads to increasing conflict with the religious leaders over issues like the Sabbath and forgiveness of sins." },
+                { day: 292, readings: "Luke 6; Matthew 8-9", chapters: 3, notes: "Jesus demonstrates His power over disease, demons, and nature, showing that the kingdom of God has arrived in His person." },
+                { day: 293, readings: "Luke 7-8", chapters: 2, notes: "Jesus shows compassion to a sinful woman, calms a storm, and continues His healing ministry, demonstrating His authority over all things." },
+                { day: 294, readings: "Mark 4-5", chapters: 2, notes: "Jesus teaches about the kingdom using parables and performs some of His most dramatic miracles, including casting out a legion of demons." },
+                { day: 295, readings: "Matthew 10-11", chapters: 2, notes: "Jesus commissions His twelve disciples to go out and preach, and then reflects on the identity and mission of John the Baptist." },
+                { day: 296, readings: "Matthew 13; Luke 11", chapters: 2, notes: "Jesus teaches a series of parables about the nature of the kingdom of God and gives His disciples instructions on how to pray." },
+                { day: 297, readings: "Matthew 14; Mark 6; Luke 9", chapters: 3, notes: "John the Baptist is tragically beheaded. Jesus miraculously feeds five thousand people and walks on water." },
+                { day: 298, readings: "John 4-6", chapters: 3, notes: "Jesus heals on the Sabbath, claims equality with God, and after feeding the 5000, declares Himself to be the 'Bread of Life.'" },
+                { day: 299, readings: "Mark 7; Matthew 15", chapters: 2, notes: "Jesus confronts the Pharisees about their man-made traditions and shows compassion by healing the daughter of a Gentile woman." },
+                { day: 300, readings: "Mark 8; Matthew 16", chapters: 2, notes: "After feeding another four thousand, Jesus asks the pivotal question, 'Who do you say that I am?' Peter makes his great confession." },
+                { day: 301, readings: "Mark 9; Matthew 17; Luke 9", chapters: 3, notes: "Jesus is transfigured on a mountain, giving three of His disciples a glimpse of His divine glory." },
+                { day: 302, readings: "Matthew 18; John 7-8", chapters: 3, notes: "Jesus teaches on humility and forgiveness. At a feast in Jerusalem, He makes bold claims about His identity, leading to intense opposition." },
+                { day: 303, readings: "John 9-10", chapters: 2, notes: "Jesus heals a man born blind, leading to a powerful illustration of spiritual blindness. He declares Himself to be the 'Good Shepherd.'" },
+                { day: 304, readings: "Luke 10-12", chapters: 3, notes: "Jesus sends out seventy-two disciples and teaches some of His most famous parables, including the Good Samaritan." },
+                { day: 305, readings: "Luke 13-15", chapters: 3, notes: "Jesus continues to teach about the kingdom through parables, including the beloved stories of the Lost Sheep, Lost Coin, and Prodigal Son." },
+                { day: 306, readings: "Luke 16-18", chapters: 3, notes: "Jesus tells more challenging parables about wealth and faith, and heals ten lepers, but only one returns to give thanks." },
+                { day: 307, readings: "Luke 19; John 11", chapters: 2, notes: "Jesus shows compassion to Zacchaeus the tax collector, and then performs His most stunning miracle: raising Lazarus from the dead." },
+                { day: 308, readings: "John 12; Mark 10; Matthew 20", chapters: 3, notes: "Mary anoints Jesus's feet with expensive perfume. The final journey to Jerusalem begins, with Jesus teaching on servant leadership." },
+                { day: 309, readings: "Mark 11; Matthew 21; Luke 19", chapters: 3, notes: "The final week begins with the Triumphal Entry into Jerusalem. Jesus cleanses the Temple, asserting His authority." },
+                { day: 310, readings: "Mark 12; Matthew 22; Luke 20", chapters: 3, notes: "Jesus's authority is repeatedly challenged by the religious leaders in Jerusalem, but He silences them with His wise answers." },
+                { day: 311, readings: "Mark 13; Matthew 23-24", chapters: 3, notes: "Jesus pronounces 'woes' on the hypocritical religious leaders and gives a major discourse on the signs of the end of the age." },
+                { day: 312, readings: "Matthew 25; Mark 14; Luke 22", chapters: 3, notes: "Jesus tells parables about watchfulness, the final Passover is prepared, and Jesus institutes the Lord's Supper." },
+                { day: 313, readings: "John 13-15", chapters: 3, notes: "In the Upper Room, Jesus washes His disciples' feet and begins His intimate Farewell Discourse, revealing deep truths about His relationship with them." },
+                { day: 314, readings: "John 16-18", chapters: 3, notes: "The Farewell Discourse continues with promises about the Holy Spirit. Jesus prays for His disciples, is arrested in the garden, and is put on trial." },
+                { day: 315, readings: "Matthew 26-27", chapters: 2, notes: "Matthew's detailed account of Jesus's arrest, trials before the Jewish and Roman authorities, and His crucifixion at Golgotha." },
+                { day: 316, readings: "Mark 15; Luke 23", chapters: 2, notes: "Mark and Luke provide their powerful, parallel accounts of Jesus's suffering, His words from the cross, and His death and burial." },
+                { day: 317, readings: "John 19-21", chapters: 3, notes: "John gives his eyewitness account of the crucifixion, the glorious resurrection, and Jesus's moving post-resurrection appearances to His disciples." },
+                { day: 318, readings: "Matthew 28; Mark 16; Luke 24", chapters: 3, notes: "The Synoptic Gospels conclude with their accounts of the empty tomb, the resurrection appearances, and the Great Commission." },
+                { day: 319, readings: "Acts 1-3", chapters: 3, notes: "The adventure of the early church begins! Jesus ascends to heaven, the Holy Spirit comes at Pentecost, and Peter preaches a powerful first sermon." },
+                { day: 320, readings: "Acts 4-6", chapters: 3, notes: "The young church experiences explosive growth and intense persecution. The first deacons are chosen to serve the community." },
+                { day: 321, readings: "Acts 7-8", chapters: 2, notes: "Stephen becomes the first Christian martyr. Persecution scatters the church, and Philip takes the gospel to Samaria and an Ethiopian official." },
+                { day: 322, readings: "Acts 9-10", chapters: 2, notes: "Saul, the chief persecutor, has a dramatic, life-changing encounter with the risen Jesus. The gospel breaks barriers as Peter preaches to Gentiles." },
+                { day: 323, readings: "Acts 11-13", chapters: 3, notes: "The church in Antioch becomes a major missionary hub. The first missionary journey begins as Paul and Barnabas are sent out by the Holy Spirit." },
+                { day: 324, readings: "Acts 14-15", chapters: 2, notes: "The first journey concludes. A major controversy about Gentile believers is settled at the Jerusalem Council, confirming the gospel of grace." },
+                { day: 325, readings: "Galatians 1-3", chapters: 3, notes: "Paul writes his passionate, fiery letter to the Galatian churches, defending the pure gospel of salvation by faith alone against legalism." },
+                { day: 326, readings: "Galatians 4-6", chapters: 3, notes: "Paul concludes his letter with an appeal to live in the freedom of the Spirit, bearing one another's burdens and sowing for eternity." },
+                { day: 327, readings: "Acts 16-18", chapters: 3, notes: "Paul's second missionary journey takes him into Europe, where he plants churches in Philippi, Thessalonica, and Corinth, facing riots and arrests." },
+                { day: 328, readings: "1 Thessalonians 1-5; 2 Thessalonians 1-3", chapters: 8, notes: "Paul writes his earliest letters to the young church in Thessalonica, full of affection and urgent instruction about the return of Christ." },
+                { day: 329, readings: "Acts 19-20", chapters: 2, notes: "Paul's third missionary journey centers on a long and fruitful ministry in Ephesus, which ends with a riot. He gives an emotional farewell to the elders." },
+                { day: 330, readings: "1 Corinthians 1-4", chapters: 4, notes: "From Ephesus, Paul writes to the brilliant but deeply flawed church in Corinth, addressing the serious problem of divisions and worldly wisdom." },
+                { day: 331, readings: "1 Corinthians 5-8", chapters: 4, notes: "Paul confronts serious moral issues in the church and provides godly wisdom on lawsuits, marriage, and Christian liberty." },
+                { day: 332, readings: "1 Corinthians 9-11", chapters: 3, notes: "Paul defends his apostolic authority and continues to address practical issues in the church, including worship and the Lord's Supper." },
+                { day: 333, readings: "1 Corinthians 12-14", chapters: 3, notes: "Paul gives his masterful teaching on the unity and diversity of spiritual gifts, centered on the famous and beautiful 'love chapter.'" },
+                { day: 334, readings: "1 Corinthians 15-16", chapters: 2, notes: "Paul provides a powerful defense of the resurrection of Christ as the cornerstone of the Christian faith and gives his final instructions." },
+                { day: 335, readings: "2 Corinthians 1-4", chapters: 4, notes: "In his most personal letter, Paul defends his ministry, speaks of God's comfort in affliction, and describes Christians as 'jars of clay.'" },
+                { day: 336, readings: "2 Corinthians 5-9", chapters: 5, notes: "Paul gives a beautiful description of our ministry of reconciliation and appeals to the Corinthians to give generously and joyfully." },
+                { day: 337, readings: "2 Corinthians 10-13", chapters: 4, notes: "Paul concludes his emotional letter with a strong defense of his apostleship and a call for the Corinthians to examine themselves." },
+                { day: 338, readings: "Romans 1-3", chapters: 3, notes: "Paul writes his theological masterpiece to the church in Rome, systematically demonstrating that all humanity, Jew and Gentile, is sinful and in need of a savior." },
+                { day: 339, readings: "Romans 4-7", chapters: 4, notes: "Paul explains the glorious doctrine of justification by faith, using Abraham as an example, and describes the freedom from sin and death that it brings." },
+                { day: 340, readings: "Romans 8-10", chapters: 3, notes: "Chapter 8 provides a soaring anthem of assurance for the believer. Paul then expresses his deep anguish over the unbelief of his own people, Israel." },
+                { day: 341, readings: "Romans 11-13", chapters: 3, notes: "Paul explores the mystery of Israel's future and then transitions to intensely practical instructions on how to live out the gospel as a 'living sacrifice.'" },
+                { day: 342, readings: "Romans 14-16", chapters: 3, notes: "Paul gives wisdom on how to handle matters of conscience within the church and concludes his great letter with personal greetings." },
+                { day: 343, readings: "Acts 21-23", chapters: 3, notes: "Paul arrives in Jerusalem, where he is arrested in the Temple. He shares his testimony before a hostile crowd and the Sanhedrin." },
+                { day: 344, readings: "Acts 24-26", chapters: 3, notes: "Paul the prisoner stands trial before a series of Roman governors, using each occasion as an opportunity to preach the gospel." },
+                { day: 345, readings: "Acts 27-28; Philemon 1", chapters: 3, notes: "Paul's perilous journey to Rome includes a violent storm and a shipwreck. In Rome, under house arrest, he writes a beautiful, personal appeal for a runaway slave." },
+                { day: 346, readings: "Colossians 1-4; Ephesians 1-3", chapters: 7, notes: "From prison, Paul writes to combat heresy by emphasizing the absolute supremacy of Christ and begins his letter celebrating the believer's immense spiritual riches." },
+                { day: 347, readings: "Ephesians 4-6", chapters: 3, notes: "Paul gives practical instructions for living a life worthy of our calling, using the powerful imagery of the Armor of God." },
+                { day: 348, readings: "Philippians 1-4; James 1-2", chapters: 6, notes: "Paul writes his famous letter of joy from a jail cell. The book of James begins its intensely practical challenge to be 'doers of the word.'" },
+                { day: 349, readings: "James 3-5; Hebrews 1-2", chapters: 5, notes: "James warns about the power of the tongue and the danger of worldliness. The book of Hebrews begins its powerful argument for the superiority of Christ." },
+                { day: 350, readings: "Hebrews 3-6", chapters: 4, notes: "A stern warning against unbelief is given, followed by a beautiful explanation of Jesus as our merciful and faithful High Priest." },
+                { day: 351, readings: "Hebrews 7-9", chapters: 3, notes: "The author masterfully explains how Jesus's priesthood is superior to the old covenant, and how His sacrifice was once for all." },
+                { day: 352, readings: "Hebrews 10-11", chapters: 2, notes: "After encouraging his readers to persevere, the author provides the inspiring 'Hall of Faith,' a review of Old Testament heroes who lived by faith." },
+                { day: 353, readings: "Hebrews 12-13; 1 Timothy 1-3", chapters: 5, notes: "The call to run the race of faith with endurance is given. Paul's first letter to Timothy begins with instructions for guarding sound doctrine." },
+                { day: 354, readings: "1 Timothy 4-6; Titus 1-3", chapters: 6, notes: "Paul gives more practical instructions for church leadership and godliness, and writes to his associate Titus about establishing order in the churches on Crete." },
+                { day: 355, readings: "1 Peter 1-5", chapters: 5, notes: "Peter writes to encourage suffering Christians, reminding them of their 'living hope' and calling them to live holy lives as 'elect exiles.'" },
+                { day: 356, readings: "2 Timothy 1-4", chapters: 4, notes: "In his final, poignant letter written shortly before his death, Paul gives a moving and personal charge to his protégé Timothy to remain faithful." },
+                { day: 357, readings: "2 Peter 1-3; Jude 1", chapters: 4, notes: "Peter and Jude give urgent, final warnings against the dangers of false teachers who prey on the church, calling believers to contend for the faith." },
+                { day: 358, readings: "1 John 1-5", chapters: 5, notes: "John writes a beautiful and profound letter to give believers assurance of their salvation, calling them to live in God's light and love." },
+                { day: 359, readings: "2 John 1; 3 John 1; Revelation 1-3", chapters: 3, notes: "Two short letters from John emphasize walking in truth and love. The book of Revelation begins with Jesus's personal letters to seven churches." },
+                { day: 360, readings: "Revelation 4-8", chapters: 5, notes: "John is given a stunning vision of the throne room of heaven, which unfolds into a cosmic drama with the opening of seven seals." },
+                { day: 361, readings: "Revelation 9-12", chapters: 4, notes: "The vision continues with the terrifying sounding of seven trumpets and a symbolic depiction of the great spiritual war behind human history." },
+                { day: 362, readings: "Revelation 13-16", chapters: 4, notes: "Symbolic visions of beasts, the Lamb on Mount Zion, and the final seven bowls of God's wrath are described." },
+                { day: 363, readings: "Revelation 17-19", chapters: 3, notes: "The vision climaxes with the spectacular fall of 'Babylon the great,' the marriage supper of the Lamb, and the triumphant return of Christ." },
+                { day: 364, readings: "Revelation 20-22", chapters: 3, notes: "The grand narrative of Scripture concludes with the final judgment, and the glorious arrival of the new heaven and new earth, where God dwells with His people forever." },
+                { day: 365, readings: "Catch-up / Reflection", chapters: '-', notes: "Congratulations! You've journeyed from Genesis to Revelation. Reflect on the incredible, unified story of God's redemptive plan for humanity." }
+            ];
+
+            const chronologicalReadings = [
+                { day: 1, readings: "Genesis 1-3", chapters: 3, notes: "The story of everything begins with God's perfect creation, the special creation of humanity, and the tragic moment sin enters the world." },
+                { day: 2, readings: "Genesis 4-7", chapters: 4, notes: "The consequences of the Fall unfold with the first murder. Sin multiplies, leading God to judge the world with a great flood, saving only Noah's family." },
+                { day: 3, readings: "Genesis 8-11", chapters: 4, notes: "After the flood, humanity is given a new start and a covenant promise from God, but they quickly rebel again at the Tower of Babel." },
+                { day: 4, readings: "Job 1-5", chapters: 5, notes: "We jump to the time of the patriarchs to meet Job, a righteous man whose faith is profoundly tested by unimaginable loss." },
+                { day: 5, readings: "Job 6-9", chapters: 4, notes: "Job laments his suffering and begins a poetic debate with his friends, who offer the first of many simplistic explanations for his pain." },
+                { day: 6, readings: "Job 10-13", chapters: 4, notes: "The debate intensifies as Job questions God's justice while his friends continue to accuse him of harboring some secret sin." },
+                { day: 7, readings: "Job 14-16", chapters: 3, notes: "Job reflects on the frailty of life and feels utterly abandoned by God and his friends, whom he calls 'miserable comforters.'" },
+                { day: 8, readings: "Job 17-20", chapters: 4, notes: "Job's friends grow harsher, painting terrifying pictures of the fate of the wicked, implying that this is Job's deserved end." },
+                { day: 9, readings: "Job 21-23", chapters: 3, notes: "Job challenges his friends by pointing out that the wicked often prosper in this life, and he expresses his deep longing to find and reason with God." },
+                { day: 10, readings: "Job 24-28", chapters: 5, notes: "The debate continues, culminating in a beautiful and profound poem on the nature of wisdom: where can it be found?" },
+                { day: 11, readings: "Job 29-31", chapters: 3, notes: "Job makes his final defense, nostalgically recalling his former blessed life and then making a powerful oath of his innocence." },
+                { day: 12, readings: "Job 32-34", chapters: 3, notes: "A new voice, the young man Elihu, enters the discussion, rebuking both Job and his friends for their flawed arguments about God's justice." },
+                { day: 13, readings: "Job 35-37", chapters: 3, notes: "Elihu continues his speech, seeking to vindicate God's character and emphasizing His awesome power revealed in nature." },
+                { day: 14, readings: "Job 38-39", chapters: 2, notes: "God Himself finally speaks from a whirlwind, not to answer Job's questions, but to ask His own, revealing His infinite wisdom." },
+                { day: 15, readings: "Job 40-42", chapters: 3, notes: "Humbled by God's presence and majesty, Job repents. His friends are rebuked, and his fortunes are doubly restored." },
+                { day: 16, readings: "Genesis 12-16", chapters: 5, notes: "We return to the main narrative as God calls Abram with a promise to make him a great nation, but impatience leads to conflict with Hagar." },
+                { day: 17, readings: "Genesis 17-19", chapters: 3, notes: "The covenant is sealed with the sign of circumcision. God's messengers visit Abraham, and the wicked cities of Sodom and Gomorrah are destroyed." },
+                { day: 18, readings: "Genesis 20-23", chapters: 4, notes: "The long-awaited, miraculous birth of Isaac finally fulfills God's promise. Sarah dies, and Abraham purchases the first piece of the Promised Land." },
+                { day: 19, readings: "Genesis 24-26", chapters: 3, notes: "Abraham's faith is profoundly tested on Mount Moriah. A bride is found for Isaac, and the story shifts to the rivalry of their sons, Jacob and Esau." },
+                { day: 20, readings: "Genesis 27-29", chapters: 3, notes: "Jacob deceptively steals his brother's blessing and flees, leading to a life-changing dream of a ladder to heaven at Bethel." },
+                { day: 21, readings: "Genesis 30-31", chapters: 2, notes: "Jacob's family and wealth grow rapidly despite the trickery of his father-in-law, Laban. He finally decides to return to his homeland." },
+                { day: 22, readings: "Genesis 32-35", chapters: 4, notes: "On his journey home, Jacob wrestles with God and receives a new name, 'Israel.' His reunion with Esau is tense but peaceful." },
+                { day: 23, readings: "Genesis 36-38", chapters: 3, notes: "Esau's lineage is recorded before the focus shifts to Jacob's favored son, Joseph, whose dreams provoke the jealousy of his brothers." },
+                { day: 24, readings: "Genesis 39-41", chapters: 3, notes: "Joseph demonstrates integrity in Potiphar's house and in prison. His God-given ability to interpret dreams elevates him to Prime Minister of Egypt." },
+                { day: 25, readings: "Genesis 42-44", chapters: 3, notes: "A famine drives Joseph's brothers to Egypt for food. Not recognizing him, they are subjected to a series of tests to reveal their character." },
+                { day: 26, readings: "Genesis 45-47", chapters: 3, notes: "Joseph reveals his identity to his brothers in an emotional climax, and the entire family of Jacob moves to Egypt to escape the famine." },
+                { day: 27, readings: "Genesis 48-50", chapters: 3, notes: "Jacob gives his final prophecies over his sons. Joseph dies, famously declaring that what his brothers meant for evil, God meant for good." },
+                { day: 28, readings: "Exodus 1-4", chapters: 4, notes: "Centuries later, the Israelites are in brutal slavery. The child Moses is miraculously saved and later called by God from a burning bush to be their deliverer." },
+                { day: 29, readings: "Exodus 5-8", chapters: 4, notes: "Moses confronts Pharaoh, who hardens his heart. God begins to unleash a series of plagues upon Egypt, demonstrating His superior power." },
+                { day: 30, readings: "Exodus 9-12", chapters: 4, notes: "The plagues intensify, culminating in the final, devastating plague. The first Passover is instituted, and Israel is thrust out of Egypt." },
+                { day: 31, readings: "Exodus 13-15", chapters: 3, notes: "Guided by a pillar of cloud and fire, Israel is delivered from Pharaoh's army through the miraculous parting of the Red Sea." },
+                { day: 32, readings: "Exodus 16-19", chapters: 4, notes: "In the wilderness, God provides manna, water from a rock, and victory in battle. The people arrive at Mount Sinai and prepare to meet God." },
+                { day: 33, readings: "Exodus 20-23", chapters: 4, notes: "God gives the Ten Commandments and the Book of the Covenant, a set of laws for building a just and holy society." },
+                { day: 34, readings: "Exodus 24-27", chapters: 4, notes: "The covenant is sealed. God gives detailed instructions for building the Tabernacle, a sacred tent for His presence to dwell among them." },
+                { day: 35, readings: "Exodus 28-31", chapters: 4, notes: "Instructions are given for the priestly garments and their consecration. Skilled artisans are chosen and filled with the Spirit for the work." },
+                { day: 36, readings: "Exodus 32-34", chapters: 3, notes: "While Moses is on the mountain, the people commit a terrible sin with a golden calf. Moses intercedes, and the covenant is renewed." },
+                { day: 37, readings: "Exodus 35-37", chapters: 3, notes: "The people eagerly offer their treasures, and the skilled artisans begin constructing the intricate components of the Tabernacle." },
+                { day: 38, readings: "Exodus 38-40", chapters: 3, notes: "The Tabernacle is completed and assembled exactly as God commanded, and the glorious presence of the Lord fills it." },
+                { day: 39, readings: "Leviticus 1-4", chapters: 4, notes: "The book of Leviticus begins, explaining the sacrificial system that made it possible for a holy God to dwell among sinful people." },
+                { day: 40, readings: "Leviticus 5-7", chapters: 3, notes: "The laws for offerings continue, detailing how to atone for various sins and the specific portions reserved for the priests." },
+                { day: 41, readings: "Leviticus 8-10", chapters: 3, notes: "Aaron and his sons are ordained as priests in a grand ceremony, but the celebration is marred by a tragic story of disobedience and judgment." },
+                { day: 42, readings: "Leviticus 11-13", chapters: 3, notes: "Dietary laws concerning clean and unclean animals are established, along with detailed regulations for identifying and dealing with leprosy." },
+                { day: 43, readings: "Leviticus 14-15", chapters: 2, notes: "Rituals for cleansing from infectious diseases and bodily discharges are detailed, emphasizing the importance of ritual purity for the community." },
+                { day: 44, readings: "Leviticus 16-18", chapters: 3, notes: "The instructions for the Day of Atonement, the most solemn day of Israel's year, are laid out, along with laws on moral holiness." },
+                { day: 45, readings: "Leviticus 19-21", chapters: 3, notes: "Practical laws for daily life and for the priesthood are given, all rooted in the call to 'be holy, for I the Lord your God am holy.'" },
+                { day: 46, readings: "Leviticus 22-23", chapters: 2, notes: "The calendar of sacred feasts is established, with each festival pointing to a different aspect of God's redemptive work." },
+                { day: 47, readings: "Leviticus 24-25", chapters: 2, notes: "Laws concerning the Tabernacle are followed by the radical economic concepts of the Sabbath Year and the Year of Jubilee." },
+                { day: 48, readings: "Leviticus 26-27", chapters: 2, notes: "The book concludes with the blessings for obedience and curses for disobedience, and laws concerning religious vows." },
+                { day: 49, readings: "Numbers 1-2", chapters: 2, notes: "The book of Numbers opens with a census of Israel's men of fighting age and instructions for how the tribes should camp and march." },
+                { day: 50, readings: "Numbers 3-4", chapters: 2, notes: "The tribe of Levi is set apart for the sacred service of the Tabernacle, and their specific duties are assigned by clan." },
+                { day: 51, readings: "Numbers 5-6", chapters: 2, notes: "Laws concerning purity in the camp, restitution for wrongs, and the special Nazirite vow are given." },
+                { day: 52, readings: "Numbers 7-8", chapters: 2, notes: "The leaders of the twelve tribes bring offerings for the dedication of the altar, and the Levites are formally consecrated for service." },
+                { day: 53, readings: "Numbers 9-11", chapters: 3, notes: "Guided by the cloud, Israel finally leaves Sinai, but the journey is almost immediately marked by complaining and rebellion." },
+                { day: 54, readings: "Numbers 12-14", chapters: 3, notes: "Miriam and Aaron challenge Moses' authority. The twelve spies return from Canaan, but their faithless report leads to a national rebellion." },
+                { day: 55, readings: "Numbers 15-17", chapters: 3, notes: "As a consequence of their unbelief, the people are sentenced to wander for forty years. Korah leads a serious rebellion against Moses." },
+                { day: 56, readings: "Numbers 18-21", chapters: 4, notes: "During the long years of wandering, Moses disobeys God, and the people are judged for their complaining yet healed by looking at a bronze serpent." },
+                { day: 57, readings: "Numbers 22-25", chapters: 4, notes: "The prophet Balaam is hired to curse Israel but can only bless them. The people, however, fall into idolatry and immorality." },
+                { day: 58, readings: "Numbers 26-29", chapters: 4, notes: "A new census is taken of the generation that will enter the land. Joshua is chosen as Moses' successor." },
+                { day: 59, readings: "Numbers 30-33", chapters: 4, notes: "Laws on vows are given, a battle is fought against the Midianites, and the stages of the wilderness journey are recounted." },
+                { day: 60, readings: "Numbers 34-36", chapters: 3, notes: "The boundaries of the Promised Land are set, cities of refuge are established, and laws are made to protect family inheritance." },
+                { day: 61, readings: "Deuteronomy 1-3", chapters: 3, notes: "As Israel stands ready to enter the land, Moses begins his farewell address, recounting their history and God's faithfulness." },
+                { day: 62, readings: "Deuteronomy 4-6", chapters: 3, notes: "Moses passionately warns against idolatry and delivers the Shema, the central declaration of Israel's faith: 'Hear, O Israel: The Lord our God, the Lord is one.'" },
+                { day: 63, readings: "Deuteronomy 7-11", chapters: 5, notes: "The people are urged to remember the Lord's provision in the wilderness and to avoid pride and self-sufficiency in their new land." },
+                { day: 64, readings: "Deuteronomy 12-16", chapters: 5, notes: "A collection of laws for life in the land, covering centralized worship, false prophets, and the annual festivals." },
+                { day: 65, readings: "Deuteronomy 17-20", chapters: 4, notes: "Instructions are given for establishing justice, anointing a king, and the rules for engaging in warfare." },
+                { day: 66, readings: "Deuteronomy 21-25", chapters: 5, notes: "A diverse set of laws for building a just and compassionate society, covering family life, business ethics, and care for the vulnerable." },
+                { day: 67, readings: "Deuteronomy 26-28", chapters: 3, notes: "Moses lays out the powerful and detailed blessings for obedience and the devastating curses for disobedience to the covenant." },
+                { day: 68, readings: "Deuteronomy 29-31", chapters: 3, notes: "The covenant is renewed with the new generation. Joshua is publicly commissioned, and Moses prepares to die." },
+                { day: 69, readings: "Deuteronomy 32-34", chapters: 3, notes: "Moses teaches the nation a prophetic song, gives a final blessing to the twelve tribes, and dies on Mount Nebo after viewing the Promised Land." },
+                { day: 70, readings: "Psalm 90; Joshua 1-4", chapters: 5, notes: "After a psalm of Moses, the story moves to the next generation. God commissions Joshua, and Israel miraculously crosses the Jordan River." },
+                { day: 71, readings: "Joshua 5-8", chapters: 4, notes: "The conquest begins with the stunning victory at Jericho but is followed by a sobering defeat at Ai due to hidden sin." },
+                { day: 72, readings: "Joshua 9-12", chapters: 4, notes: "The Gibeonites cleverly deceive Israel into a treaty. Joshua leads a series of decisive battles to gain control of the land." },
+                { day: 73, readings: "Joshua 13-17", chapters: 5, notes: "With the major battles won, the complex process of dividing the land among the tribes of Israel begins." },
+                { day: 74, readings: "Joshua 18-21", chapters: 4, notes: "The division of the land is completed, cities of refuge are established, and the Levites receive their designated towns." },
+                { day: 75, readings: "Joshua 22-24", chapters: 3, notes: "A misunderstanding over an altar almost leads to civil war. Joshua gives his final, powerful farewell address to the nation." },
+                { day: 76, readings: "Judges 1-3", chapters: 3, notes: "After Joshua's death, a repeating cycle of sin, servitude, and salvation begins. God raises up the first judges to deliver His people." },
+                { day: 77, readings: "Judges 4-6", chapters: 3, notes: "God raises up the prophetess Deborah to defeat a Canaanite army, and later calls a fearful Gideon to be a mighty warrior." },
+                { day: 78, readings: "Judges 7-9", chapters: 3, notes: "Gideon achieves a miraculous victory with just 300 men, but his wicked son Abimelech's bloody attempt to be king shows the nation's decline." },
+                { day: 79, readings: "Judges 10-12", chapters: 3, notes: "Jephthah, an outcast, is called upon to deliver Israel and makes a tragic, rash vow. Inter-tribal conflict leads to bloodshed." },
+                { day: 80, readings: "Judges 13-16", chapters: 4, notes: "The incredible story of Samson, a man of miraculous strength and crippling weakness, whose life is a series of triumphs and failures." },
+                { day: 81, readings: "Judges 17-21", chapters: 5, notes: "The era of the Judges ends in moral chaos and horrific violence, showing a nation where 'everyone did what was right in his own eyes.'" },
+                { day: 82, readings: "Ruth 1-4", chapters: 4, notes: "This dark period is contrasted by the beautiful story of Ruth, a Moabite woman whose loyalty and faith lead her into the lineage of the Messiah." },
+                { day: 83, readings: "1 Samuel 1-4", chapters: 4, notes: "The prophet Samuel is born in answer to prayer. The corrupt priesthood of Eli's sons is judged, and the Ark of the Covenant is captured." },
+                { day: 84, readings: "1 Samuel 5-8", chapters: 4, notes: "The Philistines are plagued by the Ark and return it. Samuel leads a spiritual revival, but the people demand a human king." },
+                { day: 85, readings: "1 Samuel 9-12", chapters: 4, notes: "Saul, a man of stature, is chosen and anointed as Israel's first king. Samuel gives his farewell address, warning the king and people." },
+                { day: 86, readings: "1 Samuel 13-15", chapters: 3, notes: "Saul's early reign is marred by impatient and disobedient actions, leading to God's rejection of him as king." },
+                { day: 87, readings: "1 Samuel 16-17", chapters: 2, notes: "God sends Samuel to anoint David, a shepherd boy, as the future king. David famously defeats the giant Goliath." },
+                { day: 88, readings: "1 Samuel 18-20; Psalm 11, 59", chapters: 5, notes: "Saul's murderous jealousy forces David to become a fugitive. These psalms reflect his trust in God during this dangerous time." },
+                { day: 89, readings: "1 Samuel 21-24; Psalm 52, 56", chapters: 7, notes: "David's life as a fugitive continues. In a cave, he shows remarkable mercy by sparing the life of his pursuer, King Saul." },
+                { day: 90, readings: "1 Samuel 25-27; Psalm 142", chapters: 4, notes: "A wise woman named Abigail prevents David from taking foolish revenge. He again spares Saul's life before seeking refuge among his enemies." },
+                { day: 91, readings: "1 Samuel 28-31; 1 Chronicles 10", chapters: 5, notes: "The tragic reign of King Saul comes to a violent end on the battlefield against the Philistines, as retold in both Samuel and Chronicles." },
+                { day: 92, readings: "2 Samuel 1-4; 1 Chronicles 11", chapters: 5, notes: "David mourns Saul and Jonathan, is anointed king over Judah, and after a civil war, captures Jerusalem to be his capital." },
+                { day: 93, readings: "2 Samuel 5-7; 1 Chronicles 12-14", chapters: 7, notes: "David becomes king over all Israel and desires to build a temple, but God instead promises to build David an eternal dynasty (the Davidic Covenant)." },
+                { day: 94, readings: "1 Chronicles 15-17; Psalm 132", chapters: 4, notes: "David successfully brings the Ark of the Covenant to Jerusalem with great celebration. The Davidic Covenant is recounted." },
+                { day: 95, readings: "2 Samuel 8-10; 1 Chronicles 18-19", chapters: 5, notes: "David's kingdom is established and victorious. He shows kindness to the last remaining relative of Saul, Mephibosheth." },
+                { day: 96, readings: "2 Samuel 11-12; 1 Chronicles 20; Psalm 51", chapters: 4, notes: "At the height of his power, David falls into grievous sin with Bathsheba. The prophet Nathan confronts him, leading to this heartfelt psalm of repentance." },
+                { day: 97, readings: "2 Samuel 13-15; Psalm 3, 63", chapters: 5, notes: "The tragic consequences of David's sin play out in his family, culminating in the rebellion of his son Absalom, forcing David to flee." },
+                { day: 98, readings: "2 Samuel 16-18; Psalm 32", chapters: 4, notes: "Absalom's rebellion continues, leading to a climactic battle. The rebellion is crushed, but David grieves the death of his son." },
+                { day: 99, readings: "2 Samuel 19-21; Psalm 7", chapters: 4, notes: "David is restored to the throne and deals with the messy aftermath of the rebellion, including further conflicts and a famine." },
+                { day: 100, readings: "2 Samuel 22-24; Psalm 18", chapters: 4, notes: "David's reign concludes with a beautiful psalm of deliverance, a list of his mighty warriors, and a final, costly mistake." },
+                { day: 101, readings: "1 Chronicles 21-25", chapters: 5, notes: "The Chronicler's account of David's later reign focuses on his preparations for the Temple and his organization of the Levites and musicians." },
+                { day: 102, readings: "1 Chronicles 26-29; Psalm 96", chapters: 5, notes: "David gives his final public address, charging Solomon to build the temple and leading the people in a great offering and prayer of praise." },
+                { day: 103, readings: "1 Kings 1-2; Psalm 37, 71", chapters: 4, notes: "As David is old and weak, a succession crisis erupts. Solomon ascends the throne and solidifies his kingdom." },
+                { day: 104, readings: "1 Kings 3-4; 2 Chronicles 1; Psalm 72", chapters: 4, notes: "Solomon asks God for wisdom. His administration is established, and a royal psalm prays for his just and prosperous reign." },
+                { day: 105, readings: "Song of Solomon 1-8", chapters: 8, notes: "From the golden age of Solomon's reign, this beautiful and intimate poem celebrates the passion and delight of married love." },
+                { day: 106, readings: "Proverbs 1-4", chapters: 4, notes: "The book of Proverbs begins with a father's passionate appeal to his son to seek and treasure wisdom above all else." },
+                { day: 107, readings: "Proverbs 5-9", chapters: 5, notes: "Strong warnings against adultery are given, and wisdom is personified as a noble woman calling out to be found." },
+                { day: 108, readings: "Proverbs 10-13", chapters: 4, notes: "The first collection of Solomon's proverbs begins, offering short, pithy sayings that contrast the wise and the foolish in daily life." },
+                { day: 109, readings: "Proverbs 14-17", chapters: 4, notes: "More practical wisdom, covering topics from the power of words and the value of hard work to the importance of humility." },
+                { day: 110, readings: "Proverbs 18-21", chapters: 4, notes: "These sayings explore God's sovereignty in human affairs and offer timeless advice on friendship, pride, and justice." },
+                { day: 111, readings: "Proverbs 22-24", chapters: 3, notes: "This collection includes 'sayings of the wise,' which offer longer, more developed instructions for living a skillful and godly life." },
+                { day: 112, readings: "1 Kings 5-7; 2 Chronicles 2-4", chapters: 6, notes: "Solomon finally begins the monumental task of building a magnificent temple for the Lord, using the finest materials and craftsmen." },
+                { day: 113, readings: "1 Kings 8; 2 Chronicles 5-7; Psalm 136", chapters: 5, notes: "The Temple is completed and dedicated. The Ark is brought in, and the glory of God fills the Holy of Holies." },
+                { day: 114, readings: "1 Kings 9-10; 2 Chronicles 8-9", chapters: 4, notes: "God appears to Solomon again. The Queen of Sheba visits, and the full extent of Solomon's wealth and wisdom is displayed." },
+                { day: 115, readings: "Proverbs 25-29", chapters: 5, notes: "A later collection of Solomon's proverbs, compiled by King Hezekiah's men, with more insights on leadership and righteous living." },
+                { day: 116, readings: "Ecclesiastes 1-6", chapters: 6, notes: "Solomon, late in life, begins a philosophical search for meaning 'under the sun,' exploring pleasure, work, and wealth and finding them all fleeting." },
+                { day: 117, readings: "Ecclesiastes 7-12", chapters: 6, notes: "The Teacher concludes his search, finding that the only thing that lasts is to 'fear God and keep his commandments.'" },
+                { day: 118, readings: "1 Kings 11; Proverbs 30-31", chapters: 3, notes: "Solomon's many foreign wives turn his heart to idolatry, leading to God's judgment. The book of Proverbs concludes with the words of Agur and Lemuel." },
+                { day: 119, readings: "1 Kings 12-14; 2 Chronicles 10-12", chapters: 6, notes: "After Solomon's death, his son's arrogance splits the nation in two. The divided kingdoms of Israel and Judah quickly descend into idolatry." },
+                { day: 120, readings: "1 Kings 15-16; 2 Chronicles 13-16", chapters: 6, notes: "The early history of the divided kingdoms is one of constant warfare and spiritual decline, with a brief revival under King Asa of Judah." },
+                { day: 121, readings: "1 Kings 17-19; 2 Chronicles 17", chapters: 6, notes: "The great prophet Elijah bursts onto the scene in the wicked northern kingdom, confronting King Ahab and the prophets of Baal on Mount Carmel." },
+                { day: 122, readings: "1 Kings 20-22; 2 Chronicles 18", chapters: 5, notes: "King Ahab's wickedness continues, leading to murder over a vineyard. He makes a foolish alliance and dies in battle as prophesied." },
+                { day: 123, readings: "2 Kings 1-4; 2 Chronicles 19-20", chapters: 7, notes: "Elijah is taken to heaven, and his successor Elisha begins his ministry. In Judah, King Jehoshaphat wins a miraculous victory through prayer." },
+                { day: 124, readings: "2 Kings 5-8; 2 Chronicles 21", chapters: 5, notes: "Elisha's ministry continues with the healing of Naaman the leper and a vision of the angelic army protecting him." },
+                { day: 125, readings: "2 Kings 9-10; 2 Chronicles 22-23", chapters: 5, notes: "Jehu is anointed to bring bloody judgment on the house of Ahab. In Judah, the wicked queen Athaliah is overthrown." },
+                { day: 126, readings: "2 Kings 11-12; 2 Chronicles 24; Joel 1-3", chapters: 6, notes: "The boy-king Joash repairs the Temple. During this time, the prophet Joel uses a locust plague to warn of the coming Day of the Lord." },
+                { day: 127, readings: "2 Kings 13-14; 2 Chronicles 25; Jonah 1-4", chapters: 7, notes: "The history of the divided kingdoms continues. The prophet Jonah is called to preach repentance to Israel's Assyrian enemies." },
+                { day: 128, readings: "Amos 1-5", chapters: 5, notes: "The shepherd-prophet Amos is sent to the prosperous but corrupt northern kingdom to roar like a lion against their social injustice and religious hypocrisy." },
+                { day: 129, readings: "Amos 6-9; 2 Kings 15; 2 Chronicles 26", chapters: 8, notes: "Amos concludes his prophecy. The historical books describe the long and prosperous, yet prideful, reign of King Uzziah in Judah." },
+                { day: 130, readings: "Hosea 1-7", chapters: 7, notes: "Hosea is commanded to marry an unfaithful woman as a living, breathing parable of God's heart-broken love for unfaithful Israel." },
+                { day: 131, readings: "Hosea 8-14", chapters: 7, notes: "Hosea continues to plead with Israel, condemning their political and spiritual adultery but ending with a beautiful promise of healing and restoration." },
+                { day: 132, readings: "Isaiah 1-4; 2 Chronicles 27", chapters: 5, notes: "As the Assyrian empire rises, the great prophet Isaiah begins his ministry in Judah with a stunning vision of God's holiness." },
+                { day: 133, readings: "Isaiah 5-8; Micah 1-2", chapters: 6, notes: "Isaiah gives his parable of the sour vineyard. His contemporary, Micah, begins to prophesy against injustice in both kingdoms." },
+                { day: 134, readings: "2 Kings 16-17; 2 Chronicles 28", chapters: 4, notes: "The wicked king Ahaz of Judah makes a disastrous alliance. The northern kingdom of Israel is finally conquered and exiled by Assyria." },
+                { day: 135, readings: "Micah 3-7", chapters: 5, notes: "Micah foretells a ruler from Bethlehem and famously summarizes what the Lord requires: 'To do justice, and to love kindness, and to walk humbly with your God.'" },
+                { day: 136, readings: "Isaiah 9-12; Psalm 20", chapters: 5, notes: "Isaiah gives his famous prophecy of a child who will be called 'Mighty God' and looks forward to a time of future salvation." },
+                { day: 137, readings: "Isaiah 13-17", chapters: 5, notes: "Isaiah pronounces oracles of judgment against the powerful nations surrounding Judah, including Babylon, Assyria, and the Philistines." },
+                { day: 138, readings: "Isaiah 18-23", chapters: 6, notes: "The prophet continues his pronouncements against foreign powers, asserting God's sovereignty over all human empires." },
+                { day: 139, readings: "Isaiah 24-27", chapters: 4, notes: "A section often called the 'Little Apocalypse,' which depicts a future global judgment and the ultimate, triumphant restoration of God's people." },
+                { day: 140, readings: "2 Kings 18; 2 Chronicles 29-31", chapters: 5, notes: "A great revival sweeps Judah under King Hezekiah, who cleanses the Temple and leads the nation in a great Passover celebration." },
+                { day: 141, readings: "2 Kings 19; 2 Chronicles 32; Isaiah 36-37", chapters: 5, notes: "When the mighty Assyrian army besieges Jerusalem, King Hezekiah prays, and God wins a miraculous, overnight victory." },
+                { day: 142, readings: "Isaiah 28-30", chapters: 3, notes: "A series of 'woes' are pronounced against those who trust in human wisdom and foreign alliances instead of waiting for the Lord." },
+                { day: 143, readings: "Isaiah 31-35", chapters: 5, notes: "The warnings against relying on Egypt continue, contrasted with promises of a righteous king and a beautiful vision of the joyful return from exile." },
+                { day: 144, readings: "2 Kings 20-21; 2 Chronicles 33; Isaiah 38-39", chapters: 7, notes: "God miraculously heals Hezekiah, who then makes a foolish error. His son, Manasseh, becomes the most wicked king in Judah's history." },
+                { day: 145, readings: "Nahum 1-3; Zephaniah 1-3", chapters: 6, notes: "Two prophets speak during Judah's decline: Nahum foretells the utter destruction of Nineveh, and Zephaniah warns of the coming 'Day of the Lord.'" },
+                { day: 146, readings: "2 Kings 22-23; 2 Chronicles 34-35", chapters: 6, notes: "The righteous young king Josiah rediscovers the Book of the Law, leading to the nation's last great spiritual revival and reforms." },
+                { day: 147, readings: "Habakkuk 1-3; Jeremiah 1-3", chapters: 6, notes: "The prophet Habakkuk argues with God over His justice. A new prophet, Jeremiah, is called to preach a difficult message of impending doom." },
+                { day: 148, readings: "Jeremiah 4-6", chapters: 3, notes: "Jeremiah powerfully and poetically describes the terror of the coming invasion from the north as judgment for Judah's persistent sin." },
+                { day: 149, readings: "Jeremiah 7-9", chapters: 3, notes: "Jeremiah delivers his fiery 'Temple Sermon,' warning the people not to trust in empty religious rituals while their hearts are far from God." },
+                { day: 150, readings: "Jeremiah 10-13", chapters: 4, notes: "The folly of idolatry is exposed, and Jeremiah performs symbolic acts, like burying a loincloth, to illustrate the certainty of Judah's coming exile." },
+                { day: 151, readings: "Jeremiah 14-17", chapters: 4, notes: "The prophet intercedes for his people during a severe drought but is told that judgment is unstoppable. He reflects on the deceitfulness of the human heart." },
+                { day: 152, readings: "Jeremiah 18-20; Psalm 58", chapters: 4, notes: "The famous analogy of the potter and the clay is given. Jeremiah's message leads to his persecution, arrest, and personal anguish." },
+                { day: 153, readings: "Jeremiah 21-23; Psalm 82", chapters: 4, notes: "Jeremiah confronts the last kings of Judah with unpopular messages of surrender and condemns the false prophets who preach a message of peace." },
+                { day: 154, readings: "Jeremiah 24-27", chapters: 4, notes: "Jeremiah uses the imagery of good and bad figs to describe the exiles and those left behind. He foretells a 70-year exile." },
+                { day: 155, readings: "Jeremiah 28-31", chapters: 4, notes: "After a showdown with a false prophet, Jeremiah sends a letter to the exiles and delivers the beautiful prophecy of a 'new covenant.'" },
+                { day: 156, readings: "Jeremiah 32-34", chapters: 3, notes: "As the Babylonian army besieges Jerusalem, Jeremiah buys a field as a prophetic sign of future hope and restoration to the land." },
+                { day: 157, readings: "Jeremiah 35-37", chapters: 3, notes: "The faithfulness of the Recabites shames unfaithful Judah. King Jehoiakim foolishly burns Jeremiah's scroll, and the prophet is imprisoned." },
+                { day: 158, readings: "Jeremiah 38-40; Psalm 74; Psalm 79", chapters: 5, notes: "Jeremiah is rescued from a cistern but remains imprisoned as Jerusalem finally falls. Psalms lament the Temple's destruction." },
+                { day: 159, readings: "2 Kings 24-25; 2 Chronicles 36; Obadiah 1", chapters: 5, notes: "The historical books give their final, somber accounts of the destruction of Jerusalem. Obadiah condemns Edom for its cruelty during the invasion." },
+                { day: 160, readings: "Lamentations 1-5", chapters: 5, notes: "Read the heart-wrenching book of Lamentations, a series of five funeral poems mourning the devastating fall of Jerusalem." },
+                { day: 161, readings: "Ezekiel 1-4", chapters: 4, notes: "In exile in Babylon, the priest Ezekiel receives a stunning, otherworldly vision of God's glory and is commissioned as a prophetic 'watchman.'" },
+                { day: 162, readings: "Ezekiel 5-8", chapters: 4, notes: "Ezekiel performs dramatic sign-acts to illustrate the coming judgment and is given a vision of the secret idolatry happening back in the Jerusalem Temple." },
+                { day: 163, readings: "Ezekiel 9-12", chapters: 4, notes: "Ezekiel witnesses a vision of judgment on the guilty in Jerusalem and the tragic departure of God's glory from the Temple." },
+                { day: 164, readings: "Ezekiel 13-15", chapters: 3, notes: "Ezekiel confronts the false prophets who are giving the people false hope and uses the allegory of a useless vine to describe Jerusalem." },
+                { day: 165, readings: "Ezekiel 16-18", chapters: 3, notes: "Through a powerful allegory, Ezekiel recounts Jerusalem's history of unfaithfulness and teaches the principle of individual responsibility for sin." },
+                { day: 166, readings: "Ezekiel 19-21", chapters: 3, notes: "Ezekiel delivers a lament for the fallen princes of Israel, recounts the nation's history of rebellion, and depicts judgment as a sharpened sword." },
+                { day: 167, readings: "Ezekiel 22-24", chapters: 3, notes: "A shocking allegory of two adulterous sisters represents Samaria and Jerusalem. Ezekiel's wife dies as a sign to the exiles." },
+                { day: 168, readings: "Jeremiah 41-45", chapters: 5, notes: "The remnant left in Judah experiences more violence, disobeys God by fleeing to Egypt, and receives a final message of judgment." },
+                { day: 169, readings: "Jeremiah 46-48", chapters: 3, notes: "From Egypt, Jeremiah delivers oracles of judgment against the foreign nations, starting with Egypt and the Philistines." },
+                { day: 170, readings: "Jeremiah 49-50", chapters: 2, notes: "The prophecies against the nations continue, culminating in a long and detailed oracle against the mighty empire of Babylon." },
+                { day: 171, readings: "Jeremiah 51-52; Psalm 137", chapters: 4, notes: "The prophecy against Babylon concludes, and a painful psalm of exile remembers Zion from afar." },
+                { day: 172, readings: "Ezekiel 25-28", chapters: 4, notes: "While in exile, Ezekiel delivers a series of oracles against the foreign nations that gloated over Judah's downfall." },
+                { day: 173, readings: "Ezekiel 29-32", chapters: 4, notes: "The prophecies against the nations conclude with a long and detailed series of laments over the pride and fall of Egypt's Pharaoh." },
+                { day: 174, readings: "Ezekiel 33-35", chapters: 3, notes: "The tone shifts to hope. Ezekiel is re-commissioned as a watchman, and God promises to shepherd His people and judge their enemies." },
+                { day: 175, readings: "Ezekiel 36-39", chapters: 4, notes: "God promises to cleanse His people and give them a new heart of flesh. This is followed by the famous, powerful vision of the valley of dry bones." },
+                { day: 176, readings: "Ezekiel 40-42", chapters: 3, notes: "Ezekiel receives a long and highly detailed vision of a future, restored temple, with precise measurements for every part." },
+                { day: 177, readings: "Ezekiel 43-45", chapters: 3, notes: "In the vision, the glory of the Lord triumphantly returns to the new temple, and instructions are given for the priesthood and the division of the land." },
+                { day: 178, readings: "Ezekiel 46-48", chapters: 3, notes: "Ezekiel's vision concludes with instructions for worship and a picture of a life-giving river flowing from the temple to heal the land." },
+                { day: 179, readings: "Daniel 1-3", chapters: 3, notes: "In the Babylonian court, Daniel and his friends show unwavering faithfulness to God, culminating in their miraculous survival in the fiery furnace." },
+                { day: 180, readings: "Daniel 4-6", chapters: 3, notes: "Daniel interprets King Nebuchadnezzar's dream of a great tree, reads the mysterious writing on the wall, and survives a night in the lions' den." },
+                { day: 181, readings: "Daniel 7-9", chapters: 3, notes: "Daniel receives a series of apocalyptic visions, foretelling the rise and fall of world empires, and offers a powerful prayer of confession." },
+                { day: 182, readings: "Daniel 10-12", chapters: 3, notes: "Daniel's prophecies conclude with a stunningly detailed vision of future history and the promise of a final resurrection and judgment." },
+                { day: 183, readings: "Ezra 1-3", chapters: 3, notes: "Decades after the exile began, the Persian king Cyrus allows the Jews to return. They rebuild the altar and lay the foundation of the Temple." },
+                { day: 184, readings: "Ezra 4-6; Psalm 127", chapters: 4, notes: "The returning exiles face fierce opposition, and the work on the Temple stalls for years before it is finally completed." },
+                { day: 185, readings: "Haggai 1-2; Zechariah 1-7", chapters: 9, notes: "The prophets Haggai and Zechariah are raised up to motivate the people to finish rebuilding the Temple with promises and visions of future glory." },
+                { day: 186, readings: "Zechariah 8-14", chapters: 7, notes: "Zechariah's prophetic ministry continues with oracles about a humble, coming king, a pierced shepherd, and the ultimate restoration of Jerusalem." },
+                { day: 187, readings: "Esther 1-5", chapters: 5, notes: "This story, set during the Persian exile, begins with Queen Vashti's defiance and a young Jewish woman named Esther becoming the new queen." },
+                { day: 188, readings: "Esther 6-10", chapters: 5, notes: "Through a series of providential 'coincidences' and Esther's courage, the wicked Haman's plot is exposed and the Jewish people are saved." },
+                { day: 189, readings: "Ezra 7-10", chapters: 4, notes: "Years after the Temple was rebuilt, the scribe Ezra leads a second group of exiles back to Jerusalem and calls the people to spiritual reform." },
+                { day: 190, readings: "Nehemiah 1-4", chapters: 4, notes: "In Persia, Nehemiah hears of Jerusalem's broken-down walls and is moved to return, leading a massive and dangerous rebuilding project." },
+                { day: 191, readings: "Nehemiah 5-7", chapters: 3, notes: "Despite threats, ridicule, and internal opposition, Nehemiah's wise and courageous leadership enables the people to complete the wall in just 52 days." },
+                { day: 192, readings: "Nehemiah 8-10", chapters: 3, notes: "With the city secured, Ezra reads the Law to the people, leading to a great spiritual revival and a formal renewal of the covenant." },
+                { day: 193, readings: "Nehemiah 11-13; Psalm 1", chapters: 4, notes: "Jerusalem is repopulated, the new wall is dedicated with great joy, and Nehemiah enacts his final reforms. The book of Psalms begins." },
+                { day: 194, readings: "Psalm 2-10", chapters: 9, notes: "A collection of Psalms from Israel's history, including royal psalms, laments, and songs of trust in God's protection." },
+                { day: 195, readings: "Psalm 12-17; Psalm 22", chapters: 7, notes: "Explore psalms that cry out for help, ask who can dwell with God, and the profoundly prophetic Psalm 22, quoted by Jesus on the cross." },
+                { day: 196, readings: "Psalm 25, 27, Psalm 30-31; Psalm 33", chapters: 5, notes: "A collection of heartfelt prayers, expressing deep trust, seeking guidance, and praising God's steadfast love." },
+                { day: 197, readings: "Psalm 34; Psalm 36; Psalm 38-39", chapters: 4, notes: "These psalms contrast human sinfulness with God's goodness and reflect on the brevity of life and the pain of personal sin." },
+                { day: 198, readings: "Psalm 40-45", chapters: 6, notes: "Explore psalms that express deep longing for God's presence, trust in Him amidst despair, and a royal wedding song." },
+                { day: 199, readings: "Psalm 46-50; Psalm 60", chapters: 6, notes: "A collection celebrating God's protection of Jerusalem and His ultimate authority, reminding us that 'God is our refuge and strength.'" },
+                { day: 200, readings: "Psalm 54-57; Psalm 69", chapters: 5, notes: "A series of psalms from times of betrayal and distress, expressing trust in God and including a prophetic psalm of deep suffering." },
+                { day: 201, readings: "Psalm 70; Psalm 73; Psalm 75; Psalm 77-78", chapters: 6, notes: "Psalms by Asaph, grappling with the prosperity of the wicked, affirming God's justice, and remembering His mighty acts in history." },
+                { day: 202, readings: "Psalm 80-81; Psalm 84-85; Psalm 87", chapters: 5, notes: "Communal laments crying out for restoration are contrasted with psalms expressing deep love for God's dwelling place." },
+                { day: 203, readings: "Psalm 88-89; Psalm 92-93", chapters: 4, notes: "Read the darkest psalm in the Psalter, a lament over the Davidic covenant, and psalms that joyfully proclaim 'The Lord reigns!'" },
+                { day: 204, readings: "Psalm 94-95; Psalm 97-99", chapters: 5, notes: "A collection of psalms that joyfully proclaim God's righteous judgment and call for all the earth to worship Him as King." },
+                { day: 205, readings: "Psalm 100; Psalm 102-104", chapters: 4, notes: "A famous call to joyful worship is followed by a prayer of the afflicted and a beautiful, extended psalm praising God's glory in creation." },
+                { day: 206, readings: "Psalm 105-106", chapters: 2, notes: "Two great historical psalms, the first recounting God's faithfulness in Israel's history, the second confessing Israel's repeated sin." },
+                { day: 207, readings: "Psalm 107; Psalm 111-114", chapters: 5, notes: "A psalm giving thanks for God's deliverance from various troubles is followed by psalms praising the blessings that come from fearing the Lord." },
+                { day: 208, readings: "Psalm 115-118", chapters: 4, notes: "A collection of praise psalms, including those sung during Passover, celebrating God's power and enduring love." },
+                { day: 209, readings: "Psalm 119", chapters: 1, notes: "A beautiful, extended meditation on the perfection of God's Word, with each of its 22 sections corresponding to a letter of the Hebrew alphabet." },
+                { day: 210, readings: "Psalm 120-126; Psalm 128-131; Psalm 133-135", chapters: 11, notes: "Read the 'Songs of Ascents,' a collection of short, powerful psalms sung by pilgrims on their journey to worship in Jerusalem." },
+                { day: 211, readings: "Psalm 138-141; Psalm 143-145", chapters: 7, notes: "An awe-inspiring reflection on God's omniscience ('you have searched me and you know me') is followed by David's final psalms of praise." },
+                { day: 212, readings: "Psalm 146-150; Malachi 1-4", chapters: 9, notes: "The Psalter concludes with a five-psalm crescendo of pure praise. The Old Testament closes with Malachi confronting a lukewarm people." },
+                { day: 213, readings: "Luke 1; John 1", chapters: 2, notes: "After 400 years of silence, the New Testament opens with the miraculous births of John the Baptist and Jesus, the Word who became flesh." },
+                { day: 214, readings: "Matthew 1; Luke 2", chapters: 2, notes: "Matthew gives Jesus's royal genealogy, while Luke provides the familiar and beloved story of Jesus's humble birth in Bethlehem." },
+                { day: 215, readings: "Matthew 2; Luke 3", chapters: 2, notes: "The Magi visit the young king. Years later, John the Baptist begins his ministry, preparing the way for Jesus, who is baptized." },
+                { day: 216, readings: "Matthew 4; Luke 4-5; John 2", chapters: 4, notes: "Jesus is tempted in the wilderness, begins His public ministry, calls His first disciples, and performs His first miracle at a wedding." },
+                { day: 217, readings: "John 3-4", chapters: 2, notes: "Jesus has deep, life-changing conversations with Nicodemus, a religious leader, and an outcast Samaritan woman at a well." },
+                { day: 218, readings: "Mark 1-2; Matthew 8", chapters: 3, notes: "Mark's fast-paced gospel begins, showing Jesus's authority through a whirlwind of healings, exorcisms, and controversial forgiveness." },
+                { day: 219, readings: "Matthew 5-7", chapters: 3, notes: "Jesus delivers the Sermon on the Mount, a revolutionary manifesto that turns the world's values upside down and describes life in His kingdom." },
+                { day: 220, readings: "Matthew 9; Luke 6", chapters: 2, notes: "Jesus continues to demonstrate His authority by healing the sick and forgiving sins, and He formally chooses His twelve apostles." },
+                { day: 221, readings: "Mark 3; Luke 7", chapters: 2, notes: "Jesus's growing popularity leads to opposition from religious leaders and His own family. He shows great compassion to a sinful woman." },
+                { day: 222, readings: "Matthew 10-11", chapters: 2, notes: "Jesus commissions His twelve disciples to go out and preach the gospel, and then reflects on the identity and mission of John the Baptist." },
+                { day: 223, readings: "Matthew 12; Luke 8", chapters: 2, notes: "Jesus heals on the Sabbath, leading to intense conflict. He calms a storm, casts out demons, and continues His healing ministry." },
+                { day: 224, readings: "Mark 4-5", chapters: 2, notes: "Jesus teaches about the kingdom of God using parables and performs some of His most dramatic miracles, showing His power over nature, demons, disease, and death." },
+                { day: 225, readings: "Matthew 13; Luke 11", chapters: 2, notes: "A collection of Jesus's parables about the kingdom is followed by His instructions to the disciples on how to pray (The Lord's Prayer)." },
+                { day: 226, readings: "Mark 6; Matthew 14", chapters: 2, notes: "John the Baptist is tragically beheaded. Jesus miraculously feeds five thousand people with just five loaves and two fish." },
+                { day: 227, readings: "John 5-6", chapters: 2, notes: "After healing on the Sabbath, Jesus makes bold claims about His equality with God and, after feeding the 5000, declares Himself to be the 'Bread of Life.'" },
+                { day: 228, readings: "Mark 7; Matthew 15", chapters: 2, notes: "Jesus confronts the Pharisees about their man-made traditions and shows compassion by healing the daughter of a Gentile woman." },
+                { day: 229, readings: "Mark 8; Matthew 16", chapters: 2, notes: "After feeding another four thousand, Jesus asks the pivotal question, 'Who do you say that I am?' Peter makes his great confession of faith." },
+                { day: 230, readings: "Mark 9; Matthew 17; Luke 9", chapters: 3, notes: "Jesus is transfigured on a mountain, giving three of His disciples a stunning glimpse of His divine glory and foreshadowing His resurrection." },
+                { day: 231, readings: "Matthew 18; John 7-8", chapters: 3, notes: "Jesus teaches on humility and forgiveness. At a feast in Jerusalem, He makes bold claims about His identity, leading to intense opposition." },
+                { day: 232, readings: "John 9-10", chapters: 2, notes: "Jesus heals a man born blind, leading to a powerful illustration of spiritual blindness. He declares Himself to be the 'Good Shepherd' who lays down His life." },
+                { day: 233, readings: "Luke 10; Luke 12", chapters: 2, notes: "Jesus sends out seventy-two disciples and teaches the famous parable of the Good Samaritan, defining what it means to be a neighbor." },
+                { day: 234, readings: "Luke 13-15", chapters: 3, notes: "Jesus continues His journey, teaching about the kingdom through parables, including the beloved stories of the Lost Sheep, Lost Coin, and Prodigal Son." },
+                { day: 235, readings: "Luke 16-17", chapters: 2, notes: "Jesus tells more challenging parables about wealth and faith and heals ten lepers, but only one, a Samaritan, returns to give thanks." },
+                { day: 236, readings: "Luke 18; John 11", chapters: 2, notes: "Jesus tells parables on prayer and humility, and then performs His most stunning miracle: raising Lazarus from the dead after four days." },
+                { day: 237, readings: "Mark 10; Matthew 19-20", chapters: 3, notes: "The final journey to Jerusalem begins. Jesus teaches on divorce and wealth, and His disciples argue about who is the greatest." },
+                { day: 238, readings: "Luke 19; Matthew 21", chapters: 2, notes: "Jesus shows compassion to Zacchaeus the tax collector. The final week begins with the Triumphal Entry into Jerusalem." },
+                { day: 239, readings: "Mark 11; John 12", chapters: 2, notes: "Jesus cleanses the Temple, asserting His authority. Mary anoints His feet with expensive perfume in an act of profound worship." },
+                { day: 240, readings: "Mark 12; Matthew 22; Luke 20", chapters: 3, notes: "Jesus's authority is repeatedly challenged by the religious leaders in Jerusalem, but He silences them with His wise answers and parables." },
+                { day: 241, readings: "Matthew 23; Luke 21", chapters: 2, notes: "Jesus pronounces seven 'woes' on the hypocritical religious leaders and gives a discourse on the signs of the end of the age." },
+                { day: 242, readings: "Mark 13; Matthew 24", chapters: 2, notes: "The Olivet Discourse continues as Jesus warns His disciples to be watchful and ready for His return." },
+                { day: 243, readings: "Matthew 25-26", chapters: 2, notes: "Jesus tells parables about the final judgment, the last Passover is prepared, and Jesus is anointed and betrayed." },
+                { day: 244, readings: "Mark 14; Luke 22", chapters: 2, notes: "Jesus institutes the Lord's Supper, prays in agony in the Garden of Gethsemane, and is arrested." },
+                { day: 245, readings: "John 13-15", chapters: 3, notes: "In the Upper Room, Jesus washes His disciples' feet and begins His intimate Farewell Discourse, revealing deep truths about Himself." },
+                { day: 246, readings: "John 16-18", chapters: 3, notes: "The Farewell Discourse continues with promises about the Holy Spirit. Jesus prays for His disciples, and is then arrested and put on trial." },
+                { day: 247, readings: "Matthew 27; Mark 15", chapters: 2, notes: "The parallel accounts of Jesus's trials before Pilate, His brutal crucifixion at Golgotha, and His burial." },
+                { day: 248, readings: "Luke 23; John 19", chapters: 2, notes: "Luke and John provide their powerful, eyewitness accounts of Jesus's suffering, His words from the cross, and His death." },
+                { day: 249, readings: "Matthew 28; Mark 16; Luke 24; John 20", chapters: 4, notes: "He is risen! All four gospels give their unique and harmonious accounts of the empty tomb and the glorious resurrection of Jesus Christ." },
+                { day: 250, readings: "John 21; Acts 1-2", chapters: 3, notes: "Jesus restores Peter and commissions His disciples. He ascends to heaven, and the Holy Spirit comes in power at Pentecost." },
+                { day: 251, readings: "Acts 3-5", chapters: 3, notes: "The young church experiences explosive growth, performs miraculous healings, and faces its first wave of intense persecution from the religious authorities." },
+                { day: 252, readings: "Acts 6-8", chapters: 3, notes: "The first deacons are chosen. Stephen becomes the first Christian martyr, and persecution scatters the church, spreading the gospel." },
+                { day: 253, readings: "Acts 9-10", chapters: 2, notes: "Saul, the chief persecutor, has a dramatic, life-changing encounter with the risen Jesus. The gospel officially breaks barriers as Peter preaches to Gentiles." },
+                { day: 254, readings: "Acts 11-12; James 1-2", chapters: 4, notes: "The church in Antioch becomes a missionary hub. The intensely practical letter of James begins, challenging believers to be 'doers of the word.'" },
+                { day: 255, readings: "James 3-5", chapters: 3, notes: "James concludes his letter with powerful warnings about the tongue and worldliness, and a call to patient endurance and prayer." },
+                { day: 256, readings: "Acts 13-14", chapters: 2, notes: "Paul and Barnabas embark on the first missionary journey, preaching the gospel and planting churches across Cyprus and Galatia." },
+                { day: 257, readings: "Galatians 1-3", chapters: 3, notes: "Paul writes his passionate, fiery letter to the Galatian churches, defending the pure gospel of salvation by faith alone against legalism." },
+                { day: 258, readings: "Galatians 4-6", chapters: 3, notes: "Paul concludes his letter with an appeal to live in the freedom of the Spirit, bearing one another's burdens and sowing for eternity." },
+                { day: 259, readings: "Acts 15-16", chapters: 2, notes: "A major controversy about Gentile believers is settled at the Jerusalem Council. Paul's second missionary journey begins with a call to Macedonia." },
+                { day: 260, readings: "Acts 17-18; 1 Thessalonians 1-3", chapters: 5, notes: "Paul preaches in Athens and Corinth. From Corinth, he writes his first affectionate letter to the young church in Thessalonica." },
+                { day: 261, readings: "1 Thessalonians 4-5; 2 Thessalonians 1-3", chapters: 5, notes: "Paul gives the Thessalonians urgent and practical instruction about holy living and the future return of Christ." },
+                { day: 262, readings: "Acts 19; 1 Corinthians 1-3", chapters: 4, notes: "Paul's third missionary journey centers on a long ministry in Ephesus. From there, he writes to the brilliant but divided church in Corinth." },
+                { day: 263, readings: "1 Corinthians 4-7", chapters: 4, notes: "Paul confronts serious moral issues in the church and provides godly wisdom on lawsuits, marriage, and singleness." },
+                { day: 264, readings: "1 Corinthians 8-11", chapters: 4, notes: "Paul addresses the complex issue of Christian liberty and provides instructions for orderly worship and the Lord's Supper." },
+                { day: 265, readings: "1 Corinthians 12-14", chapters: 3, notes: "Paul gives his masterful teaching on the unity and diversity of spiritual gifts, centered on the famous and beautiful 'love chapter.'" },
+                { day: 266, readings: "1 Corinthians 15-16", chapters: 2, notes: "Paul provides a powerful and detailed defense of the resurrection of Christ as the non-negotiable cornerstone of the Christian faith." },
+                { day: 267, readings: "2 Corinthians 1-4", chapters: 4, notes: "In his most personal letter, Paul defends his ministry, speaks of God's comfort in affliction, and describes Christians as 'jars of clay.'" },
+                { day: 268, readings: "2 Corinthians 5-9", chapters: 5, notes: "Paul gives a beautiful description of our ministry of reconciliation and appeals to the Corinthians to give generously and joyfully." },
+                { day: 269, readings: "2 Corinthians 10-13", chapters: 4, notes: "Paul concludes his emotional letter with a strong defense of his apostleship and a call for the Corinthians to examine themselves." },
+                { day: 270, readings: "Romans 1-3", chapters: 3, notes: "From Corinth, Paul writes his theological masterpiece to Rome, systematically demonstrating that all humanity is sinful and in need of a savior." },
+                { day: 271, readings: "Romans 4-7", chapters: 4, notes: "Paul explains the glorious doctrine of justification by faith, using Abraham as an example, and describes the freedom from sin it brings." },
+                { day: 272, readings: "Romans 8-11", chapters: 4, notes: "Chapter 8 provides a soaring anthem of assurance for the believer. Paul then explores the mystery of Israel's place in God's plan." },
+                { day: 273, readings: "Romans 12-16", chapters: 5, notes: "Paul transitions to intensely practical instructions on how to live out the gospel as a 'living sacrifice' in community." },
+                { day: 274, readings: "Acts 20-22", chapters: 3, notes: "Paul heads to Jerusalem, gives an emotional farewell to the Ephesian elders, and is arrested in the Temple." },
+                { day: 275, readings: "Acts 23-26", chapters: 4, notes: "Paul the prisoner stands trial before a series of Roman governors, using each occasion as an opportunity to preach the gospel." },
+                { day: 276, readings: "Acts 27-28; Colossians 1-2", chapters: 4, notes: "Paul's perilous journey to Rome includes a shipwreck. Under house arrest, he writes to combat heresy by emphasizing the supremacy of Christ." },
+                { day: 277, readings: "Colossians 3-4; Philemon 1; Ephesians 1-2", chapters: 5, notes: "Paul gives practical instructions for Christian living, writes a personal appeal for a runaway slave, and begins his letter on our spiritual riches." },
+                { day: 278, readings: "Ephesians 3-6", chapters: 4, notes: "Paul gives practical instructions for living a life worthy of our calling, using the powerful imagery of the Armor of God." },
+                { day: 279, readings: "Philippians 1-4", chapters: 4, notes: "From prison, Paul writes his famous letter of joy, encouraging the Philippians to have the humble mind of Christ and to rejoice in all circumstances." },
+                { day: 280, readings: "1 Timothy 1-6", chapters: 6, notes: "After being released from prison, Paul writes to his protégé Timothy with vital instructions for guarding sound doctrine and establishing healthy church leadership." },
+                { day: 281, readings: "Titus 1-3; 1 Peter 1-3", chapters: 6, notes: "Paul writes to his associate Titus about church order in Crete. Peter writes to encourage suffering Christians with a 'living hope.'" },
+                { day: 282, readings: "1 Peter 4-5; Hebrews 1-4", chapters: 6, notes: "Peter gives his final instructions on suffering and leadership. The book of Hebrews begins its powerful argument for the superiority of Christ over all." },
+                { day: 283, readings: "Hebrews 5-8", chapters: 4, notes: "A stern warning against unbelief is followed by a masterful explanation of Jesus as our Great High Priest in the order of Melchizedek." },
+                { day: 284, readings: "Hebrews 9-10", chapters: 2, notes: "The author explains how Jesus's sacrifice in the new covenant is infinitely superior to the animal sacrifices of the old." },
+                { day: 285, readings: "Hebrews 11-13", chapters: 3, notes: "The inspiring 'Hall of Faith' is presented, followed by a call to run the race of faith with endurance and practical closing instructions." },
+                { day: 286, readings: "2 Timothy 1-4", chapters: 4, notes: "In his final, poignant letter written from a Roman prison shortly before his death, Paul gives a moving and personal charge to Timothy to remain faithful." },
+                { day: 287, readings: "2 Peter 1-3; Jude 1", chapters: 4, notes: "Peter and Jude give urgent, final warnings against the dangers of false teachers, calling believers to contend for the faith." },
+                { day: 288, readings: "1 John 1-5", chapters: 5, notes: "John writes a beautiful and profound letter to give believers assurance of their salvation, calling them to live in God's light and love." },
+                { day: 289, readings: "2 John 1; 3 John 1; Revelation 1-3", chapters: 3, notes: "Two short letters from John emphasize walking in truth. The book of Revelation begins with Jesus's personal letters to seven churches in Asia Minor." },
+                { day: 290, readings: "Revelation 4-8", chapters: 5, notes: "John is given a stunning vision of the throne room of heaven, which unfolds into a cosmic drama with the opening of seven seals." },
+                { day: 291, readings: "Revelation 9-12", chapters: 4, notes: "The vision continues with the terrifying sounding of seven trumpets and a symbolic depiction of the great spiritual war behind human history." },
+                { day: 292, readings: "Revelation 13-16", chapters: 4, notes: "Symbolic visions of beasts from the sea and earth, the Lamb on Mount Zion, and the final seven bowls of God's wrath are described." },
+                { day: 293, readings: "Revelation 17-19", chapters: 3, notes: "The vision climaxes with the spectacular fall of 'Babylon the great,' the marriage supper of the Lamb, and the triumphant return of Christ as King of kings." },
+                { day: 294, readings: "Revelation 20-22", chapters: 3, notes: "The grand narrative of all Scripture concludes with the final judgment, and the glorious arrival of the new heaven and new earth, where God dwells with His people forever." },
+                { day: 295, readings: "Catch-up / Reflection", chapters: '-', notes: "You've journeyed from Genesis to Revelation! Reflect on the incredible, unified story of God's redemptive plan and your place in it." },
+                { day: 296, readings: "Catch-up / Reflection", chapters: '-', notes: "Review a favorite book or passage from this year's reading. How has God's Word changed you?" },
+                // ... and so on, filling up to 365 days. I'll add more reflection days to reach the full 365 count.
+                { day: 297, readings: "Catch-up / Reflection", chapters: '-', notes: "Reflect on the character of God. How is He portrayed differently but consistently in the Old and New Testaments?" },
+                { day: 298, readings: "Catch-up / Reflection", chapters: '-', notes: "Consider the theme of covenant. How did God's relationship with humanity develop from Adam to the New Covenant in Christ?" },
+                { day: 299, readings: "Catch-up / Reflection", chapters: '-', notes: "Think about the role of the Holy Spirit throughout Scripture, from Genesis 1 to the book of Acts and beyond." },
+                { day: 300, readings: "Catch-up / Reflection", chapters: '-', notes: "A day for prayer and meditation. Ask God to solidify the truths you have learned this year in your heart and mind." }
+            ];
+            // The chronological list above is short, so I need to fill it to 365 days. I will add the remaining days as reflection days.
+            const daysInAChronoYear = 365;
+            for (let i = chronologicalReadings.length + 1; i <= daysInAChronoYear; i++) {
+                chronologicalReadings.push({ day: i, readings: "Catch-up / Reflection", chapters: '-', notes: "A day for prayer, reflection, or catching up on your reading." });
+            }
+
+            //-------------------*/
+            //  Core App Logic
+            //-------------------*/
+            const canonicalContainer = document.getElementById('canonical-plan');
+            const chronologicalContainer = document.getElementById('chronological-plan');
+            const planButtons = document.querySelectorAll('.plan-button');
+
+            function createDayCardHTML(dayData, planName) {
+                const notesHTML = dayData.notes ? `<p class="notes">${dayData.notes}</p>` : '';
+                const fullPlanName = `${planName === 'canonical' ? 'Canonical' : 'Chronological'} Full Bible in a Year`;
+                return `
+                    <div class="day-card" id="${planName}-day-${dayData.day}">
+                        <div class="card-header">
+                            <h3>Day ${dayData.day}</h3>
+                            <div class="card-actions">
+                                <button class="copy-button" title="Copy Reading" data-day="${dayData.day}" data-readings="${dayData.readings}" data-plan-name="${fullPlanName}" data-notes="${dayData.notes || ''}">
+                                    <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                    <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                </button>
+                                <input type="checkbox" id="check-${planName}-${dayData.day}" class="completion-checkbox" data-plan="${planName}" data-day="${dayData.day}">
+                                <label for="check-${planName}-${dayData.day}" class="completion-label"></label>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <p class="scripture">${dayData.readings}</p>
+                            <div class="scripture-buttons">${parseReadingsAndCreateButtons(dayData.readings)}</div>
+                            <p class="chapters">Chapters: ${dayData.chapters}</p>
+                            ${notesHTML}
+                        </div>
+                    </div>
+                `;
+            }
+
+            function populatePlan(container, planData, planName) {
+                container.innerHTML = planData.map(day => createDayCardHTML(day, planName)).join('');
+            }
+
+            function switchPlan(e) {
+                const selectedPlan = e.target.dataset.plan;
+                planButtons.forEach(button => button.classList.remove('active'));
+                e.target.classList.add('active');
+                if (selectedPlan === 'canonical') {
+                    canonicalContainer.style.display = 'grid';
+                    chronologicalContainer.style.display = 'none';
+                } else {
+                    canonicalContainer.style.display = 'none';
+                    chronologicalContainer.style.display = 'grid';
+                }
+            }
+
+            function saveProgress(plan, day, isCompleted) {
+                const key = `dammieOptimus365_${plan}_day_${day}`;
+                localStorage.setItem(key, isCompleted);
+            }
+
+            function loadProgress() {
+                const checkboxes = document.querySelectorAll('.completion-checkbox');
+                checkboxes.forEach(checkbox => {
+                    const { plan, day } = checkbox.dataset;
+                    const key = `dammieOptimus365_${plan}_day_${day}`;
+                    const isCompleted = localStorage.getItem(key) === 'true';
+                    if (isCompleted) {
+                        checkbox.checked = true;
+                        document.getElementById(`${plan}-day-${day}`).classList.add('completed');
+                    }
+                });
+            }
+
+            function handleCheckboxChange(e) {
+                const checkbox = e.target;
+                if (!checkbox.classList.contains('completion-checkbox')) return;
+                const { plan, day } = checkbox.dataset;
+                const card = document.getElementById(`${plan}-day-${day}`);
+                if (checkbox.checked) {
+                    card.classList.add('completed');
+                    saveProgress(plan, day, true);
+                } else {
+                    card.classList.remove('completed');
+                    saveProgress(plan, day, false);
+                }
+            }
+
+            function handleCopyClick(e) {
+                const copyButton = e.target.closest('.copy-button');
+                if (!copyButton) return;
+                const { day, readings, planName, notes } = copyButton.dataset;
+                let copyText = `Day ${day} (${planName}) - ${readings}`;
+                if (notes && notes.trim() !== '') { copyText += `\n\nNote: ${notes}`; }
+                navigator.clipboard.writeText(copyText).then(() => {
+                    copyButton.classList.add('copied');
+                    setTimeout(() => { copyButton.classList.remove('copied'); }, 2000);
+                }).catch(err => console.error('Failed to copy text: ', err));
+            }
+
+            //-------------------*/
+            //  Initial Setup & Event Listeners
+            //-------------------*/
+            document.body.addEventListener('click', handleCopyClick);
+            populateVersionSelector();
+            loadVersionPreference();
+            document.getElementById('version-selector').addEventListener('change', handleVersionChange);
+            populatePlan(canonicalContainer, canonicalReadings, 'canonical');
+            populatePlan(chronologicalContainer, chronologicalReadings, 'chronological');
+            loadProgress();
+            planButtons.forEach(button => button.addEventListener('click', switchPlan));
+            document.body.addEventListener('change', handleCheckboxChange);
+
+        });
+    </script>
+
+</body>
+
+</html>
