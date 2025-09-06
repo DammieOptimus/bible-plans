@@ -549,7 +549,7 @@
             // Attach the scroll listener
             window.addEventListener('scroll', throttle(saveLastViewedPosition, 500));
             // Call the scroll restoration function
-            scrollToLastViewedPosition();
+            //scrollToLastViewedPosition();
 
             //================================================
             // BIBLE LINKING & VERSION MANAGEMENT LIBRARY
@@ -947,6 +947,7 @@
             planButtons.forEach(button => button.addEventListener('click', switchPlan));
             document.body.addEventListener('change', handleCheckboxChange);
 
+            setTimeout(scrollToLastViewedPosition, 100);
         });
     </script>
 
