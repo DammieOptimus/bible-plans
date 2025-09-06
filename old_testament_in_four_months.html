@@ -568,7 +568,7 @@
             // Attach the scroll listener
             window.addEventListener('scroll', throttle(saveLastViewedPosition, 500));
             // Call the scroll restoration function
-            scrollToLastViewedPosition();
+            //scrollToLastViewedPosition();
 
             //================================================
             // BIBLE LINKING & VERSION MANAGEMENT LIBRARY
@@ -1061,6 +1061,9 @@
             populatePlan(canonicalContainer, canonicalReadings, 'canonical');
             populatePlan(chronologicalContainer, chronologicalReadings, 'chronological');
             loadProgress();
+
+            // Restore scroll position after everything is loaded and rendered
+            setTimeout(scrollToLastViewedPosition, 100);
 
             /**
              * Handles the copy button click to copy the reading and note to the clipboard.
