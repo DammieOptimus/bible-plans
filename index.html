@@ -723,12 +723,14 @@
                         const startChapter = parseInt(match[2], 10);
                         const endChapter = match[3] ? parseInt(match[3], 10) : startChapter;
                         
-                        const bookKey = Object.keys(bookAbbreviations).find(key => bookName.startsWith(key));
-                        const urlAbbr = bookAbbreviations[bookKey];
-            
-                        if (urlAbbr) {
+                        const aliasKey = Object.keys(bookAbbreviations).find(key => bookName.startsWith(key));
+                        const canonicalKey = Object.keys(bibleVerseData).find(key => bookName.startsWith(key));
+                        
+                        if (aliasKey && canonicalKey) {
+                            const urlAbbr = bookAbbreviations[aliasKey]; // Get URL ("1SA")
+                            
                             for (let i = startChapter; i <= endChapter; i++) {
-                                const verseCount = bibleVerseData[bookKey]?.[i] || 0;
+                                const verseCount = bibleVerseData[canonicalKey]?.[i] || 0;
                                 const lengthClass = getChapterLengthClass(verseCount);
                                 const verseTooltip = verseCount > 0 ? `${verseCount} verses` : 'Info not available';
                                 
