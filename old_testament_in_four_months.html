@@ -722,9 +722,8 @@
                 const selectedVersion = bibleVersions.find(v => v.number == versionNumber) || bibleVersions[0];
                 
                 let buttonsHtml = '';
-                const parts = readingsString.split(/&|;/); // Split by '&' or ';'
+                const parts = readingsString.split(/&|;/);
             
-                // Helper function to assign a CSS class based on verse count
                 function getChapterLengthClass(verseCount) {
                     if (verseCount >= 55) return 'chapter-epic';
                     if (verseCount >= 40) return 'chapter-long';
@@ -738,21 +737,31 @@
                     const match = trimmedPart.match(/^(.+?)\s+(\d+)(?:-(\d+))?$/);
             
                     if (match) {
-                        const bookName = match[1].trim();
+                        const parsedBookName = match[1].trim(); // This is "1 Sam" or "1 Samuel"
                         const startChapter = parseInt(match[2], 10);
                         const endChapter = match[3] ? parseInt(match[3], 10) : startChapter;
                         
-                        const bookKey = Object.keys(bookAbbreviations).find(key => bookName.startsWith(key));
-                        const urlAbbr = bookAbbreviations[bookKey];
+                        // --- THIS IS THE IMPROVED LOGIC ---
+                        // 1. Find the alias key in bookAbbreviations (e.g., "1 Sam")
+                        const aliasKey = Object.keys(bookAbbreviations).find(key => parsedBookName.startsWith(key));
+                        
+                        // 2. Find the CANONICAL key in bibleVerseData (e.g., "1 Samuel")
+                        // This also uses startsWith for flexibility, but it's looking in a different dataset.
+                        const canonicalKey = Object.keys(bibleVerseData).find(key => parsedBookName.startsWith(key));
+                        // --- END OF IMPROVED LOGIC ---
             
-                        if (urlAbbr) {
+                        if (aliasKey && canonicalKey) {
+                            const urlAbbr = bookAbbreviations[aliasKey]; // Get URL ("1SA")
+                            
                             for (let i = startChapter; i <= endChapter; i++) {
-                                const verseCount = bibleVerseData[bookKey]?.[i] || 0;
+                                // 3. Use the CANONICAL key for the verse count lookup. This is the fix.
+                                const verseCount = bibleVerseData[canonicalKey]?.[i] || 0;
+                                
                                 const lengthClass = getChapterLengthClass(verseCount);
                                 const verseTooltip = verseCount > 0 ? `${verseCount} verses` : 'Info not available';
                                 
                                 const url = `https://www.bible.com/bible/${selectedVersion.number}/${urlAbbr}.${i}.${selectedVersion.abbr}`;
-                                buttonsHtml += `<a href="${url}" class="chapter-button ${lengthClass}" data-verses="${verseTooltip}" target="_blank" rel="noopener noreferrer">${bookName.replace("Song of Solomon", "SOS")} ${i}</a>`;
+                                buttonsHtml += `<a href="${url}" class="chapter-button ${lengthClass}" data-verses="${verseTooltip}" target="_blank" rel="noopener noreferrer">${parsedBookName.replace("Song of Solomon", "SOS")} ${i}</a>`;
                             }
                         }
                     }
