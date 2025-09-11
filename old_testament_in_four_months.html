@@ -746,8 +746,8 @@
                         const aliasKey = Object.keys(bookAbbreviations).find(key => parsedBookName.startsWith(key));
                         
                         // 2. Find the CANONICAL key in bibleVerseData (e.g., "1 Samuel")
-                        // This also uses startsWith for flexibility, but it's looking in a different dataset.
-                        const canonicalKey = Object.keys(bibleVerseData).find(key => parsedBookName.startsWith(key));
+                        // It now correctly checks if the full book name ("Genesis") starts with the parsed name ("Gen").
+                        const canonicalKey = Object.keys(bibleVerseData).find(key => key.startsWith(parsedBookName));
                         // --- END OF IMPROVED LOGIC ---
             
                         if (aliasKey && canonicalKey) {
