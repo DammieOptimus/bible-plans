@@ -468,6 +468,27 @@
             font-style: italic;
             color: var(--text-muted-color);
         }
+
+        /* Tooltip and Highlight Styles */
+        @keyframes highlight-pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(246, 173, 85, 0.7), inset 0 0 0 2px rgba(246, 173, 85, 0.7);
+                transform: scale(1.01);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(246, 173, 85, 0), inset 0 0 0 2px rgba(246, 173, 85, 0.7);
+                transform: scale(1.01);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(246, 173, 85, 0), inset 0 0 0 0px rgba(246, 173, 85, 0);
+                transform: scale(1);
+            }
+        }
+        
+        .day-card--highlight {
+            animation: highlight-pulse 2.5s ease-out;
+            border-left-color: var(--accent-color) !important;
+        }
     </style>
 </head>
 
@@ -522,61 +543,75 @@
             document.getElementById('copyright-year').textContent = new Date().getFullYear();
 
             //-------------------*/
-            //  Scroll Position Memory
+            //  Deep Linking & Scroll Priority
             //-------------------*/
-            const SCROLL_MEMORY_KEY_NT = 'dammieOptimus_lastViewedId_NT';
+            let isUrlScrollHandled = false; // Priority flag
             
-            // Throttling function to limit how often a function can run.
-            function throttle(func, limit) {
-                let inThrottle;
-                return function() {
-                    const args = arguments;
-                    const context = this;
-                    if (!inThrottle) {
-                        func.apply(context, args);
-                        inThrottle = true;
-                        setTimeout(() => inThrottle = false, limit);
-                    }
-                };
-            }
+            /**
+             * Checks the URL hash for deep link parameters and scrolls to the specified day.
+             */
+            function handleUrlDeepLink() {
+                if (!window.location.hash) return; // Exit if no hash
             
-            // Function to find the topmost visible day-card and save its ID.
-            function saveLastViewedPosition() {
-                let lastVisibleCardId = null;
-                const activePlanElement = document.querySelector('.reading-plan:not([style*="display: none"])');
-                if (!activePlanElement) return;
+                const hashParams = new URLSearchParams(window.location.hash.substring(1));
+                const day = parseInt(hashParams.get('day'), 10);
+                const plan = hashParams.get('plan');
             
-                const visibleCards = activePlanElement.querySelectorAll('.day-card');
-                
-                // Find the first card that is in the top half of the viewport
-                for (const card of visibleCards) {
-                    const rect = card.getBoundingClientRect();
-                    if (rect.top >= 0 && rect.top <= window.innerHeight / 2) {
-                        lastVisibleCardId = card.id;
-                        break; 
-                    }
+                // Validate the parameters
+                if (!day || !plan || (plan !== 'canonical' && plan !== 'chronological')) {
+                    return;
                 }
             
-                if (lastVisibleCardId) {
-                    localStorage.setItem(SCROLL_MEMORY_KEY_NT, lastVisibleCardId);
+                const targetId = `${plan}-day-${day}`;
+                const targetElement = document.getElementById(targetId);
+            
+                if (targetElement) {
+                    // Find and click the correct plan button if it's not already active
+                    const planButton = document.querySelector(`.plan-button[data-plan="${plan}"]`);
+                    if (planButton && !planButton.classList.contains('active')) {
+                        planButton.click();
+                    }
+            
+                    // The URL link wins. Set the priority flag.
+                    isUrlScrollHandled = true;
+            
+                    // Use a timeout to ensure the tab switch has rendered before scrolling
+                    setTimeout(() => {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // Add highlight *after* the scroll is likely complete
+                        setTimeout(() => {
+                            targetElement.classList.add('day-card--highlight');
+                            // Remove the highlight after the animation finishes
+                            setTimeout(() => {
+                                targetElement.classList.remove('day-card--highlight');
+                            }, 2500); // Must match the animation duration
+                        }, 700); // Delay to let the smooth scroll get there first
+                    }, 100);
                 }
             }
             
-            // Function to scroll to the saved position on page load.
+            /**
+             * The original auto-scroll function, now with a priority check.
+             */
             function scrollToLastViewedPosition() {
-                const lastViewedId = localStorage.getItem(SCROLL_MEMORY_KEY_NT);
+                // PRIORITY CHECK: If the URL handled the scroll, do nothing.
+                if (isUrlScrollHandled) {
+                    return;
+                }
+                
+                // The key needs to be unique for each app. We will replace this line in each file.
+                const SCROLL_MEMORY_KEY = 'dammieOptimus_lastViewedId_NT'; 
+                const lastViewedId = localStorage.getItem(SCROLL_MEMORY_KEY);
+            
                 if (lastViewedId) {
                     const element = document.getElementById(lastViewedId);
-            
-                    // This is a key step: ensure the correct tab is active before scrolling
                     if (element) {
                         const planName = lastViewedId.startsWith('canonical') ? 'canonical' : 'chronological';
                         const planButton = document.querySelector(`.plan-button[data-plan="${planName}"]`);
                         if (planButton && !planButton.classList.contains('active')) {
                             planButton.click();
                         }
-            
-                        // Use a small timeout to ensure the layout is stable after the tab switch
                         setTimeout(() => {
                             element.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         }, 100);
@@ -584,10 +619,8 @@
                 }
             }
             
-            // Attach the scroll listener
-            window.addEventListener('scroll', throttle(saveLastViewedPosition, 500));
-            // Call the scroll restoration function
-            //scrollToLastViewedPosition();
+            // Call the new deep link handler first
+            handleUrlDeepLink();
 
             //================================================
             // BIBLE LINKING & VERSION MANAGEMENT LIBRARY
@@ -844,7 +877,7 @@
                 { day: 18, readings: "2 Corinthians 3-13", chapters: 11, notes: "In this deeply personal letter, Paul defends his apostolic ministry and speaks of strength found in weakness." },
                 { day: 19, readings: "Galatians 1-6 & Ephesians 1-3", chapters: 9, notes: "Read Paul’s passionate defense of the gospel of grace in Galatians, then marvel at the spiritual riches believers possess in Christ in Ephesians." },
                 { day: 20, readings: "Ephesians 4-6 & Philippians 1-4 & Colossians 1-2", chapters: 9, notes: "Learn about church unity, put on the Armor of God, find the secret to joy in suffering, and celebrate the absolute supremacy of Christ." },
-                { day: 21, readings: "Colossians 3-4 & 1 & 2 Thessalonians", chapters: 10, notes: "Set your heart on things above. Then read Paul’s earliest letters, filled with encouragement and instruction about Christ's return." },
+                { day: 21, readings: "Colossians 3-4 & 1 Thessalonians 1-5 & 2 Thessalonians 1-3", chapters: 10, notes: "Set your heart on things above. Then read Paul’s earliest letters, filled with encouragement and instruction about Christ's return." },
                 { day: 22, readings: "1 Timothy 1-6 & 2 Timothy 1-4", chapters: 10, notes: "Paul gives vital instructions on church leadership and sound doctrine, ending with his poignant, final charge to his protégé Timothy." },
                 { day: 23, readings: "Titus 1-3 & Philemon 1 & Hebrews 1-5", chapters: 9, notes: "Instructions for church order in Crete, a beautiful appeal for a runaway slave, and a powerful argument for the superiority of Christ over all." },
                 { day: 24, readings: "Hebrews 6-13", chapters: 8, notes: "A masterful explanation of Jesus as our Great High Priest, followed by the inspiring 'Hall of Faith' in chapter 11." },
@@ -1065,6 +1098,39 @@
             planButtons.forEach(button => button.addEventListener('click', switchPlan));
             document.body.addEventListener('change', handleCheckboxChange);
 
+            // Re-initialize the scroll saving functionality (this was part of the block you deleted)
+            const scrollMemoryKey = `dammieOptimus_lastViewedId_${'NT'}`; // Change NT to OT or 365 for other apps
+            function saveLastViewedPosition() {
+                let lastVisibleCardId = null;
+                const activePlanElement = document.querySelector('.reading-plan:not([style*="display: none"])');
+                if (!activePlanElement) return;
+                const visibleCards = activePlanElement.querySelectorAll('.day-card');
+                for (const card of visibleCards) {
+                    const rect = card.getBoundingClientRect();
+                    if (rect.top >= 0 && rect.top <= window.innerHeight / 2) {
+                        lastVisibleCardId = card.id;
+                        break; 
+                    }
+                }
+                if (lastVisibleCardId) {
+                    localStorage.setItem(scrollMemoryKey, lastVisibleCardId);
+                }
+            }
+            function throttle(func, limit) {
+                let inThrottle;
+                return function() {
+                    const args = arguments;
+                    const context = this;
+                    if (!inThrottle) {
+                        func.apply(context, args);
+                        inThrottle = true;
+                        setTimeout(() => inThrottle = false, limit);
+                    }
+                };
+            }
+            window.addEventListener('scroll', throttle(saveLastViewedPosition, 500));
+            
+            // Call the auto-scroll function last, after all content is loaded
             setTimeout(scrollToLastViewedPosition, 100);
         });
     </script>
