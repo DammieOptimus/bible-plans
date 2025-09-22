@@ -483,6 +483,17 @@
             animation-play-state: paused;
             transform: scale(1.1);
         }
+
+        /* 11. Deep Link Highlighting */
+        @keyframes highlight-flash-animation-365 {
+            0% { box-shadow: 0 0 0 rgba(159, 122, 234, 0); }
+            50% { box-shadow: 0 0 25px rgba(159, 122, 234, 0.7); border-left-color: var(--accent-color); }
+            100% { box-shadow: 0 0 0 rgba(159, 122, 234, 0); }
+        }
+        
+        .highlight-flash {
+            animation: highlight-flash-animation-365 2s ease-in-out;
+        }
     </style>
 </head>
 
@@ -537,11 +548,40 @@
             document.getElementById('copyright-year').textContent = new Date().getFullYear();
 
             //-------------------*/
-            //  Scroll Position Memory
+            //  Scroll & Deep Link Logic
             //-------------------*/
             const SCROLL_MEMORY_KEY_365 = 'dammieOptimus_lastViewedId_365';
             
-            // Throttling function to limit how often a function can run.
+            // Main controller that runs on page load
+            function initializeScrolling() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const planParam = urlParams.get('plan');
+                const dayParam = urlParams.get('day');
+            
+                if (planParam && dayParam) {
+                    handleUrlDeepLink(planParam, dayParam);
+                } else {
+                    setTimeout(scrollToLastViewedPosition, 100);
+                }
+            }
+            
+            function handleUrlDeepLink(plan, day) {
+                if ((plan !== 'canonical' && plan !== 'chronological') || isNaN(day)) { return; }
+                const targetId = `${plan}-day-${day}`;
+                const targetElement = document.getElementById(targetId);
+                const targetPlanButton = document.querySelector(`.plan-button[data-plan="${plan}"]`);
+                if (!targetElement || !targetPlanButton) { return; }
+                if (!targetPlanButton.classList.contains('active')) { targetPlanButton.click(); }
+            
+                setTimeout(() => {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    targetElement.classList.add('highlight-flash');
+                    setTimeout(() => {
+                        targetElement.classList.remove('highlight-flash');
+                    }, 2000);
+                }, 150);
+            }
+            
             function throttle(func, limit) {
                 let inThrottle;
                 return function() {
@@ -555,15 +595,11 @@
                 };
             }
             
-            // Function to find the topmost visible day-card and save its ID.
             function saveLastViewedPosition() {
                 let lastVisibleCardId = null;
                 const activePlanElement = document.querySelector('.reading-plan:not([style*="display: none"])');
                 if (!activePlanElement) return;
-            
                 const visibleCards = activePlanElement.querySelectorAll('.day-card');
-                
-                // Find the first card that is in the top half of the viewport
                 for (const card of visibleCards) {
                     const rect = card.getBoundingClientRect();
                     if (rect.top >= 0 && rect.top <= window.innerHeight / 2) {
@@ -571,38 +607,29 @@
                         break; 
                     }
                 }
-            
                 if (lastVisibleCardId) {
                     localStorage.setItem(SCROLL_MEMORY_KEY_365, lastVisibleCardId);
                 }
             }
             
-            // Function to scroll to the saved position on page load.
             function scrollToLastViewedPosition() {
                 const lastViewedId = localStorage.getItem(SCROLL_MEMORY_KEY_365);
                 if (lastViewedId) {
                     const element = document.getElementById(lastViewedId);
-            
-                    // This is a key step: ensure the correct tab is active before scrolling
                     if (element) {
                         const planName = lastViewedId.startsWith('canonical') ? 'canonical' : 'chronological';
                         const planButton = document.querySelector(`.plan-button[data-plan="${planName}"]`);
                         if (planButton && !planButton.classList.contains('active')) {
                             planButton.click();
                         }
-            
-                        // Use a small timeout to ensure the layout is stable after the tab switch
                         setTimeout(() => {
-                            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            element.scrollIntoView({ behavior: 'auto', block: 'center' });
                         }, 100);
                     }
                 }
             }
             
-            // Attach the scroll listener
             window.addEventListener('scroll', throttle(saveLastViewedPosition, 500));
-            // Call the scroll restoration function
-            //scrollToLastViewedPosition();
 
             //================================================
             // BIBLE LINKING & VERSION MANAGEMENT LIBRARY
@@ -1575,9 +1602,9 @@
             loadProgress();
             planButtons.forEach(button => button.addEventListener('click', switchPlan));
             document.body.addEventListener('change', handleCheckboxChange);
+            
 
-            // Restore scroll position after everything is loaded and rendered
-            setTimeout(scrollToLastViewedPosition, 100); //
+            initializeScrolling();
         });
     </script>
 
