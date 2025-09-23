@@ -570,29 +570,23 @@
             }
             
             function handleUrlDeepLink(plan, day) {
+                console.log(`Plan: ${plan}, Day: ${day}`);
                 if ((plan !== 'canonical' && plan !== 'chronological') || isNaN(day)) { return; }
-            
                 const targetId = `${plan}-day-${day}`;
                 const targetElement = document.getElementById(targetId);
                 const targetPlanButton = document.querySelector(`.plan-button[data-plan="${plan}"]`);
-            
                 if (!targetElement || !targetPlanButton) { return; }
-            
-                // This logic is now smarter
-                if (targetPlanButton.classList.contains('active')) {
-                    // If the correct tab is already open, just scroll immediately.
+                console.log(`${targetElement.id} card found`);
+                if (!targetPlanButton.classList.contains('active')) { targetPlanButton.click(); console.log(`${plan} plan tab clicked.`); }
+
+                setTimeout(() => {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    console.log(`${targetElement.id} card scrolled into view.`);
+                    targetElement.classList.add('highlight-flash');
                     setTimeout(() => {
-                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        targetElement.classList.add('highlight-flash');
-                        setTimeout(() => {
-                            targetElement.classList.remove('highlight-flash');
-                        }, 6000);
-                    }, 150);
-                } else {
-                    // If we need to switch tabs, hand off the target to the switchPlan function.
-                    deepLinkTargetElement = targetElement; // Set the state variable
-                    targetPlanButton.click(); // This will trigger switchPlan
-                }
+                        targetElement.classList.remove('highlight-flash');
+                    }, 2000);
+                }, 150);
             }
             
             function throttle(func, limit) {
@@ -1124,8 +1118,6 @@
             const chronologicalContainer = document.getElementById('chronological-plan');
             const planButtons = document.querySelectorAll('.plan-button');
 
-            let deepLinkTargetElement = null;
-
             function createDayCardHTML(dayData, planName) {
                 const notesHTML = dayData.notes ? `<p class="notes">${dayData.notes}</p>` : '';
                 const fullPlanName = `${planName === 'canonical' ? 'Canonical' : 'Chronological'} OT 4-Month Reading`;
@@ -1171,22 +1163,6 @@
                 } else {
                     canonicalContainer.style.display = 'none';
                     chronologicalContainer.style.display = 'grid';
-                }
-
-                // --- NEW LOGIC ADDED HERE ---
-                // Check if this tab switch was triggered by our deep link.
-                if (deepLinkTargetElement) {
-                    // The display properties have just been set. Now we can safely scroll.
-                    setTimeout(() => { // A tiny timeout for the browser to catch up
-                        deepLinkTargetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        deepLinkTargetElement.classList.add('highlight-flash');
-                        setTimeout(() => {
-                            deepLinkTargetElement.classList.remove('highlight-flash');
-                        }, 6000);
-                        
-                        // IMPORTANT: Reset the state variable so this doesn't run on normal user clicks.
-                        deepLinkTargetElement = null; 
-                    }, 100);
                 }
             }
 
