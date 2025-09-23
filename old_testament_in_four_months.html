@@ -574,7 +574,8 @@
                 const targetId = `${plan}-day-${day}`;
                 const targetElement = document.getElementById(targetId);
                 const targetPlanButton = document.querySelector(`.plan-button[data-plan="${plan}"]`);
-                if (!targetElement || !targetPlanButton) { return; }
+                //if (!targetElement || !targetPlanButton) { return; }
+                if (!targetElement || !targetPlanButton) { console.log(`${targetId} or targetElement or targetPlanButton not found.}`); return; }
                 if (!targetPlanButton.classList.contains('active')) { targetPlanButton.click(); }
             
                 setTimeout(() => {
