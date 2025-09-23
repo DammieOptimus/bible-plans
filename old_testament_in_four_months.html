@@ -570,7 +570,7 @@
             }
             
             function handleUrlDeepLink(plan, day) {
-                console.log(`Plan: ${planParam}, Day: ${dayParam}`);
+                console.log(`Plan: ${plan}, Day: ${day}`);
                 if ((plan !== 'canonical' && plan !== 'chronological') || isNaN(day)) { return; }
                 const targetId = `${plan}-day-${day}`;
                 const targetElement = document.getElementById(targetId);
