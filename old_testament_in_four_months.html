@@ -570,14 +570,16 @@
             }
             
             function handleUrlDeepLink(plan, day) {
+                console.log(`Plan: ${planParam}, Day: ${dayParam}`);
                 if ((plan !== 'canonical' && plan !== 'chronological') || isNaN(day)) { return; }
                 const targetId = `${plan}-day-${day}`;
                 const targetElement = document.getElementById(targetId);
                 const targetPlanButton = document.querySelector(`.plan-button[data-plan="${plan}"]`);
-                //if (!targetElement || !targetPlanButton) { return; }
-                if (!targetElement || !targetPlanButton) { console.log(`${targetId} or targetElement or targetPlanButton not found.}`); return; }
+                if (!targetElement || !targetPlanButton) { return; }
                 if (!targetPlanButton.classList.contains('active')) { targetPlanButton.click(); }
-            
+
+                console.log(`${targetId} or targetElement or targetPlanButton exist.}`);
+                console.log(`${targetElement.id} or ${targetElement.targetId} found`);
                 setTimeout(() => {
                     targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     targetElement.classList.add('highlight-flash');
